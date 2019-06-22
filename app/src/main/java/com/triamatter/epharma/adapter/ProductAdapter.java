@@ -10,6 +10,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.triamatter.epharma.R;
 import com.triamatter.epharma.model.Product;
 
@@ -42,7 +43,12 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
         holder.textViewProductName.setText(product.getProductName());
 
         String productPrice = String.valueOf(product.getProductPrice());
-        holder.textViewProductPrice.setText("BDT. " + productPrice);
+        holder.textViewProductPrice.setText("BDT.  " + productPrice);
+
+        Glide.with(context)
+                .load("")
+                .placeholder(R.drawable.ic_medicine_default)
+                .into(holder.imageViewProduct);
     }
 
     @Override
