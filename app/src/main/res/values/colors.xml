@@ -8,4 +8,11 @@
     <color name="textColorDark">#14171A</color>
 
     <color name="colorMainBg">#E5E5E5</color>
+
+    <!--Category colors-->
+    <item name="color_1" type="color">@color/colorPrimary</item>
+
+    <integer-array name="categoryColors">
+        <item>@color/color_1</item>
+    </integer-array>
 </resources>

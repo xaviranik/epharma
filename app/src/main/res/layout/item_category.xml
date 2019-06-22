@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="?android:attr/selectableItemBackground"
+    android:padding="4dp">
+
+    <ImageView
+        android:id="@+id/category_bg"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/drawable_circle" />
+
+    <TextView
+        android:id="@+id/textView_category_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:fontFamily="@font/montserrat"
+        android:text="Category Name"
+        android:textAlignment="center"
+        android:textColor="@color/textColorDark"
+        android:textSize="10sp"
+        app:layout_constraintEnd_toEndOf="@+id/category_bg"
+        app:layout_constraintStart_toStartOf="@+id/category_bg"
+        app:layout_constraintTop_toBottomOf="@+id/category_bg" />
+
+    <ImageView
+        android:id="@+id/category_icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintBottom_toTopOf="@+id/textView_category_title"
+        app:layout_constraintEnd_toEndOf="@+id/category_bg"
+        app:layout_constraintStart_toStartOf="@+id/category_bg"
+        app:layout_constraintTop_toTopOf="@+id/category_bg" />
+</androidx.constraintlayout.widget.ConstraintLayout>
