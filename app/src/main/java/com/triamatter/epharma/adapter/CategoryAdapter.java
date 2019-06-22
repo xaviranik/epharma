@@ -56,9 +56,9 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
     public class ViewHolder extends RecyclerView.ViewHolder {
 
         public TextView textViewCategoryTitle;
-
         public ImageView imageViewCategoryIcon;
         public ImageView imageViewCategoryBackground;
+
         public ViewHolder(@NonNull View itemView)
         {
             super(itemView);

@@ -11,7 +11,9 @@ import android.view.WindowManager;
 
 import com.triamatter.epharma.R;
 import com.triamatter.epharma.adapter.CategoryAdapter;
+import com.triamatter.epharma.adapter.ProductAdapter;
 import com.triamatter.epharma.model.Category;
+import com.triamatter.epharma.model.Product;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,8 +24,11 @@ public class MainActivity extends AppCompatActivity {
 
     private RecyclerView categoryRecyclerView;
     private RecyclerView.Adapter categoryAdapter;
-
     private List<Category> categoryList;
+
+    private RecyclerView productRecyclerView;
+    private RecyclerView.Adapter productAdapter;
+    private List<Product> productList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -41,6 +46,30 @@ public class MainActivity extends AppCompatActivity {
         categoryRecyclerView.setHasFixedSize(true);
         categoryRecyclerView.setLayoutManager(new GridLayoutManager(this, CATEGORY_SPAN_COUNT));
 
+        productRecyclerView = (RecyclerView) findViewById(R.id.trending_recyclerView);
+        productRecyclerView.setHasFixedSize(true);
+        productRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
+
+        setupCategoryRecyclerView();
+        setupTrendingRecyclerView();
+    }
+
+    private void setupTrendingRecyclerView()
+    {
+        productList =  new ArrayList<>();
+
+        Product product_1 = new Product("Test Name of medicine", 150.25f);
+        Product product_2 = new Product("Test 2 Name of Medicine", 1.25f);
+
+        productList.add(product_1);
+        productList.add(product_2);
+
+        productAdapter = new ProductAdapter(productList, getApplicationContext());
+        productRecyclerView.setAdapter(productAdapter);
+    }
+
+    private void setupCategoryRecyclerView()
+    {
         categoryList = new ArrayList<>();
 
         Category category_1 = new Category("First Category", R.drawable.ic_shopping_cart);
@@ -62,7 +91,8 @@ public class MainActivity extends AppCompatActivity {
         categoryRecyclerView.setAdapter(categoryAdapter);
     }
 
-    private void closeKeyboard() {
+    private void closeKeyboard()
+    {
         View currentFocus = this.getCurrentFocus();
         if (currentFocus!=null)
         {
