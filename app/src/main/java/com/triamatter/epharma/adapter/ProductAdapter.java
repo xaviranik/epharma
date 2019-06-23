@@ -8,6 +8,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -20,6 +21,21 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
 
     private List<Product> productList;
     private Context context;
+    private OnItemClickListener itemClickListener;
+
+    public interface OnItemClickListener {
+        void onItemClick(int position);
+    }
+
+    public void setOnItemClickListener(OnItemClickListener listener)
+    {
+        itemClickListener = listener;
+    }
+
+    public void test()
+    {
+        return;
+    }
 
     public ProductAdapter(List<Product> productList, Context context)
     {
@@ -62,14 +78,31 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
         public TextView textViewProductName;
         public TextView textViewProductPrice;
         public ImageView imageViewProduct;
+        public CardView mainCardView;
 
         public ViewHolder(@NonNull View itemView)
         {
             super(itemView);
 
+            mainCardView = (CardView) itemView.findViewById(R.id.main_product_cardview);
             textViewProductName = (TextView) itemView.findViewById(R.id.textView_product_name);
             textViewProductPrice = (TextView) itemView.findViewById(R.id.textView_product_price);
             imageViewProduct = (ImageView) itemView.findViewById(R.id.imageView_product);
+
+            mainCardView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view)
+                {
+                    if(itemClickListener != null)
+                    {
+                        int position = getAdapterPosition();
+                        if(position != RecyclerView.NO_POSITION)
+                        {
+                            itemClickListener.onItemClick(position);
+                        }
+                    }
+                }
+            });
         }
     }
 }

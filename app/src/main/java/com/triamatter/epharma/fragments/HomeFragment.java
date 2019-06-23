@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -23,7 +24,7 @@ import com.triamatter.epharma.model.Product;
 import java.util.ArrayList;
 import java.util.List;
 
-public class HomeFragment extends Fragment {
+public class HomeFragment extends Fragment implements ProductAdapter.OnItemClickListener {
 
     private static final int CATEGORY_SPAN_COUNT = 4;
 
@@ -72,6 +73,7 @@ public class HomeFragment extends Fragment {
         productList.add(product_2);
 
         productAdapter = new ProductAdapter(productList, getActivity());
+        ((ProductAdapter) productAdapter).setOnItemClickListener(this);
         productRecyclerView.setAdapter(productAdapter);
     }
 
@@ -83,9 +85,6 @@ public class HomeFragment extends Fragment {
         Category category_2 = new Category("Test Category", R.drawable.ic_shopping_cart);
 
         categoryList.add(category_1);
-        categoryList.add(category_2);
-        categoryList.add(category_2);
-        categoryList.add(category_2);
         categoryList.add(category_2);
         categoryList.add(category_2);
         categoryList.add(category_2);
@@ -107,5 +106,12 @@ public class HomeFragment extends Fragment {
             imm.hideSoftInputFromWindow(currentFocus.getWindowToken(), 0);
         }
         getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+    }
+
+    @Override
+    public void onItemClick(int position)
+    {
+        Product product = productList.get(position);
+        Toast.makeText(getActivity(), "" + product.getProductName() + " " + product.getProductPrice(), Toast.LENGTH_LONG).show();
     }
 }
