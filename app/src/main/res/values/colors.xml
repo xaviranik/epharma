@@ -11,8 +11,14 @@
 
     <!--Category colors-->
     <item name="color_1" type="color">@color/colorPrimary</item>
+    <item name="color_2" type="color">#6e1df0</item>
+    <item name="color_3" type="color">#1ce1ef</item>
+    <item name="color_4" type="color">#bd1cef</item>
 
     <integer-array name="categoryColors">
         <item>@color/color_1</item>
+        <item>@color/color_2</item>
+        <item>@color/color_3</item>
+        <item>@color/color_4</item>
     </integer-array>
 </resources>

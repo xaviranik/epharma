@@ -14,12 +14,25 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonArrayRequest;
+import com.android.volley.toolbox.Volley;
 import com.triamatter.epharma.R;
 import com.triamatter.epharma.activities.MainActivity;
 import com.triamatter.epharma.adapter.CategoryAdapter;
 import com.triamatter.epharma.adapter.ProductAdapter;
 import com.triamatter.epharma.model.Category;
 import com.triamatter.epharma.model.Product;
+import com.triamatter.epharma.network.API;
+import com.triamatter.epharma.network.Keys;
+import com.triamatter.epharma.utils.Utils;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,6 +49,8 @@ public class HomeFragment extends Fragment implements ProductAdapter.OnItemClick
     private RecyclerView.Adapter productAdapter;
     private List<Product> productList;
 
+    private RequestQueue categoryRequestQueue;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState)
@@ -49,10 +64,12 @@ public class HomeFragment extends Fragment implements ProductAdapter.OnItemClick
     private void init(View view)
     {
         categoryRecyclerView = (RecyclerView) view.findViewById(R.id.category_recyclerview);
-        categoryRecyclerView.setHasFixedSize(true);
-        categoryRecyclerView.setLayoutManager(new GridLayoutManager(getActivity(), CATEGORY_SPAN_COUNT));
-
         productRecyclerView = (RecyclerView) view.findViewById(R.id.trending_recyclerView);
+
+        categoryRecyclerView.setHasFixedSize(true);
+        //categoryRecyclerView.setLayoutManager(new GridLayoutManager(getActivity(), CATEGORY_SPAN_COUNT));
+        categoryRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
+
         productRecyclerView.setHasFixedSize(true);
         productRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
 
@@ -66,11 +83,6 @@ public class HomeFragment extends Fragment implements ProductAdapter.OnItemClick
     {
         productList =  new ArrayList<>();
 
-        Product product_1 = new Product("Test Name of medicine", 150.25f);
-        Product product_2 = new Product("Test 2 Name of Medicine", 1.25f);
-
-        productList.add(product_1);
-        productList.add(product_2);
 
         productAdapter = new ProductAdapter(productList, getActivity());
         ((ProductAdapter) productAdapter).setOnItemClickListener(this);
@@ -80,21 +92,43 @@ public class HomeFragment extends Fragment implements ProductAdapter.OnItemClick
     private void setupCategoryRecyclerView()
     {
         categoryList = new ArrayList<>();
+        categoryRequestQueue = Volley.newRequestQueue(getActivity());
 
-        Category category_1 = new Category("First Category", R.drawable.ic_shopping_cart);
-        Category category_2 = new Category("Test Category", R.drawable.ic_shopping_cart);
 
-        categoryList.add(category_1);
-        categoryList.add(category_2);
-        categoryList.add(category_2);
-        categoryList.add(category_2);
-        categoryList.add(category_2);
-        categoryList.add(category_2);
-        categoryList.add(category_2);
-        categoryList.add(category_2);
+        JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, API.GET_CATEGORY, null, new Response.Listener<JSONArray>() {
+            @Override
+            public void onResponse(JSONArray response)
+            {
+                try
+                {
+                    for(int i=0; i<response.length(); i++)
+                    {
+                        JSONObject hit = response.getJSONObject(i);
 
-        categoryAdapter = new CategoryAdapter(categoryList, getActivity());
-        categoryRecyclerView.setAdapter(categoryAdapter);
+                        int categoryId = hit.getInt(Keys.CATEGORY_ID);
+                        String categoryName = hit.getString(Keys.CATEGORY_NAME);
+
+                        categoryList.add(new Category(categoryId, categoryName));
+                    }
+
+                    categoryAdapter = new CategoryAdapter(categoryList, getActivity());
+                    categoryRecyclerView.setAdapter(categoryAdapter);
+                }
+                catch (JSONException e)
+                {
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error)
+            {
+                error.printStackTrace();
+                Utils.makeToast(getActivity(), "Connection Error!");
+            }
+        });
+
+        categoryRequestQueue.add(request);
     }
 
     private void closeKeyboard()

@@ -1,22 +1,22 @@
 package com.triamatter.epharma.model;
 
 public class Category {
-    private String categoryTitle;
-    private int categoryIcon;
+    private int categoryId;
+    private String categoryName;
 
-    public Category(String categoryTitle, int categoryIcon)
+    public Category(int categoryId, String categoryName)
     {
-        this.categoryTitle = categoryTitle;
-        this.categoryIcon = categoryIcon;
+        this.categoryId = categoryId;
+        this.categoryName = categoryName;
     }
 
-    public String getCategoryTitle()
+    public int getCategoryId()
     {
-        return categoryTitle;
+        return categoryId;
     }
 
-    public int getCategoryIcon()
+    public String getCategoryName()
     {
-        return categoryIcon;
+        return categoryName;
     }
 }

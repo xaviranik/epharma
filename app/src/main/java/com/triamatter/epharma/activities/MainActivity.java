@@ -3,6 +3,7 @@ package com.triamatter.epharma.activities;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -24,6 +25,19 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         init(savedInstanceState);
+    }
+
+    public void replaceFragments(Fragment fragment)
+    {
+        try
+        {
+            FragmentManager fragmentManager = getSupportFragmentManager();
+            fragmentManager.beginTransaction().replace(R.id.fragment_container, fragment).commit();
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
     }
 
     private void init(Bundle savedInstanceState)
@@ -62,7 +76,7 @@ public class MainActivity extends AppCompatActivity {
 
                     if(selectedFragment != null)
                     {
-                        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, selectedFragment).commit();
+                        replaceFragments(selectedFragment);
                     }
                     return true;
                 }

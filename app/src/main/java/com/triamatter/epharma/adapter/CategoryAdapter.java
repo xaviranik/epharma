@@ -1,7 +1,7 @@
 package com.triamatter.epharma.adapter;
 
 import android.content.Context;
-import android.util.Log;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,7 +9,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.triamatter.epharma.R;
@@ -42,8 +41,9 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
     {
         Category category = categoryList.get(position);
 
-        holder.textViewCategoryTitle.setText(category.getCategoryTitle());
-        holder.imageViewCategoryIcon.setBackgroundResource(category.getCategoryIcon());
+        holder.textViewCategoryName.setText(category.getCategoryName());
+        holder.textViewCategoryName.setEllipsize(TextUtils.TruncateAt.END);
+        holder.textViewCategoryName.setMaxLines(2);
         holder.imageViewCategoryBackground.setColorFilter(getRandomColor(), android.graphics.PorterDuff.Mode.SRC_IN);
     }
 
@@ -55,7 +55,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 
-        public TextView textViewCategoryTitle;
+        public TextView textViewCategoryName;
         public ImageView imageViewCategoryIcon;
         public ImageView imageViewCategoryBackground;
 
@@ -63,7 +63,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
         {
             super(itemView);
 
-            textViewCategoryTitle = (TextView) itemView.findViewById(R.id.textView_category_title);
+            textViewCategoryName = (TextView) itemView.findViewById(R.id.textView_category_title);
             imageViewCategoryIcon = (ImageView) itemView.findViewById(R.id.category_icon);
             imageViewCategoryBackground = (ImageView) itemView.findViewById(R.id.category_bg);
         }
