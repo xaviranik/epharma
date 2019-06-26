@@ -32,6 +32,7 @@ import com.triamatter.epharma.model.Category;
 import com.triamatter.epharma.model.Product;
 import com.triamatter.epharma.network.API;
 import com.triamatter.epharma.network.Keys;
+import com.triamatter.epharma.network.requests.CategoryRequest;
 import com.triamatter.epharma.utils.Utils;
 
 import org.json.JSONArray;
@@ -100,95 +101,9 @@ public class HomeFragment extends Fragment implements ProductAdapter.OnItemClick
         ((CategoryAdapter) categoryAdapter).setOnItemClickListener(HomeFragment.this);
         categoryRecyclerView.setAdapter(categoryAdapter);
 
-        parseJSON();
-    }
-
-    private void parseJSON()
-    {
-        categoryRequestQueue = Volley.newRequestQueue(getActivity());
-
         String url = API.GET_CATEGORY;
-
-        JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, url, null, new Response.Listener<JSONArray>() {
-            @Override
-            public void onResponse(JSONArray response)
-            {
-            try
-            {
-                for(int i=0; i<response.length(); i++)
-                {
-                    JSONObject hit = response.getJSONObject(i);
-
-                    int categoryId = hit.getInt(Keys.CATEGORY_ID);
-                    String categoryName = hit.getString(Keys.CATEGORY_NAME);
-
-                    categoryList.add(new Category(categoryId, categoryName));
-                }
-                categoryAdapter.notifyDataSetChanged();
-            }
-            catch (JSONException e)
-            {
-                e.printStackTrace();
-            }
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error)
-            {
-                error.printStackTrace();
-                Utils.makeToast(getActivity(), "Connection Error!");
-            }
-        }){
-            @Override
-            protected Response<JSONArray> parseNetworkResponse(NetworkResponse response) {
-                try {
-                    Cache.Entry cacheEntry = HttpHeaderParser.parseCacheHeaders(response);
-                    if (cacheEntry == null) {
-                        cacheEntry = new Cache.Entry();
-                    }
-                    final long cacheHitButRefreshed = 3 * 60 * 1000; // in 3 minutes cache will be hit, but also refreshed on background
-                    final long cacheExpired = 24 * 60 * 60 * 1000; // in 24 hours this cache entry expires completely
-                    long now = System.currentTimeMillis();
-                    final long softExpire = now + cacheHitButRefreshed;
-                    final long ttl = now + cacheExpired;
-                    cacheEntry.data = response.data;
-                    cacheEntry.softTtl = softExpire;
-                    cacheEntry.ttl = ttl;
-                    String headerValue;
-                    headerValue = response.headers.get("Date");
-                    if (headerValue != null) {
-                        cacheEntry.serverDate = HttpHeaderParser.parseDateAsEpoch(headerValue);
-                    }
-                    headerValue = response.headers.get("Last-Modified");
-                    if (headerValue != null) {
-                        cacheEntry.lastModified = HttpHeaderParser.parseDateAsEpoch(headerValue);
-                    }
-                    cacheEntry.responseHeaders = response.headers;
-                    final String jsonString = new String(response.data,
-                            HttpHeaderParser.parseCharset(response.headers));
-                    return Response.success(new JSONArray(jsonString), cacheEntry);
-                } catch (UnsupportedEncodingException | JSONException e) {
-                    return Response.error(new ParseError(e));
-                }
-            }
-
-            @Override
-            protected void deliverResponse(JSONArray response) {
-                super.deliverResponse(response);
-            }
-
-            @Override
-            public void deliverError(VolleyError error) {
-                super.deliverError(error);
-            }
-
-            @Override
-            protected VolleyError parseNetworkError(VolleyError volleyError) {
-                return super.parseNetworkError(volleyError);
-            }
-        };
-
-        categoryRequestQueue.add(request);
+        CategoryRequest request = new CategoryRequest(categoryRequestQueue, getActivity(), categoryList, categoryAdapter, url);
+        request.parseJSON();
     }
 
     private void closeKeyboard()
