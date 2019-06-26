@@ -32,10 +32,10 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="16dp"
-                    android:fontFamily="@font/montserrat"
+                    android:fontFamily="sans-serif-thin"
                     android:text="Category"
                     android:textColor="@color/textColorDark"
-                    android:textSize="18sp"
+                    android:textSize="14sp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/banner_cardview" />
 
@@ -45,10 +45,10 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="16dp"
-                    android:fontFamily="@font/montserrat"
+                    android:fontFamily="sans-serif-thin"
                     android:text="Trending"
                     android:textColor="@color/textColorDark"
-                    android:textSize="18sp"
+                    android:textSize="14sp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/category_recyclerview" />
 

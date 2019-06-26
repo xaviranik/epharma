@@ -25,7 +25,9 @@ import com.android.volley.toolbox.Volley;
 import com.triamatter.epharma.R;
 import com.triamatter.epharma.activities.MainActivity;
 import com.triamatter.epharma.adapter.CategoryAdapter;
+import com.triamatter.epharma.adapter.ProductAdapter;
 import com.triamatter.epharma.model.Category;
+import com.triamatter.epharma.model.Product;
 import com.triamatter.epharma.network.API;
 import com.triamatter.epharma.network.requests.CategoryRequest;
 import com.triamatter.epharma.network.Keys;
@@ -39,7 +41,7 @@ import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SubCategoryFragment extends Fragment implements CategoryAdapter.OnItemClickListener{
+public class SubCategoryFragment extends Fragment implements ProductAdapter.OnItemClickListener, CategoryAdapter.OnItemClickListener{
 
     private String categoryName;
     private int categoryID;
@@ -50,6 +52,11 @@ public class SubCategoryFragment extends Fragment implements CategoryAdapter.OnI
     private RecyclerView.Adapter categoryAdapter;
     private List<Category> categoryList;
     private RequestQueue categoryRequestQueue;
+
+    private RecyclerView productRecyclerView;
+    private RecyclerView.Adapter productAdapter;
+    private List<Product> productList;
+    private RequestQueue productRequestQueue;
 
     @Nullable
     @Override
@@ -65,18 +72,31 @@ public class SubCategoryFragment extends Fragment implements CategoryAdapter.OnI
     {
         textViewCategoryName = (TextView) view.findViewById(R.id.textView_category_name);
         categoryRecyclerView = (RecyclerView) view.findViewById(R.id.subcategory_recyclerview);
+        productRecyclerView = (RecyclerView) view.findViewById(R.id.subcategory_product_recyclerview);
 
         categoryRecyclerView.setHasFixedSize(true);
-        categoryRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
+        categoryRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity(),
+                LinearLayoutManager.HORIZONTAL, false));
 
-        if(getArguments() != null)
-        {
-            categoryName = getArguments().getString(Keys.CATEGORY_NAME);
-            categoryID = getArguments().getInt(Keys.CATEGORY_ID);
-            textViewCategoryName.setText(categoryName);
-        }
+        productRecyclerView.setHasFixedSize(true);
+        productRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity(),
+                LinearLayoutManager.HORIZONTAL, false));
+
+        getArgumentsFromPreviousFragment();
 
         setupCategoryRecyclerView();
+        setupProductRecyclerView();
+    }
+
+    private void setupProductRecyclerView()
+    {
+        productList =  new ArrayList<>();
+
+        Product product = new Product("test product name", 25f);
+        productList.add(product);
+        productAdapter = new ProductAdapter(productList, getActivity());
+        ((ProductAdapter) productAdapter).setOnItemClickListener(SubCategoryFragment.this);
+        productRecyclerView.setAdapter(productAdapter);
     }
 
     private void setupCategoryRecyclerView()
@@ -92,6 +112,16 @@ public class SubCategoryFragment extends Fragment implements CategoryAdapter.OnI
         request.parseJSON();
     }
 
+    private void getArgumentsFromPreviousFragment()
+    {
+        if(getArguments() != null)
+        {
+            categoryName = getArguments().getString(Keys.CATEGORY_NAME);
+            categoryID = getArguments().getInt(Keys.CATEGORY_ID);
+            textViewCategoryName.setText(categoryName);
+        }
+    }
+
     @Override
     public void onCategoryItemClick(int position)
     {
@@ -104,5 +134,11 @@ public class SubCategoryFragment extends Fragment implements CategoryAdapter.OnI
         fragment.setArguments(args);
 
         ((MainActivity) getActivity()).replaceFragments(fragment);
+    }
+
+    @Override
+    public void onProductItemClick(int position)
+    {
+
     }
 }
