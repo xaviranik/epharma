@@ -97,6 +97,12 @@ public class SubCategoryFragment extends Fragment implements CategoryAdapter.OnI
     {
         Category category = categoryList.get(position);
 
-        Utils.makeToast(getActivity(), "" + category.getCategoryId());
+        Fragment fragment = new SubCategoryFragment();
+        Bundle args = new Bundle();
+        args.putInt(Keys.CATEGORY_ID, category.getCategoryId());
+        args.putString(Keys.CATEGORY_NAME, category.getCategoryName());
+        fragment.setArguments(args);
+
+        ((MainActivity) getActivity()).replaceFragments(fragment);
     }
 }
