@@ -78,7 +78,11 @@ public class MainActivity extends AppCompatActivity {
         try
         {
             FragmentManager fragmentManager = getSupportFragmentManager();
-            fragmentManager.beginTransaction().replace(R.id.fragment_container, fragment).addToBackStack(null).commit();
+            fragmentManager.beginTransaction()
+                    .setCustomAnimations(android.R.anim.slide_in_left, android.R.anim.slide_out_right)
+                    .addToBackStack(null)
+                    .replace(R.id.fragment_container, fragment)
+                    .commit();
         }
         catch (Exception e)
         {

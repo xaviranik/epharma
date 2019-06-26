@@ -19,6 +19,8 @@ import java.util.List;
 import java.util.Random;
 
 public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHolder> {
+    private int prevColorIndex = 0;
+    private int randomColorIndex = 1;
 
     private List<Category> categoryList;
     private Context context;
@@ -102,7 +104,13 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
     private int getRandomColor()
     {
         int[] categoryColors = context.getResources().getIntArray(R.array.categoryColors);
-        int randomIndex = new Random().nextInt(categoryColors.length);
-        return categoryColors[randomIndex];
+        randomColorIndex = new Random().nextInt(categoryColors.length);
+        if(prevColorIndex == randomColorIndex)
+        {
+            randomColorIndex = new Random().nextInt(categoryColors.length);
+            prevColorIndex = randomColorIndex;
+        }
+        prevColorIndex = randomColorIndex;
+        return categoryColors[randomColorIndex];
     }
 }
