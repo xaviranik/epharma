@@ -37,19 +37,17 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-public class HomeFragment extends Fragment implements ProductAdapter.OnItemClickListener {
-
-    private static final int CATEGORY_SPAN_COUNT = 4;
+public class HomeFragment extends Fragment implements ProductAdapter.OnItemClickListener, CategoryAdapter.OnItemClickListener {
 
     private RecyclerView categoryRecyclerView;
     private RecyclerView.Adapter categoryAdapter;
     private List<Category> categoryList;
+    private RequestQueue categoryRequestQueue;
 
     private RecyclerView productRecyclerView;
     private RecyclerView.Adapter productAdapter;
     private List<Product> productList;
 
-    private RequestQueue categoryRequestQueue;
 
     @Nullable
     @Override
@@ -67,7 +65,6 @@ public class HomeFragment extends Fragment implements ProductAdapter.OnItemClick
         productRecyclerView = (RecyclerView) view.findViewById(R.id.trending_recyclerView);
 
         categoryRecyclerView.setHasFixedSize(true);
-        //categoryRecyclerView.setLayoutManager(new GridLayoutManager(getActivity(), CATEGORY_SPAN_COUNT));
         categoryRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
 
         productRecyclerView.setHasFixedSize(true);
@@ -83,41 +80,49 @@ public class HomeFragment extends Fragment implements ProductAdapter.OnItemClick
     {
         productList =  new ArrayList<>();
 
-
+        Product product = new Product("test product name", 25f);
+        productList.add(product);
         productAdapter = new ProductAdapter(productList, getActivity());
-        ((ProductAdapter) productAdapter).setOnItemClickListener(this);
+        ((ProductAdapter) productAdapter).setOnItemClickListener(HomeFragment.this);
         productRecyclerView.setAdapter(productAdapter);
     }
 
     private void setupCategoryRecyclerView()
     {
         categoryList = new ArrayList<>();
-        categoryRequestQueue = Volley.newRequestQueue(getActivity());
 
+        categoryAdapter = new CategoryAdapter(categoryList, getActivity());
+        ((CategoryAdapter) categoryAdapter).setOnItemClickListener(HomeFragment.this);
+        categoryRecyclerView.setAdapter(categoryAdapter);
+
+        parseJSON();
+    }
+
+    private void parseJSON()
+    {
+        categoryRequestQueue = Volley.newRequestQueue(getActivity());
 
         JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, API.GET_CATEGORY, null, new Response.Listener<JSONArray>() {
             @Override
             public void onResponse(JSONArray response)
             {
-                try
+            try
+            {
+                for(int i=0; i<response.length(); i++)
                 {
-                    for(int i=0; i<response.length(); i++)
-                    {
-                        JSONObject hit = response.getJSONObject(i);
+                    JSONObject hit = response.getJSONObject(i);
 
-                        int categoryId = hit.getInt(Keys.CATEGORY_ID);
-                        String categoryName = hit.getString(Keys.CATEGORY_NAME);
+                    int categoryId = hit.getInt(Keys.CATEGORY_ID);
+                    String categoryName = hit.getString(Keys.CATEGORY_NAME);
 
-                        categoryList.add(new Category(categoryId, categoryName));
-                    }
-
-                    categoryAdapter = new CategoryAdapter(categoryList, getActivity());
-                    categoryRecyclerView.setAdapter(categoryAdapter);
+                    categoryList.add(new Category(categoryId, categoryName));
                 }
-                catch (JSONException e)
-                {
-                    e.printStackTrace();
-                }
+                categoryAdapter.notifyDataSetChanged();
+            }
+            catch (JSONException e)
+            {
+                e.printStackTrace();
+            }
             }
         }, new Response.ErrorListener() {
             @Override
@@ -143,9 +148,23 @@ public class HomeFragment extends Fragment implements ProductAdapter.OnItemClick
     }
 
     @Override
-    public void onItemClick(int position)
+    public void onProductItemClick(int position)
     {
         Product product = productList.get(position);
-        Toast.makeText(getActivity(), "" + product.getProductName() + " " + product.getProductPrice(), Toast.LENGTH_LONG).show();
+        Utils.makeToast(getActivity(), "" + product.getProductName() + " " + product.getProductPrice());
+    }
+
+    @Override
+    public void onCategoryItemClick(int position)
+    {
+        Category category = categoryList.get(position);
+
+        Fragment fragment = new SubCategoryFragment();
+        Bundle args = new Bundle();
+        args.putInt(Keys.CATEGORY_ID, category.getCategoryId());
+        args.putString(Keys.CATEGORY_NAME, category.getCategoryName());
+        fragment.setArguments(args);
+
+        ((MainActivity) getActivity()).replaceFragments(fragment);
     }
 }

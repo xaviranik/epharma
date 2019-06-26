@@ -24,17 +24,12 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
     private OnItemClickListener itemClickListener;
 
     public interface OnItemClickListener {
-        void onItemClick(int position);
+        void onProductItemClick(int position);
     }
 
     public void setOnItemClickListener(OnItemClickListener listener)
     {
         itemClickListener = listener;
-    }
-
-    public void test()
-    {
-        return;
     }
 
     public ProductAdapter(List<Product> productList, Context context)
@@ -98,7 +93,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
                         int position = getAdapterPosition();
                         if(position != RecyclerView.NO_POSITION)
                         {
-                            itemClickListener.onItemClick(position);
+                            itemClickListener.onProductItemClick(position);
                         }
                     }
                 }

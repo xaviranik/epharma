@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.triamatter.epharma.R;
@@ -21,6 +22,16 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
 
     private List<Category> categoryList;
     private Context context;
+    private OnItemClickListener itemClickListener;
+
+    public interface OnItemClickListener {
+        void onCategoryItemClick(int position);
+    }
+
+    public void setOnItemClickListener(OnItemClickListener listener)
+    {
+        itemClickListener = listener;
+    }
 
     public CategoryAdapter(List<Category> categoryList, Context context)
     {
@@ -55,6 +66,8 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 
+        public ConstraintLayout mainLayout;
+
         public TextView textViewCategoryName;
         public ImageView imageViewCategoryIcon;
         public ImageView imageViewCategoryBackground;
@@ -66,6 +79,22 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
             textViewCategoryName = (TextView) itemView.findViewById(R.id.textView_category_title);
             imageViewCategoryIcon = (ImageView) itemView.findViewById(R.id.category_icon);
             imageViewCategoryBackground = (ImageView) itemView.findViewById(R.id.category_bg);
+            mainLayout = (ConstraintLayout) itemView.findViewById(R.id.category_main_layout);
+
+            mainLayout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view)
+                {
+                    if(itemClickListener != null)
+                    {
+                        int position = getAdapterPosition();
+                        if(position != RecyclerView.NO_POSITION)
+                        {
+                            itemClickListener.onCategoryItemClick(position);
+                        }
+                    }
+                }
+            });
         }
 
     }
@@ -73,6 +102,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
     private int getRandomColor()
     {
         int[] categoryColors = context.getResources().getIntArray(R.array.categoryColors);
-        return categoryColors[new Random().nextInt(categoryColors.length)];
+        int randomIndex = new Random().nextInt(categoryColors.length);
+        return categoryColors[randomIndex];
     }
 }

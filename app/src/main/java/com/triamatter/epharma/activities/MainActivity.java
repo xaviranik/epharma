@@ -27,19 +27,6 @@ public class MainActivity extends AppCompatActivity {
         init(savedInstanceState);
     }
 
-    public void replaceFragments(Fragment fragment)
-    {
-        try
-        {
-            FragmentManager fragmentManager = getSupportFragmentManager();
-            fragmentManager.beginTransaction().replace(R.id.fragment_container, fragment).commit();
-        }
-        catch (Exception e)
-        {
-            e.printStackTrace();
-        }
-    }
-
     private void init(Bundle savedInstanceState)
     {
         appTitle = (TextView) findViewById(R.id.app_title);
@@ -85,5 +72,17 @@ public class MainActivity extends AppCompatActivity {
     public void setAppTitle(String title)
     {
         appTitle.setText(title);
+    }
+    public void replaceFragments(Fragment fragment)
+    {
+        try
+        {
+            FragmentManager fragmentManager = getSupportFragmentManager();
+            fragmentManager.beginTransaction().replace(R.id.fragment_container, fragment).addToBackStack(null).commit();
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
     }
 }
