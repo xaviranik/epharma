@@ -5,25 +5,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.android.volley.Cache;
-import com.android.volley.NetworkResponse;
-import com.android.volley.ParseError;
-import com.android.volley.Request;
 import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.HttpHeaderParser;
-import com.android.volley.toolbox.JsonArrayRequest;
-import com.android.volley.toolbox.Volley;
 import com.triamatter.epharma.R;
 import com.triamatter.epharma.activities.MainActivity;
 import com.triamatter.epharma.adapter.CategoryAdapter;
@@ -31,15 +20,10 @@ import com.triamatter.epharma.adapter.ProductAdapter;
 import com.triamatter.epharma.model.Category;
 import com.triamatter.epharma.model.Product;
 import com.triamatter.epharma.network.API;
-import com.triamatter.epharma.network.Keys;
+import com.triamatter.epharma.network.KEYS;
 import com.triamatter.epharma.network.requests.CategoryRequest;
 import com.triamatter.epharma.utils.Utils;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -86,7 +70,7 @@ public class HomeFragment extends Fragment implements ProductAdapter.OnItemClick
     {
         productList =  new ArrayList<>();
 
-        Product product = new Product("test product name", 25f);
+        Product product = new Product("Zovirax Cold Sore Cream Tube 2g", 325.2f);
         productList.add(product);
         productAdapter = new ProductAdapter(productList, getActivity());
         ((ProductAdapter) productAdapter).setOnItemClickListener(HomeFragment.this);
@@ -121,7 +105,14 @@ public class HomeFragment extends Fragment implements ProductAdapter.OnItemClick
     public void onProductItemClick(int position)
     {
         Product product = productList.get(position);
-        Utils.makeToast(getActivity(), "" + product.getProductName() + " " + product.getProductPrice());
+
+        Fragment fragment = new ProductFragment();
+        Bundle args = new Bundle();
+        args.putString(KEYS.PRODUCT_NAME, product.getProductName());
+        args.putFloat(KEYS.PRODUCT_PRICE, product.getProductPrice());
+        fragment.setArguments(args);
+
+        ((MainActivity) getActivity()).replaceFragments(fragment);
     }
 
     @Override
@@ -131,8 +122,8 @@ public class HomeFragment extends Fragment implements ProductAdapter.OnItemClick
 
         Fragment fragment = new SubCategoryFragment();
         Bundle args = new Bundle();
-        args.putInt(Keys.CATEGORY_ID, category.getCategoryId());
-        args.putString(Keys.CATEGORY_NAME, category.getCategoryName());
+        args.putInt(KEYS.CATEGORY_ID, category.getCategoryId());
+        args.putString(KEYS.CATEGORY_NAME, category.getCategoryName());
         fragment.setArguments(args);
 
         ((MainActivity) getActivity()).replaceFragments(fragment);

@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.triamatter.epharma.R;
 import com.triamatter.epharma.model.Product;
+import com.triamatter.epharma.utils.Utils;
 
 import java.util.List;
 
@@ -53,8 +54,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
 
         holder.textViewProductName.setText(product.getProductName());
 
-        String productPrice = String.valueOf(product.getProductPrice());
-        holder.textViewProductPrice.setText("BDT.  " + productPrice);
+        holder.textViewProductPrice.setText(Utils.formatPrice(product.getProductPrice()));
 
         Glide.with(context)
                 .load("")

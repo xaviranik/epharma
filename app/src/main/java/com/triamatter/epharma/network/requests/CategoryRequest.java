@@ -15,7 +15,7 @@ import com.android.volley.toolbox.HttpHeaderParser;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.Volley;
 import com.triamatter.epharma.model.Category;
-import com.triamatter.epharma.network.Keys;
+import com.triamatter.epharma.network.KEYS;
 import com.triamatter.epharma.utils.Utils;
 
 import org.json.JSONArray;
@@ -55,8 +55,8 @@ public class CategoryRequest {
                     {
                         JSONObject hit = response.getJSONObject(i);
 
-                        int categoryId = hit.getInt(Keys.CATEGORY_ID);
-                        String categoryName = hit.getString(Keys.CATEGORY_NAME);
+                        int categoryId = hit.getInt(KEYS.CATEGORY_ID);
+                        String categoryName = hit.getString(KEYS.CATEGORY_NAME);
 
                         categoryList.add(new Category(categoryId, categoryName));
                     }

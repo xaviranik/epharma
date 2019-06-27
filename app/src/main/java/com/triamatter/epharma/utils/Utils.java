@@ -8,4 +8,9 @@ public class Utils {
     {
         Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
     }
+
+    public static String formatPrice(Float productPrice)
+    {
+        return  "BDT. " + String.format("%.2f", productPrice);
+    }
 }

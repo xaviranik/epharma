@@ -12,16 +12,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.android.volley.Cache;
-import com.android.volley.NetworkResponse;
-import com.android.volley.ParseError;
-import com.android.volley.Request;
 import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.HttpHeaderParser;
-import com.android.volley.toolbox.JsonArrayRequest;
-import com.android.volley.toolbox.Volley;
 import com.triamatter.epharma.R;
 import com.triamatter.epharma.activities.MainActivity;
 import com.triamatter.epharma.adapter.CategoryAdapter;
@@ -30,14 +21,8 @@ import com.triamatter.epharma.model.Category;
 import com.triamatter.epharma.model.Product;
 import com.triamatter.epharma.network.API;
 import com.triamatter.epharma.network.requests.CategoryRequest;
-import com.triamatter.epharma.network.Keys;
-import com.triamatter.epharma.utils.Utils;
+import com.triamatter.epharma.network.KEYS;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -116,8 +101,9 @@ public class SubCategoryFragment extends Fragment implements ProductAdapter.OnIt
     {
         if(getArguments() != null)
         {
-            categoryName = getArguments().getString(Keys.CATEGORY_NAME);
-            categoryID = getArguments().getInt(Keys.CATEGORY_ID);
+            categoryName = getArguments().getString(KEYS.CATEGORY_NAME);
+            categoryID = getArguments().getInt(KEYS.CATEGORY_ID);
+
             textViewCategoryName.setText(categoryName);
         }
     }
@@ -129,8 +115,8 @@ public class SubCategoryFragment extends Fragment implements ProductAdapter.OnIt
 
         Fragment fragment = new SubCategoryFragment();
         Bundle args = new Bundle();
-        args.putInt(Keys.CATEGORY_ID, category.getCategoryId());
-        args.putString(Keys.CATEGORY_NAME, category.getCategoryName());
+        args.putInt(KEYS.CATEGORY_ID, category.getCategoryId());
+        args.putString(KEYS.CATEGORY_NAME, category.getCategoryName());
         fragment.setArguments(args);
 
         ((MainActivity) getActivity()).replaceFragments(fragment);

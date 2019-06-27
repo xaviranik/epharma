@@ -1,7 +1,10 @@
 package com.triamatter.epharma.adapter;
 
 import android.content.Context;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -57,7 +60,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
         holder.textViewCategoryName.setText(category.getCategoryName());
         holder.textViewCategoryName.setEllipsize(TextUtils.TruncateAt.END);
         holder.textViewCategoryName.setMaxLines(2);
-        holder.imageViewCategoryBackground.setColorFilter(getRandomColor(), android.graphics.PorterDuff.Mode.SRC_IN);
+        //holder.imageViewCategoryBackground.setColorFilter(getRandomColor(), PorterDuff.Mode.SRC_ATOP);
     }
 
     @Override
@@ -105,10 +108,9 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
     {
         int[] categoryColors = context.getResources().getIntArray(R.array.categoryColors);
         randomColorIndex = new Random().nextInt(categoryColors.length);
-        if(prevColorIndex == randomColorIndex)
+        while (randomColorIndex == prevColorIndex)
         {
             randomColorIndex = new Random().nextInt(categoryColors.length);
-            prevColorIndex = randomColorIndex;
         }
         prevColorIndex = randomColorIndex;
         return categoryColors[randomColorIndex];

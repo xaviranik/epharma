@@ -9,11 +9,13 @@
 
     <color name="colorMainBg">#E5E5E5</color>
 
+    <color name="colorButtonRipple">#1dbdf2</color>
+
     <!--Category colors-->
     <item name="color_1" type="color">@color/colorPrimary</item>
-    <item name="color_2" type="color">#6e1df0</item>
-    <item name="color_3" type="color">#1ce1ef</item>
-    <item name="color_4" type="color">#bd1cef</item>
+    <item name="color_2" type="color">#1DA1F2</item>
+    <item name="color_3" type="color">#481DF2</item>
+    <item name="color_4" type="color">#3C76E7</item>
 
     <integer-array name="categoryColors">
         <item>@color/color_1</item>
