@@ -19,14 +19,14 @@ import com.triamatter.epharma.adapter.CategoryAdapter;
 import com.triamatter.epharma.adapter.ProductAdapter;
 import com.triamatter.epharma.model.Category;
 import com.triamatter.epharma.model.Product;
-import com.triamatter.epharma.network.API;
+import com.triamatter.epharma.network.web.API;
 import com.triamatter.epharma.network.requests.CategoryRequest;
-import com.triamatter.epharma.network.KEYS;
+import com.triamatter.epharma.network.web.KEYS;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class SubCategoryFragment extends Fragment implements ProductAdapter.OnItemClickListener, CategoryAdapter.OnItemClickListener{
+public class CategoryFragment extends Fragment implements ProductAdapter.OnItemClickListener, CategoryAdapter.OnItemClickListener{
 
     private String categoryName;
     private int categoryID;
@@ -36,18 +36,16 @@ public class SubCategoryFragment extends Fragment implements ProductAdapter.OnIt
     private RecyclerView categoryRecyclerView;
     private RecyclerView.Adapter categoryAdapter;
     private List<Category> categoryList;
-    private RequestQueue categoryRequestQueue;
 
     private RecyclerView productRecyclerView;
     private RecyclerView.Adapter productAdapter;
     private List<Product> productList;
-    private RequestQueue productRequestQueue;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState)
     {
-        View view = inflater.inflate(R.layout.fragment_subcategory, container, false);
+        View view = inflater.inflate(R.layout.fragment_category, container, false);
         init(view);
         ((MainActivity)getActivity()).setAppTitle("E-Pharma");
         return view;
@@ -80,7 +78,7 @@ public class SubCategoryFragment extends Fragment implements ProductAdapter.OnIt
         Product product = new Product("test product name", 25f);
         productList.add(product);
         productAdapter = new ProductAdapter(productList, getActivity());
-        ((ProductAdapter) productAdapter).setOnItemClickListener(SubCategoryFragment.this);
+        ((ProductAdapter) productAdapter).setOnItemClickListener(CategoryFragment.this);
         productRecyclerView.setAdapter(productAdapter);
     }
 
@@ -89,11 +87,11 @@ public class SubCategoryFragment extends Fragment implements ProductAdapter.OnIt
         categoryList = new ArrayList<>();
 
         categoryAdapter = new CategoryAdapter(categoryList, getActivity());
-        ((CategoryAdapter) categoryAdapter).setOnItemClickListener(SubCategoryFragment.this);
+        ((CategoryAdapter) categoryAdapter).setOnItemClickListener(CategoryFragment.this);
         categoryRecyclerView.setAdapter(categoryAdapter);
 
         String url = API.GET_SUBCATEGORY + "?category_id=" + categoryID;
-        CategoryRequest request = new CategoryRequest(categoryRequestQueue, getActivity(), categoryList, categoryAdapter, url);
+        CategoryRequest request = new CategoryRequest(getActivity(), categoryList, categoryAdapter, url);
         request.parseJSON();
     }
 
@@ -113,7 +111,7 @@ public class SubCategoryFragment extends Fragment implements ProductAdapter.OnIt
     {
         Category category = categoryList.get(position);
 
-        Fragment fragment = new SubCategoryFragment();
+        Fragment fragment = new CategoryFragment();
         Bundle args = new Bundle();
         args.putInt(KEYS.CATEGORY_ID, category.getCategoryId());
         args.putString(KEYS.CATEGORY_NAME, category.getCategoryName());

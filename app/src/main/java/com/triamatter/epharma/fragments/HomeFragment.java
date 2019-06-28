@@ -19,10 +19,9 @@ import com.triamatter.epharma.adapter.CategoryAdapter;
 import com.triamatter.epharma.adapter.ProductAdapter;
 import com.triamatter.epharma.model.Category;
 import com.triamatter.epharma.model.Product;
-import com.triamatter.epharma.network.API;
-import com.triamatter.epharma.network.KEYS;
+import com.triamatter.epharma.network.web.API;
+import com.triamatter.epharma.network.web.KEYS;
 import com.triamatter.epharma.network.requests.CategoryRequest;
-import com.triamatter.epharma.utils.Utils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -86,7 +85,7 @@ public class HomeFragment extends Fragment implements ProductAdapter.OnItemClick
         categoryRecyclerView.setAdapter(categoryAdapter);
 
         String url = API.GET_CATEGORY;
-        CategoryRequest request = new CategoryRequest(categoryRequestQueue, getActivity(), categoryList, categoryAdapter, url);
+        CategoryRequest request = new CategoryRequest(getActivity(), categoryList, categoryAdapter, url);
         request.parseJSON();
     }
 
@@ -120,7 +119,7 @@ public class HomeFragment extends Fragment implements ProductAdapter.OnItemClick
     {
         Category category = categoryList.get(position);
 
-        Fragment fragment = new SubCategoryFragment();
+        Fragment fragment = new CategoryFragment();
         Bundle args = new Bundle();
         args.putInt(KEYS.CATEGORY_ID, category.getCategoryId());
         args.putString(KEYS.CATEGORY_NAME, category.getCategoryName());

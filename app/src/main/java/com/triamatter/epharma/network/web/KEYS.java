@@ -1,4 +1,4 @@
-package com.triamatter.epharma.network;
+package com.triamatter.epharma.network.web;
 
 public class KEYS {
     //Category

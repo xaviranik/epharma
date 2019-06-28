@@ -13,9 +13,9 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.HttpHeaderParser;
 import com.android.volley.toolbox.JsonArrayRequest;
-import com.android.volley.toolbox.Volley;
 import com.triamatter.epharma.model.Category;
-import com.triamatter.epharma.network.KEYS;
+import com.triamatter.epharma.network.web.KEYS;
+import com.triamatter.epharma.network.NetworkSingleton;
 import com.triamatter.epharma.utils.Utils;
 
 import org.json.JSONArray;
@@ -26,15 +26,13 @@ import java.io.UnsupportedEncodingException;
 import java.util.List;
 
 public class CategoryRequest {
-    private RequestQueue categoryRequestQueue;
     private Context context;
     private List<Category> categoryList;
     private RecyclerView.Adapter categoryAdapter;
     private String url;
 
-    public CategoryRequest(RequestQueue categoryRequestQueue, Context context, List<Category> categoryList, RecyclerView.Adapter categoryAdapter, String url)
+    public CategoryRequest(Context context, List<Category> categoryList, RecyclerView.Adapter categoryAdapter, String url)
     {
-        this.categoryRequestQueue = categoryRequestQueue;
         this.context = context;
         this.categoryList = categoryList;
         this.categoryAdapter = categoryAdapter;
@@ -43,8 +41,6 @@ public class CategoryRequest {
 
     public void parseJSON()
     {
-        categoryRequestQueue = Volley.newRequestQueue(context);
-
         JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, url, null, new Response.Listener<JSONArray>() {
             @Override
             public void onResponse(JSONArray response)
@@ -74,7 +70,8 @@ public class CategoryRequest {
                 error.printStackTrace();
                 Utils.makeToast(context, "Connection Error: Check your internet connection!");
             }
-        }){
+        })
+        {
             @Override
             protected Response<JSONArray> parseNetworkResponse(NetworkResponse response) {
                 try {
@@ -124,6 +121,7 @@ public class CategoryRequest {
             }
         };
 
-        categoryRequestQueue.add(request);
+        NetworkSingleton.getInstance(context).addToRequestQueue(request);
+
     }
 }

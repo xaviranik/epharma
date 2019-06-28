@@ -13,7 +13,7 @@ import androidx.fragment.app.Fragment;
 
 import com.triamatter.epharma.R;
 import com.triamatter.epharma.activities.MainActivity;
-import com.triamatter.epharma.network.KEYS;
+import com.triamatter.epharma.network.web.KEYS;
 import com.triamatter.epharma.utils.Utils;
 
 public class ProductFragment extends Fragment implements View.OnClickListener{
