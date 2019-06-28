@@ -1,6 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#008577</color>
-    <color name="colorPrimaryDark">#00574B</color>
+    <color name="colorPrimary">#1DA1F2</color>
+    <color name="colorPrimaryDark">#1DA1F2</color>
     <color name="colorAccent">#D81B60</color>
+
+    <color name="textColorLight">#FFFFFF</color>
+    <color name="textColorDark">#14171A</color>
+
+    <color name="colorMainBg">#E5E5E5</color>
+
+    <color name="colorButtonRipple">#1dbdf2</color>
+
+    <!--Category colors-->
+    <item name="color_1" type="color">@color/colorPrimary</item>
+    <item name="color_2" type="color">#1DA1F2</item>
+    <item name="color_3" type="color">#481DF2</item>
+    <item name="color_4" type="color">#3C76E7</item>
+
+    <integer-array name="categoryColors">
+        <item>@color/color_1</item>
+        <item>@color/color_2</item>
+        <item>@color/color_3</item>
+        <item>@color/color_4</item>
+    </integer-array>
 </resources>

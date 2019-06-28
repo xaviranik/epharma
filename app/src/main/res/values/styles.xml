@@ -1,11 +1,22 @@
 <resources>
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+
+        <!--Customize searchView font-->
+        <item name="android:autoCompleteTextViewStyle">@style/AutoCompleteTextView</item>
+    </style>
+
+    <style name="AutoCompleteTextView" parent="Widget.AppCompat.Light.AutoCompleteTextView">
+        <item name="android:textAppearance">@style/AutoCompleteTextViewTextAppearance</item>
+    </style>
+
+    <style name="AutoCompleteTextViewTextAppearance" parent="TextAppearance.AppCompat.Medium.Inverse">
+        <item name="android:fontFamily">sans-serif-thin</item>
     </style>
 
 </resources>
