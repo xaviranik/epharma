@@ -67,7 +67,7 @@ public class CategoryRequest {
             public void onErrorResponse(VolleyError error)
             {
                 error.printStackTrace();
-                Utils.makeToast(context, "Connection Error: Check your internet connection!");
+                Utils.responseErrorHandler(context, error);
             }
         })
         {

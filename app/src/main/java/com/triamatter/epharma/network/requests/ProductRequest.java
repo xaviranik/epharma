@@ -1,8 +1,6 @@
 package com.triamatter.epharma.network.requests;
 
 import android.content.Context;
-import android.util.Log;
-
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.android.volley.Cache;
@@ -13,7 +11,6 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.HttpHeaderParser;
 import com.android.volley.toolbox.JsonArrayRequest;
-import com.triamatter.epharma.model.Category;
 import com.triamatter.epharma.model.Product;
 import com.triamatter.epharma.network.NetworkSingleton;
 import com.triamatter.epharma.network.web.KEYS;
@@ -71,7 +68,7 @@ public class ProductRequest {
             public void onErrorResponse(VolleyError error)
             {
                 error.printStackTrace();
-                Utils.makeToast(context, "Connection Error: Check your internet connection!");
+                Utils.responseErrorHandler(context, error);
             }
         })
         {
