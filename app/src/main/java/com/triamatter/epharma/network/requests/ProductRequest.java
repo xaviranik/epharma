@@ -1,7 +1,6 @@
 package com.triamatter.epharma.network.requests;
 
 import android.content.Context;
-
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.android.volley.Cache;
@@ -12,9 +11,9 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.HttpHeaderParser;
 import com.android.volley.toolbox.JsonArrayRequest;
-import com.triamatter.epharma.model.Category;
-import com.triamatter.epharma.network.web.KEYS;
+import com.triamatter.epharma.model.Product;
 import com.triamatter.epharma.network.NetworkSingleton;
+import com.triamatter.epharma.network.web.KEYS;
 import com.triamatter.epharma.utils.Utils;
 
 import org.json.JSONArray;
@@ -24,17 +23,17 @@ import org.json.JSONObject;
 import java.io.UnsupportedEncodingException;
 import java.util.List;
 
-public class CategoryRequest {
+public class ProductRequest {
     private Context context;
-    private List<Category> categoryList;
-    private RecyclerView.Adapter categoryAdapter;
+    private List<Product> list;
+    private RecyclerView.Adapter adapter;
     private String url;
 
-    public CategoryRequest(Context context, List<Category> categoryList, RecyclerView.Adapter categoryAdapter, String url)
+    public ProductRequest(Context context, List<Product> list, RecyclerView.Adapter adapter, String url)
     {
         this.context = context;
-        this.categoryList = categoryList;
-        this.categoryAdapter = categoryAdapter;
+        this.list = list;
+        this.adapter = adapter;
         this.url = url;
     }
 
@@ -50,12 +49,14 @@ public class CategoryRequest {
                     {
                         JSONObject hit = response.getJSONObject(i);
 
-                        int categoryId = hit.getInt(KEYS.CATEGORY_ID);
-                        String categoryName = hit.getString(KEYS.CATEGORY_NAME);
+                        int productID = hit.getInt(KEYS.PRODUCT_ID);
+                        String productName = hit.getString(KEYS.PRODUCT_NAME);
+                        String productPriceString = hit.getString(KEYS.PRODUCT_PRICE);
+                        float productPrice = Float.valueOf(productPriceString.replace("Tk", ""));
 
-                        categoryList.add(new Category(categoryId, categoryName));
+                        list.add(new Product(productID, productName, productPrice));
                     }
-                    categoryAdapter.notifyDataSetChanged();
+                    adapter.notifyDataSetChanged();
                 }
                 catch (JSONException e)
                 {
