@@ -40,4 +40,7 @@ dependencies {
 
     //Alerter
     implementation 'com.tapadoo.android:alerter:2.0.4'
+
+    //Cart
+    implementation 'com.carteasy.v1.lib:carteasy:0.0.5'
 }

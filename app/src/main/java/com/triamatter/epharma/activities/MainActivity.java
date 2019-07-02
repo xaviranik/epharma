@@ -14,10 +14,13 @@ import com.triamatter.epharma.R;
 import com.triamatter.epharma.fragments.CartFragment;
 import com.triamatter.epharma.fragments.HomeFragment;
 import com.triamatter.epharma.fragments.OrderFragment;
+import com.triamatter.epharma.utils.GLOBAL;
+import com.triamatter.epharma.utils.Utils;
 
 public class MainActivity extends AppCompatActivity {
 
-    TextView appTitle;
+    private TextView appTitle;
+    private TextView cartQuantity;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -30,6 +33,7 @@ public class MainActivity extends AppCompatActivity {
     private void init(Bundle savedInstanceState)
     {
         appTitle = (TextView) findViewById(R.id.app_title);
+        cartQuantity = (TextView) findViewById(R.id.cart_quantity_text);
 
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavView);
         bottomNavigationView.setOnNavigationItemSelectedListener(navListener);
@@ -38,6 +42,14 @@ public class MainActivity extends AppCompatActivity {
         {
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new HomeFragment()).commit();
         }
+
+        initCartQuantity();
+    }
+
+    private void initCartQuantity()
+    {
+        Utils.updateCartQuantity(getApplicationContext());
+        cartQuantity.setText("(" + GLOBAL.CART_QUANTITY + ")");
     }
 
     private BottomNavigationView.OnNavigationItemSelectedListener navListener =
@@ -69,10 +81,16 @@ public class MainActivity extends AppCompatActivity {
                 }
             };
 
+    public void updateCartQuantity()
+    {
+        cartQuantity.setText("(" + GLOBAL.CART_QUANTITY + ")");
+    }
+
     public void setAppTitle(String title)
     {
         appTitle.setText(title);
     }
+
     public void replaceFragments(Fragment fragment)
     {
         try

@@ -9,5 +9,5 @@ public class KEYS {
     public static final String PRODUCT_ID = "product_id";
     public static final String PRODUCT_NAME = "product_name";
     public static final String PRODUCT_PRICE = "product_price";
-    public static final String PRODUCT_GENERIC = "product_generic";
+    public static final String PRODUCT_QUANTITY = "product_quantity";
 }
