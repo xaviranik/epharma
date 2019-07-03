@@ -56,7 +56,7 @@ public class CategoryFragment extends Fragment implements ProductAdapter.OnItemC
     {
         textViewCategoryName = (TextView) view.findViewById(R.id.textView_category_name);
         categoryRecyclerView = (RecyclerView) view.findViewById(R.id.subcategory_recyclerview);
-        productRecyclerView = (RecyclerView) view.findViewById(R.id.subcategory_product_recyclerview);
+        productRecyclerView = (RecyclerView) view.findViewById(R.id.product_recyclerView_cart);
 
         categoryRecyclerView.setHasFixedSize(true);
         categoryRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity(),

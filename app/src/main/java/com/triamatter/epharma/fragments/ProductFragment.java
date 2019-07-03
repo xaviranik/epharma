@@ -82,6 +82,7 @@ public class ProductFragment extends Fragment implements View.OnClickListener{
 
         if(data.isEmpty())
         {
+            cart.add(productID, KEYS.PRODUCT_ID, productID);
             cart.add(productID, KEYS.PRODUCT_NAME, productName);
             cart.add(productID, KEYS.PRODUCT_PRICE, productPrice);
             cart.add(productID, KEYS.PRODUCT_QUANTITY, productQuantity);
