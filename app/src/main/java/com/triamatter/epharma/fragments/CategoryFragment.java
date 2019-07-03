@@ -120,7 +120,7 @@ public class CategoryFragment extends Fragment implements ProductAdapter.OnItemC
         args.putString(KEYS.CATEGORY_NAME, category.getCategoryName());
         fragment.setArguments(args);
 
-        ((MainActivity) getActivity()).replaceFragments(fragment);
+        ((MainActivity) getActivity()).replaceFragments(fragment, true);
     }
 
     @Override
@@ -135,6 +135,6 @@ public class CategoryFragment extends Fragment implements ProductAdapter.OnItemC
         args.putFloat(KEYS.PRODUCT_PRICE, product.getProductPrice());
         fragment.setArguments(args);
 
-        ((MainActivity) getActivity()).replaceFragments(fragment);
+        ((MainActivity) getActivity()).replaceFragments(fragment, true);
     }
 }

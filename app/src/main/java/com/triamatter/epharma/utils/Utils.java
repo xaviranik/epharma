@@ -14,6 +14,7 @@ import com.android.volley.VolleyError;
 import com.carteasy.v1.lib.Carteasy;
 import com.tapadoo.alerter.Alerter;
 import com.triamatter.epharma.R;
+import com.triamatter.epharma.activities.MainActivity;
 import com.triamatter.epharma.network.web.KEYS;
 
 import java.util.Map;
@@ -86,22 +87,19 @@ public class Utils {
     public static void updateCartQuantity(Context context)
     {
         int quantity = 0;
+        GLOBAL.CART_QUANTITY = 0;
         Map<Integer, Map> data;
         Carteasy cs = new Carteasy();
         data = cs.ViewAll(context);
 
-        if(data.isEmpty())
-        {
-            return;
-        }
-
         for (Map.Entry<Integer, Map> entry : data.entrySet())
         {
-            Map<String, String> innerdata = entry.getValue();
-            quantity += Integer.valueOf(innerdata.get(KEYS.PRODUCT_QUANTITY));
-            Log.i("DATA INNER", "" + innerdata);
+            Map<String, String> innerData = entry.getValue();
+            quantity += Integer.valueOf(innerData.get(KEYS.PRODUCT_QUANTITY));
+            Log.i("GLOBAL UTIL", "" + quantity);
         }
 
         GLOBAL.CART_QUANTITY = quantity;
+        ((MainActivity)context).updateCartQuantity();
     }
 }

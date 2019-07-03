@@ -6,8 +6,10 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.triamatter.epharma.R;
@@ -48,7 +50,8 @@ public class MainActivity extends AppCompatActivity {
 
     private void initCartQuantity()
     {
-        Utils.updateCartQuantity(getApplicationContext());
+        Log.i("GLOBAL INIT", "" + GLOBAL.CART_QUANTITY);
+        Utils.updateCartQuantity(this);
         cartQuantity.setText("(" + GLOBAL.CART_QUANTITY + ")");
     }
 
@@ -75,7 +78,7 @@ public class MainActivity extends AppCompatActivity {
 
                     if(selectedFragment != null)
                     {
-                        replaceFragments(selectedFragment);
+                        replaceFragments(selectedFragment, false);
                     }
                     return true;
                 }
@@ -83,6 +86,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void updateCartQuantity()
     {
+        Log.i("GLOBAL", "" + GLOBAL.CART_QUANTITY);
         cartQuantity.setText("(" + GLOBAL.CART_QUANTITY + ")");
     }
 
@@ -91,16 +95,27 @@ public class MainActivity extends AppCompatActivity {
         appTitle.setText(title);
     }
 
-    public void replaceFragments(Fragment fragment)
+    public void replaceFragments(Fragment fragment, boolean stackable)
     {
         try
         {
             FragmentManager fragmentManager = getSupportFragmentManager();
-            fragmentManager.beginTransaction()
-                    .setCustomAnimations(android.R.anim.slide_in_left, android.R.anim.slide_out_right)
-                    .addToBackStack(null)
-                    .replace(R.id.fragment_container, fragment)
-                    .commit();
+
+            if(stackable)
+            {
+                fragmentManager.beginTransaction()
+                        .setCustomAnimations(android.R.anim.slide_in_left, android.R.anim.slide_out_right)
+                        .addToBackStack(null)
+                        .replace(R.id.fragment_container, fragment)
+                        .commit();
+            }
+            else
+            {
+                fragmentManager.beginTransaction()
+                        .setCustomAnimations(android.R.anim.slide_in_left, android.R.anim.slide_out_right)
+                        .replace(R.id.fragment_container, fragment)
+                        .commit();
+            }
         }
         catch (Exception e)
         {

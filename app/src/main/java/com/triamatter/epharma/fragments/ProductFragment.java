@@ -90,12 +90,10 @@ public class ProductFragment extends Fragment implements View.OnClickListener{
         }
         else
         {
-            long prevQuantity = cart.getLong(productID, KEYS.PRODUCT_QUANTITY, getContext());
-            cart.update(productID, KEYS.PRODUCT_QUANTITY, prevQuantity + productQuantity, getContext());
+            cart.update(productID, KEYS.PRODUCT_QUANTITY, productQuantity, getContext());
         }
 
         Utils.updateCartQuantity(getContext());
-        ((MainActivity)getActivity()).updateCartQuantity();
     }
 
     private void manageQuantity(boolean addButton)

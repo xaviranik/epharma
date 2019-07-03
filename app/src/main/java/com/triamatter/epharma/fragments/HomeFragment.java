@@ -102,7 +102,7 @@ public class HomeFragment extends Fragment implements ProductAdapter.OnItemClick
         args.putFloat(KEYS.PRODUCT_PRICE, product.getProductPrice());
         fragment.setArguments(args);
 
-        ((MainActivity) getActivity()).replaceFragments(fragment);
+        ((MainActivity) getActivity()).replaceFragments(fragment, false);
     }
 
     @Override
@@ -116,7 +116,7 @@ public class HomeFragment extends Fragment implements ProductAdapter.OnItemClick
         args.putString(KEYS.CATEGORY_NAME, category.getCategoryName());
         fragment.setArguments(args);
 
-        ((MainActivity) getActivity()).replaceFragments(fragment);
+        ((MainActivity) getActivity()).replaceFragments(fragment, false);
     }
 
     private void closeKeyboard()

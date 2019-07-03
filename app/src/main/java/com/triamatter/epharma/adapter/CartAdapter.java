@@ -1,11 +1,13 @@
 package com.triamatter.epharma.adapter;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -16,6 +18,7 @@ import com.triamatter.epharma.R;
 import com.triamatter.epharma.activities.MainActivity;
 import com.triamatter.epharma.model.Product;
 import com.triamatter.epharma.network.web.KEYS;
+import com.triamatter.epharma.utils.GLOBAL;
 import com.triamatter.epharma.utils.Utils;
 
 import java.util.List;
@@ -70,6 +73,8 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
         private ImageView buttonAddQuantity;
         private ImageView buttonRemoveQuantity;
 
+        private Carteasy cart = new Carteasy();
+
         public ViewHolder(@NonNull View itemView)
         {
             super(itemView);
@@ -112,18 +117,29 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
             Product product = productList.get(position);
 
             product.setProductQuantity(addButton ? product.getProductQuantity() + 1 : product.getProductQuantity() - 1);
+            updateCartQuantity(String.valueOf(product.getProductID()), product.getProductQuantity(), position);
             notifyItemChanged(position);
-            updateCartQuantity(String.valueOf(product.getProductID()), product.getProductQuantity());
+            Utils.updateCartQuantity(context);
         }
 
-        private void updateCartQuantity(String productID, int productQuantity)
+        private void updateCartQuantity(String productID, int productQuantity, int position)
         {
-            Carteasy cart = new Carteasy();
+            if(productQuantity == 0)
+            {
+                removeItemFromCart(productID, position);
+            }
+            else
+            {
+                cart.update(productID, KEYS.PRODUCT_QUANTITY, productQuantity, context);
+            }
+        }
 
-            cart.update(productID, KEYS.PRODUCT_QUANTITY, productQuantity, context);
-
+        private void removeItemFromCart(String productID, int position)
+        {
+            productList.remove(position);
+            cart.RemoveId(productID, context);
+            notifyDataSetChanged();
             Utils.updateCartQuantity(context);
-            ((MainActivity)context).updateCartQuantity();
         }
     }
 }
