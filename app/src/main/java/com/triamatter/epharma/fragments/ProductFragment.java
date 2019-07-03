@@ -77,7 +77,7 @@ public class ProductFragment extends Fragment implements View.OnClickListener{
 
     private void addToCart()
     {
-        Utils.makeToast(getContext(), "Added Product");
+        Utils.makeSuccessAlert(getContext(), "Product added to cart!", null, R.drawable.ic_add_to_cart);
         Map<String, String> data = cart.ViewData(productID, getContext());
 
         if(data.isEmpty())

@@ -18,12 +18,13 @@ import com.triamatter.epharma.R;
 import com.triamatter.epharma.activities.MainActivity;
 import com.triamatter.epharma.model.Product;
 import com.triamatter.epharma.network.web.KEYS;
+import com.triamatter.epharma.utils.EmptyRecyclerView;
 import com.triamatter.epharma.utils.GLOBAL;
 import com.triamatter.epharma.utils.Utils;
 
 import java.util.List;
 
-public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
+public class CartAdapter extends EmptyRecyclerView.Adapter<CartAdapter.ViewHolder> {
 
     private List<Product> productList;
     private Context context;
@@ -59,7 +60,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
     @Override
     public int getItemCount()
     {
-        return productList.size();
+        return productList == null ? 0 : productList.size();
     }
 
 

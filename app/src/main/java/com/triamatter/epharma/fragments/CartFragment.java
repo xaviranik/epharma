@@ -5,6 +5,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -19,6 +20,7 @@ import com.triamatter.epharma.adapter.CartAdapter;
 import com.triamatter.epharma.adapter.ProductAdapter;
 import com.triamatter.epharma.model.Product;
 import com.triamatter.epharma.network.web.KEYS;
+import com.triamatter.epharma.utils.EmptyRecyclerView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,9 +28,11 @@ import java.util.Map;
 
 public class CartFragment extends Fragment {
 
-    private RecyclerView cartRecyclerView;
-    private RecyclerView.Adapter cartAdapter;
+    private EmptyRecyclerView cartRecyclerView;
+    private CartAdapter cartAdapter;
     private List<Product> productList;
+
+    private TextView textViewEmpty;
 
     @Nullable
     @Override
@@ -42,10 +46,9 @@ public class CartFragment extends Fragment {
 
     private void init(View view)
     {
-        cartRecyclerView = view.findViewById(R.id.product_recyclerView_cart);
+        cartRecyclerView = (EmptyRecyclerView) view.findViewById(R.id.product_recyclerView_cart);
+        textViewEmpty = (TextView) view.findViewById(R.id.emptyView);
 
-        cartRecyclerView.setHasFixedSize(true);
-        cartRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         setupCartRecyclerView();
     }
 
@@ -69,8 +72,12 @@ public class CartFragment extends Fragment {
             productList.add(product);
         }
 
-        cartAdapter = new CartAdapter(productList, getActivity());
-        //((CartAdapter) cartAdapter).setOnItemClickListener(CartFragment.this);
+        cartAdapter = new CartAdapter(productList, getContext());
+
+        cartRecyclerView.setHasFixedSize(true);
+        cartRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         cartRecyclerView.setAdapter(cartAdapter);
+
+        cartRecyclerView.setEmptyView(textViewEmpty);
     }
 }

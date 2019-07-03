@@ -44,6 +44,20 @@ public class Utils {
                 .show();
     }
 
+    public static void makeSuccessAlert(Context context, String title, String text, int icon)
+    {
+        if(Alerter.isShowing())
+        {
+            return;
+        }
+        Alerter.create((Activity) context)
+                .setTitle(title)
+                .setText(text)
+                .setIcon(icon)
+                .setBackgroundColorRes(R.color.colorSuccess)
+                .show();
+    }
+
     public static void responseErrorHandler(Context context, VolleyError error)
     {
         if(error instanceof NoConnectionError)

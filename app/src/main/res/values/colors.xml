@@ -7,10 +7,10 @@
     <color name="textColorLight">#FFFFFF</color>
     <color name="textColorDark">#14171A</color>
 
-    <color name="colorMainBg">#E5E5E5</color>
+    <color name="colorMainBg">#F1F1F1</color>
 
     <color name="colorButtonRipple">#1dbdf2</color>
-    <color name="colorSuccess">#0CF107</color>
+    <color name="colorSuccess">#4CAF50</color>
 
     <!--Category colors-->
     <item name="color_1" type="color">@color/colorPrimary</item>
