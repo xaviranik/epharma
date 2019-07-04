@@ -27,7 +27,7 @@ public class Utils {
 
     public static String formatPrice(Float productPrice)
     {
-        return  "BDT. " + String.format("%.2f", productPrice);
+        return  "BDT.  " + String.format("%.2f", productPrice);
     }
 
     public static void makeDangerAlert(Context context, String title, String text, int icon)

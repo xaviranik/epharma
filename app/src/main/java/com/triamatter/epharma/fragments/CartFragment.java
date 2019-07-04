@@ -1,7 +1,6 @@
 package com.triamatter.epharma.fragments;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,28 +10,39 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.carteasy.v1.lib.Carteasy;
 import com.triamatter.epharma.R;
 import com.triamatter.epharma.activities.MainActivity;
 import com.triamatter.epharma.adapter.CartAdapter;
-import com.triamatter.epharma.adapter.ProductAdapter;
 import com.triamatter.epharma.model.Product;
 import com.triamatter.epharma.network.web.KEYS;
 import com.triamatter.epharma.utils.EmptyRecyclerView;
+import com.triamatter.epharma.utils.Utils;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public class CartFragment extends Fragment {
+public class CartFragment extends Fragment implements CartAdapter.OnItemClickListener{
 
     private EmptyRecyclerView cartRecyclerView;
     private CartAdapter cartAdapter;
     private List<Product> productList;
 
     private TextView textViewEmpty;
+
+    private TextView textViewTotalQuantity;
+    private TextView textViewDeliveryCharge;
+    private TextView textViewSubtotal;
+    private TextView textViewTotal;
+    private TextView textViewDiscount;
+
+    private int totalQuantity = 0;
+    private float subTotalPrice = 0;
+    private float deliveryCharge = 0;
+    private int discount = 0;
+    private float totalPrice = 0;
 
     @Nullable
     @Override
@@ -49,6 +59,12 @@ public class CartFragment extends Fragment {
         cartRecyclerView = (EmptyRecyclerView) view.findViewById(R.id.product_recyclerView_cart);
         textViewEmpty = (TextView) view.findViewById(R.id.emptyView);
 
+        textViewTotalQuantity = (TextView) view.findViewById(R.id.textView_total_quantity);
+        textViewSubtotal = (TextView) view.findViewById(R.id.textView_subtotal);
+        textViewDiscount = (TextView) view.findViewById(R.id.textView_discount_percent);
+        textViewTotal = (TextView) view.findViewById(R.id.textView_total_price);
+        textViewDeliveryCharge = (TextView) view.findViewById(R.id.textView_delivery_charge);
+
         setupCartRecyclerView();
     }
 
@@ -56,28 +72,67 @@ public class CartFragment extends Fragment {
     {
         productList =  new ArrayList<>();
 
-        Map<Integer, Map> data;
-        Carteasy cs = new Carteasy();
-        data = cs.ViewAll(getContext());
-
-        for (Map.Entry<Integer, Map> entry : data.entrySet())
-        {
-            Map<String, String> innerdata = entry.getValue();
-            String productID = innerdata.get(KEYS.PRODUCT_ID);
-            String productName = innerdata.get(KEYS.PRODUCT_NAME);
-            String productPrice = innerdata.get(KEYS.PRODUCT_PRICE);
-            String productQuantity = innerdata.get(KEYS.PRODUCT_QUANTITY);
-
-            Product product = new Product(Integer.valueOf(productID), productName, Float.valueOf(productPrice), Integer.valueOf(productQuantity));
-            productList.add(product);
-        }
+        getCartDetails();
 
         cartAdapter = new CartAdapter(productList, getContext());
+        cartAdapter.setOnItemClickListener(CartFragment.this);
 
         cartRecyclerView.setHasFixedSize(true);
         cartRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         cartRecyclerView.setAdapter(cartAdapter);
 
         cartRecyclerView.setEmptyView(textViewEmpty);
+
+        refreshCartDetails();
+    }
+
+    private void getCartDetails()
+    {
+        Map<Integer, Map> data;
+        Carteasy cs = new Carteasy();
+        data = cs.ViewAll(getContext());
+
+        for (Map.Entry<Integer, Map> entry : data.entrySet())
+        {
+            Map<String, String> innerData = entry.getValue();
+            int productID = Integer.valueOf(innerData.get(KEYS.PRODUCT_ID));
+            String productName = innerData.get(KEYS.PRODUCT_NAME);
+            float productPrice = Float.valueOf(innerData.get(KEYS.PRODUCT_PRICE));
+            int productQuantity = Integer.valueOf(innerData.get(KEYS.PRODUCT_QUANTITY));
+
+            totalQuantity += productQuantity;
+            subTotalPrice += productPrice * productQuantity;
+
+            Product product = new Product(productID, productName, productPrice, productQuantity);
+            productList.add(product);
+        }
+    }
+
+    public void refreshCartDetails()
+    {
+        totalPrice = subTotalPrice - (subTotalPrice * discount) + deliveryCharge;
+
+        textViewTotalQuantity.setText(String.valueOf(totalQuantity));
+        textViewSubtotal.setText(Utils.formatPrice(subTotalPrice));
+        textViewDeliveryCharge.setText(Utils.formatPrice(deliveryCharge));
+        textViewDiscount.setText(String.valueOf(discount));
+        textViewTotal.setText(Utils.formatPrice(totalPrice));
+    }
+
+    @Override
+    public void onAddRemoveButtonClick(int position, List<Product> productList)
+    {
+        totalQuantity = 0;
+        subTotalPrice = 0;
+        totalPrice = 0;
+
+        for (int i=0; i < productList.size(); i++)
+        {
+            Product product = productList.get(i);
+            totalQuantity += product.getProductQuantity();
+            subTotalPrice += product.getProductPrice() * product.getProductQuantity();
+        }
+
+        refreshCartDetails();
     }
 }

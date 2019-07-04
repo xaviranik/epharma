@@ -1,13 +1,11 @@
 package com.triamatter.epharma.adapter;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -15,11 +13,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.carteasy.v1.lib.Carteasy;
 import com.triamatter.epharma.R;
-import com.triamatter.epharma.activities.MainActivity;
 import com.triamatter.epharma.model.Product;
 import com.triamatter.epharma.network.web.KEYS;
 import com.triamatter.epharma.utils.EmptyRecyclerView;
-import com.triamatter.epharma.utils.GLOBAL;
 import com.triamatter.epharma.utils.Utils;
 
 import java.util.List;
@@ -28,6 +24,16 @@ public class CartAdapter extends EmptyRecyclerView.Adapter<CartAdapter.ViewHolde
 
     private List<Product> productList;
     private Context context;
+    private OnItemClickListener itemClickListener;
+
+    public interface OnItemClickListener {
+        void onAddRemoveButtonClick(int position, List<Product> productList);
+    }
+
+    public void setOnItemClickListener(OnItemClickListener listener)
+    {
+        itemClickListener = listener;
+    }
 
     public CartAdapter(List<Product> productList, Context context)
     {
@@ -92,10 +98,13 @@ public class CartAdapter extends EmptyRecyclerView.Adapter<CartAdapter.ViewHolde
                 @Override
                 public void onClick(View view)
                 {
-                    int position = getAdapterPosition();
-                    if(position != RecyclerView.NO_POSITION)
+                    if(itemClickListener != null)
                     {
-                        manageQuantity(position, true);
+                        int position = getAdapterPosition();
+                        if(position != RecyclerView.NO_POSITION)
+                        {
+                            manageQuantity(position, true);
+                        }
                     }
                 }
             });
@@ -104,11 +113,15 @@ public class CartAdapter extends EmptyRecyclerView.Adapter<CartAdapter.ViewHolde
                 @Override
                 public void onClick(View view)
                 {
-                    int position = getAdapterPosition();
-                    if(position != RecyclerView.NO_POSITION)
+                    if(itemClickListener != null)
                     {
-                        manageQuantity(position, false);
+                        int position = getAdapterPosition();
+                        if(position != RecyclerView.NO_POSITION)
+                        {
+                            manageQuantity(position, false);
+                        }
                     }
+
                 }
             });
         }
@@ -121,6 +134,7 @@ public class CartAdapter extends EmptyRecyclerView.Adapter<CartAdapter.ViewHolde
             updateCartQuantity(String.valueOf(product.getProductID()), product.getProductQuantity(), position);
             notifyItemChanged(position);
             Utils.updateCartQuantity(context);
+            itemClickListener.onAddRemoveButtonClick(position, productList);
         }
 
         private void updateCartQuantity(String productID, int productQuantity, int position)
