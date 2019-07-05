@@ -1,10 +1,17 @@
 package com.triamatter.epharma.fragments;
 
 import android.os.Bundle;
+import android.os.Handler;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -12,16 +19,26 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonArrayRequest;
 import com.triamatter.epharma.R;
 import com.triamatter.epharma.activities.MainActivity;
 import com.triamatter.epharma.adapter.CategoryAdapter;
 import com.triamatter.epharma.adapter.ProductAdapter;
 import com.triamatter.epharma.model.Category;
 import com.triamatter.epharma.model.Product;
+import com.triamatter.epharma.network.NetworkSingleton;
 import com.triamatter.epharma.network.requests.ProductRequest;
 import com.triamatter.epharma.network.web.API;
 import com.triamatter.epharma.network.web.KEYS;
 import com.triamatter.epharma.network.requests.CategoryRequest;
+import com.triamatter.epharma.utils.Utils;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,6 +53,11 @@ public class HomeFragment extends Fragment implements ProductAdapter.OnItemClick
     private RecyclerView.Adapter productAdapter;
     private List<Product> productList;
 
+    private AutoCompleteTextView searchBarTextView;
+    private ArrayAdapter<String> searchAdapter;
+    private List<Product> searchedProductList;
+    private ArrayList<String> searchList = new ArrayList<String>();
+
 
     @Nullable
     @Override
@@ -49,6 +71,9 @@ public class HomeFragment extends Fragment implements ProductAdapter.OnItemClick
 
     private void init(View view)
     {
+        searchBarTextView = (AutoCompleteTextView) view.findViewById(R.id.searchbar);
+        setupSearchBar();
+
         categoryRecyclerView = (RecyclerView) view.findViewById(R.id.category_recyclerview);
         productRecyclerView = (RecyclerView) view.findViewById(R.id.trending_recyclerView);
 
@@ -62,6 +87,107 @@ public class HomeFragment extends Fragment implements ProductAdapter.OnItemClick
         setupLatestProductRecyclerView();
 
         ((MainActivity)getActivity()).setAppTitle("E-Pharma");
+    }
+
+    private void setupSearchBar()
+    {
+        searchAdapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_list_item_1, searchList);
+        searchAdapter.setNotifyOnChange(true);
+        searchBarTextView.setAdapter(searchAdapter);
+
+        searchBarTextView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, final int i, long l)
+            {
+                closeKeyboard();
+
+                if(searchedProductList.size() > 0)
+                {
+                    Product product = searchedProductList.get(i);
+
+                    Fragment fragment = new ProductFragment();
+                    Bundle args = new Bundle();
+                    args.putInt(KEYS.PRODUCT_ID, product.getProductID());
+                    args.putString(KEYS.PRODUCT_NAME, product.getProductName());
+                    args.putFloat(KEYS.PRODUCT_PRICE, product.getProductPrice());
+                    fragment.setArguments(args);
+
+                    ((MainActivity) getActivity()).replaceFragments(fragment);
+                }
+            }
+        });
+
+        searchBarTextView.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2)
+            {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2)
+            {
+                String searchString = charSequence.toString();
+                if(searchString.isEmpty())
+                {
+                    return;
+                }
+                String url = API.GET_SEARCH + "?search_string=" + searchString;
+
+                parseJSONForSearch(url);
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable)
+            {
+
+            }
+        });
+    }
+
+    private void parseJSONForSearch(String url)
+    {
+        JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, url, null, new Response.Listener<JSONArray>() {
+            @Override
+            public void onResponse(JSONArray response)
+            {
+                ArrayList<String> newSuggestionList = new ArrayList<>();
+                searchedProductList = new ArrayList<>();
+                try
+                {
+                    for(int i=0; i<response.length(); i++)
+                    {
+                        JSONObject hit = response.getJSONObject(i);
+
+                        int productID = hit.getInt(KEYS.PRODUCT_ID);
+                        String productName = hit.getString(KEYS.PRODUCT_NAME);
+                        String productPriceString = hit.getString("price");
+                        float productPrice = Float.valueOf(productPriceString.replace("Tk", ""));
+
+                        searchedProductList.add(new Product(productID, productName, productPrice));
+
+                        newSuggestionList.add(productName);
+                    }
+                    searchAdapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_list_item_1, newSuggestionList);
+                    searchBarTextView.setAdapter(searchAdapter);
+                }
+                catch (JSONException e)
+                {
+                    Log.i("searcherror", "" + e.getMessage());
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error)
+            {
+                error.printStackTrace();
+                Log.i("networkerror", "" + error.getMessage());
+                Utils.responseErrorHandler(getContext(), error);
+            }
+        });
+
+        NetworkSingleton.getInstance(getContext()).addToRequestQueue(request);
     }
 
     private void setupLatestProductRecyclerView()
