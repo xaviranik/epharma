@@ -1,6 +1,7 @@
 package com.triamatter.epharma.network.requests;
 
 import android.content.Context;
+import android.util.Log;
 
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -67,6 +68,7 @@ public class CategoryRequest {
             public void onErrorResponse(VolleyError error)
             {
                 error.printStackTrace();
+                Log.e("networkerror",error.getMessage());
                 Utils.responseErrorHandler(context, error);
             }
         })

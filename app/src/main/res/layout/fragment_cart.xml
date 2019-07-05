@@ -46,7 +46,7 @@
         android:layout_height="400dp"
         android:background="@drawable/drawable_bottom_sheet_bg"
         android:elevation="4dp"
-        app:behavior_hideable="true"
+        app:behavior_hideable="false"
         app:behavior_peekHeight="56dp"
         app:layout_behavior="@string/bottom_sheet_behavior">
 

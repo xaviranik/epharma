@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
@@ -60,25 +61,56 @@ public class MainActivity extends AppCompatActivity {
                 @Override
                 public boolean onNavigationItemSelected(@NonNull MenuItem item)
                 {
+
                     Fragment selectedFragment = null;
                     switch (item.getItemId())
                     {
                         case R.id.nav_home:
-                            selectedFragment = new HomeFragment();
-                            break;
+                        {
+                            Fragment f = getSupportFragmentManager().findFragmentById(R.id.fragment_container);
+                            if (f instanceof HomeFragment)
+                            {
+                                break;
+                            }
+                            else
+                            {
+                                selectedFragment = new HomeFragment();
+                                break;
+                            }
+                        }
                         case R.id.nav_myOrders:
-                            selectedFragment = new OrderFragment();
-                            break;
+                        {
+                            Fragment f = getSupportFragmentManager().findFragmentById(R.id.fragment_container);
+                            if (f instanceof OrderFragment)
+                            {
+                                break;
+                            }
+                            else
+                            {
+                                selectedFragment = new OrderFragment();
+                                break;
+                            }
+                        }
                         case R.id.nav_cart:
-                            selectedFragment = new CartFragment();
-                            break;
+                        {
+                            Fragment f = getSupportFragmentManager().findFragmentById(R.id.fragment_container);
+                            if (f instanceof CartFragment)
+                            {
+                                break;
+                            }
+                            else
+                            {
+                                selectedFragment = new CartFragment();
+                                break;
+                            }
+                        }
                         case R.id.nav_more:
                             break;
                     }
 
                     if(selectedFragment != null)
                     {
-                        replaceFragments(selectedFragment, false);
+                        replaceFragments(selectedFragment);
                     }
                     return true;
                 }
@@ -95,27 +127,17 @@ public class MainActivity extends AppCompatActivity {
         appTitle.setText(title);
     }
 
-    public void replaceFragments(Fragment fragment, boolean stackable)
+    public void replaceFragments(Fragment fragment)
     {
         try
         {
             FragmentManager fragmentManager = getSupportFragmentManager();
 
-            if(stackable)
-            {
-                fragmentManager.beginTransaction()
-                        .setCustomAnimations(android.R.anim.slide_in_left, android.R.anim.slide_out_right)
-                        .addToBackStack(null)
-                        .replace(R.id.fragment_container, fragment)
-                        .commit();
-            }
-            else
-            {
-                fragmentManager.beginTransaction()
-                        .setCustomAnimations(android.R.anim.slide_in_left, android.R.anim.slide_out_right)
-                        .replace(R.id.fragment_container, fragment)
-                        .commit();
-            }
+            fragmentManager.beginTransaction()
+                    .setCustomAnimations(android.R.anim.slide_in_left, android.R.anim.slide_out_right)
+                    .addToBackStack(null)
+                    .replace(R.id.fragment_container, fragment)
+                    .commit();
         }
         catch (Exception e)
         {
