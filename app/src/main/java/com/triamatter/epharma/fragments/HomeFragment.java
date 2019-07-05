@@ -72,7 +72,7 @@ public class HomeFragment extends Fragment implements ProductAdapter.OnItemClick
         ((ProductAdapter) productAdapter).setOnItemClickListener(HomeFragment.this);
         productRecyclerView.setAdapter(productAdapter);
 
-        String url = API.GET_PRODUCT + "?category_id=1387";
+        String url = API.GET_LATEST_PRODUCT;
         ProductRequest request = new ProductRequest(getActivity(), productList, productAdapter, url);
         request.parseJSON();
     }

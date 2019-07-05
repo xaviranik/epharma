@@ -1,6 +1,8 @@
 package com.triamatter.epharma.network.requests;
 
 import android.content.Context;
+import android.util.Log;
+
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.android.volley.Cache;
@@ -60,6 +62,7 @@ public class ProductRequest {
                 }
                 catch (JSONException e)
                 {
+                    Log.i("networkerror", "" + e.getMessage());
                     e.printStackTrace();
                 }
             }
@@ -68,6 +71,7 @@ public class ProductRequest {
             public void onErrorResponse(VolleyError error)
             {
                 error.printStackTrace();
+                Log.i("networkerror", "" + error.getMessage());
                 Utils.responseErrorHandler(context, error);
             }
         })
