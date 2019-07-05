@@ -9,6 +9,8 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -25,6 +27,8 @@ public class MainActivity extends AppCompatActivity {
     private TextView appTitle;
     private TextView cartQuantity;
 
+    private LinearLayout loadingView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -37,6 +41,8 @@ public class MainActivity extends AppCompatActivity {
     {
         appTitle = (TextView) findViewById(R.id.app_title);
         cartQuantity = (TextView) findViewById(R.id.cart_quantity_text);
+
+        loadingView = (LinearLayout) findViewById(R.id.loading_view);
 
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavView);
         bottomNavigationView.setOnNavigationItemSelectedListener(navListener);
@@ -115,6 +121,18 @@ public class MainActivity extends AppCompatActivity {
                     return true;
                 }
             };
+
+    public void setLoadingView(boolean value)
+    {
+        if (value)
+        {
+            loadingView.setVisibility(View.VISIBLE);
+        }
+        else
+        {
+            loadingView.setVisibility(View.GONE);
+        }
+    }
 
     public void updateCartQuantity()
     {

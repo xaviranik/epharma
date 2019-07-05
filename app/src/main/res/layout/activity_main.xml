@@ -44,17 +44,6 @@
         app:layout_constraintEnd_toEndOf="@+id/toolbar_bg"
         app:layout_constraintTop_toTopOf="@+id/icon_cart" />
 
-    <ImageView
-        android:id="@+id/icon_cart"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:tint="@android:color/white"
-        app:layout_constraintBottom_toBottomOf="@+id/app_title"
-        app:layout_constraintEnd_toStartOf="@+id/cart_quantity_text"
-        app:layout_constraintTop_toTopOf="@+id/app_title"
-        app:srcCompat="@drawable/ic_shopping_cart" />
-
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottomNavView"
         android:layout_width="match_parent"
@@ -68,6 +57,17 @@
 
     </com.google.android.material.bottomnavigation.BottomNavigationView>
 
+    <ImageView
+        android:id="@+id/icon_cart"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:tint="@android:color/white"
+        app:layout_constraintBottom_toBottomOf="@+id/app_title"
+        app:layout_constraintEnd_toStartOf="@+id/cart_quantity_text"
+        app:layout_constraintTop_toTopOf="@+id/app_title"
+        app:srcCompat="@drawable/ic_shopping_cart" />
+
     <FrameLayout
         android:id="@+id/fragment_container"
         android:layout_width="0dp"
@@ -78,5 +78,26 @@
         app:layout_constraintTop_toBottomOf="@+id/toolbar_bg">
 
     </FrameLayout>
+
+    <LinearLayout
+        android:id="@+id/loading_view"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@android:color/white"
+        android:gravity="center_vertical"
+        android:orientation="vertical"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@+id/fragment_container"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/fragment_container">
+
+        <ProgressBar
+            android:id="@+id/progressBar"
+            style="?android:attr/progressBarStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center" />
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

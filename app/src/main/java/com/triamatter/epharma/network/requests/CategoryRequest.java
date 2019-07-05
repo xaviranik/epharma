@@ -13,6 +13,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.HttpHeaderParser;
 import com.android.volley.toolbox.JsonArrayRequest;
+import com.triamatter.epharma.activities.MainActivity;
 import com.triamatter.epharma.model.Category;
 import com.triamatter.epharma.network.web.KEYS;
 import com.triamatter.epharma.network.NetworkSingleton;
@@ -41,6 +42,7 @@ public class CategoryRequest {
 
     public void parseJSON()
     {
+        ((MainActivity)context).setLoadingView(true);
         JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, url, null, new Response.Listener<JSONArray>() {
             @Override
             public void onResponse(JSONArray response)
@@ -57,6 +59,7 @@ public class CategoryRequest {
                         categoryList.add(new Category(categoryId, categoryName));
                     }
                     categoryAdapter.notifyDataSetChanged();
+                    ((MainActivity)context).setLoadingView(false);
                 }
                 catch (JSONException e)
                 {
@@ -68,6 +71,7 @@ public class CategoryRequest {
             public void onErrorResponse(VolleyError error)
             {
                 error.printStackTrace();
+                ((MainActivity)context).setLoadingView(false);
                 Log.e("networkerror",error.getMessage());
                 Utils.responseErrorHandler(context, error);
             }
