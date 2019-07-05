@@ -161,7 +161,7 @@ public class HomeFragment extends Fragment implements ProductAdapter.OnItemClick
 
                         int productID = hit.getInt(KEYS.PRODUCT_ID);
                         String productName = hit.getString(KEYS.PRODUCT_NAME);
-                        String productPriceString = hit.getString("price");
+                        String productPriceString = hit.getString(KEYS.PRODUCT_PRICE);
                         float productPrice = Float.valueOf(productPriceString.replace("Tk", ""));
 
                         searchedProductList.add(new Product(productID, productName, productPrice));
