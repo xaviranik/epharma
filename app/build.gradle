@@ -1,6 +1,13 @@
 apply plugin: 'com.android.application'
 
 android {
+    lintOptions {
+        checkReleaseBuilds false
+        // Or, if you prefer, you can continue to check for errors in release builds,
+        // but continue the build even when errors are found:
+        abortOnError false
+    }
+
     compileSdkVersion 29
     buildToolsVersion "29.0.0"
     defaultConfig {
@@ -40,4 +47,7 @@ dependencies {
 
     //Alerter
     implementation 'com.tapadoo.android:alerter:2.0.4'
+
+    //Cart
+    implementation 'com.carteasy.v1.lib:carteasy:0.0.5'
 }
