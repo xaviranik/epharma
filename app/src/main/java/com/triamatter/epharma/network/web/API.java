@@ -6,4 +6,6 @@ public class API {
     public static final String GET_PRODUCT = "http://riverainteriors.com/epharma/product.php";
     public static final String GET_LATEST_PRODUCT = "http://riverainteriors.com/epharma/latest_product.php";
     public static final String GET_SEARCH = "http://riverainteriors.com/epharma/search.php";
+
+    public static final String GET_SIGNUP = "http://192.168.0.104/epharma/signup.php";
 }
