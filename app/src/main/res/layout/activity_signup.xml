@@ -120,7 +120,7 @@
             android:fontFamily="sans-serif-light"
             android:text="Already have an account?"
             android:textColor="@color/textColorDark"
-            android:textSize="14sp" />
+            android:textSize="18sp" />
 
         <TextView
             android:id="@+id/textView_login_to_signup"
@@ -133,7 +133,7 @@
     </LinearLayout>
 
     <Button
-        android:id="@+id/button_signup"
+        android:id="@+id/button_next"
         android:layout_width="0dp"
         android:layout_height="56dp"
         android:layout_marginStart="16dp"
@@ -141,7 +141,7 @@
         android:layout_marginEnd="16dp"
         android:background="@drawable/drawable_button_bg"
         android:fontFamily="@font/montserrat"
-        android:text="Sign Up"
+        android:text="Next"
         android:textColor="@android:color/white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"

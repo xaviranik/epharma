@@ -270,6 +270,7 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="16dp"
                 android:background="@drawable/drawable_button_bg"
+                android:fontFamily="@font/montserrat"
                 android:text="Place Order"
                 android:textColor="@android:color/white" />
         </LinearLayout>
