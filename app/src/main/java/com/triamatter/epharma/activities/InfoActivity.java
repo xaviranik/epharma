@@ -3,6 +3,7 @@ package com.triamatter.epharma.activities;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -56,12 +57,12 @@ public class InfoActivity extends AppCompatActivity {
             @Override
             public void onClick(View view)
             {
-                validateInfoAndSendToServer();
+                validateAndRegisterUser();
             }
         });
     }
 
-    private void validateInfoAndSendToServer()
+    private void validateAndRegisterUser()
     {
         final String userName = editTextUserName.getText().toString();
         final String userFirstName = editTextFirstName.getText().toString();
@@ -112,7 +113,7 @@ public class InfoActivity extends AppCompatActivity {
 
         signupButton.setEnabled(false);
 
-        String url = API.GET_SIGNUP;
+        String url = API.POST_SIGNUP;
 
         StringRequest postRequest = new StringRequest(Request.Method.POST, url,
                 new Response.Listener<String>()
@@ -120,6 +121,7 @@ public class InfoActivity extends AppCompatActivity {
                     @Override
                     public void onResponse(String response) {
                         // response
+                        signupButton.setEnabled(true);
                         try
                         {
                             JSONArray jsonArray = new JSONArray(response);
@@ -128,7 +130,10 @@ public class InfoActivity extends AppCompatActivity {
                             String res = jsonObject.getString("signup");
                             if(res.equals("true"))
                             {
-                                Utils.makeSuccessAlert(InfoActivity.this, "Sign up successful", null, R.drawable.ic_person_add);
+                                SharedPreferences.Editor editor = getSharedPreferences(GLOBAL.AUTH_PREF, MODE_PRIVATE).edit();
+                                editor.putBoolean(GLOBAL.AUTH_STATUS, true);
+                                editor.apply();
+
                                 Intent i = new Intent(InfoActivity.this, MainActivity.class);
                                 i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                                 startActivity(i);
@@ -141,7 +146,6 @@ public class InfoActivity extends AppCompatActivity {
                         catch (JSONException e)
                         {
                             e.printStackTrace();
-                            signupButton.setEnabled(true);
                         }
 
                     }
@@ -161,7 +165,7 @@ public class InfoActivity extends AppCompatActivity {
             {
                 Map<String, String>  params = new HashMap<String, String>();
                 params.put(KEYS.USER_EMAIL, userEmail);
-                params.put(KEYS.USER_PASS, userPass);
+                params.put(KEYS.USER_PASSWORD, userPass);
                 params.put(KEYS.USER_NAME, userName);
                 params.put(KEYS.USER_FIRST_NAME, userFirstName);
                 params.put(KEYS.USER_LAST_NAME, userLastName);

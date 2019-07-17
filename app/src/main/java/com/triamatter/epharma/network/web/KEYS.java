@@ -3,7 +3,7 @@ package com.triamatter.epharma.network.web;
 public class KEYS {
     //User
     public static final String USER_NAME = "user_name";
-    public static final String USER_PASS = "user_password";
+    public static final String USER_PASSWORD = "user_password";
     public static final String USER_EMAIL = "user_email";
     public static final String USER_FIRST_NAME = "first_name";
     public static final String USER_LAST_NAME = "last_name";
