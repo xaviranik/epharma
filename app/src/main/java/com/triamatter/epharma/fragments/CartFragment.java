@@ -88,6 +88,7 @@ public class CartFragment extends Fragment implements CartAdapter.OnItemClickLis
         List<Product> object = productList;
         Intent intent = new Intent(getActivity(), CheckoutActivity.class);
         Bundle args = new Bundle();
+
         args.putSerializable("ARRAYLIST",(Serializable)object);
         intent.putExtra("PRODUCTLIST",args);
         startActivity(intent);
