@@ -43,7 +43,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/bottom_sheet"
         android:layout_width="match_parent"
-        android:layout_height="400dp"
+        android:layout_height="450dp"
         android:background="@drawable/drawable_bottom_sheet_bg"
         android:elevation="4dp"
         app:behavior_hideable="false"
@@ -265,13 +265,13 @@
                 android:background="?android:attr/listDivider" />
 
             <Button
-                android:id="@+id/button_submit_cart"
+                android:id="@+id/button_checkout_cart"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="16dp"
                 android:background="@drawable/drawable_button_bg"
                 android:fontFamily="@font/montserrat"
-                android:text="Place Order"
+                android:text="Checkout"
                 android:textColor="@android:color/white" />
         </LinearLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
