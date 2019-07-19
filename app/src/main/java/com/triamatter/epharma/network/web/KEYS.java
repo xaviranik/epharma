@@ -18,4 +18,9 @@ public class KEYS {
     public static final String PRODUCT_NAME = "product_name";
     public static final String PRODUCT_PRICE = "product_price";
     public static final String PRODUCT_QUANTITY = "product_quantity";
+
+    //ORDER
+    public static final String ORDER_ID = "order_id";
+    public static final String ORDER_ITEM_TYPE = "order_item_type";
+    public static final String LINE_TOTAL = "line_total";
 }

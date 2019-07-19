@@ -9,4 +9,6 @@ public class API {
 
     public static final String POST_SIGNUP = "http://192.168.0.104/epharma/signup.php";
     public static final String POST_SIGNIN = "http://192.168.0.104/epharma/signin.php";
+
+    public static final String POST_INSERT_ORDER = "http://192.168.0.104/epharma/order_insert.php";
 }

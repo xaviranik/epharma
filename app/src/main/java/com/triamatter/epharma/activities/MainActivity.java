@@ -39,6 +39,7 @@ public class MainActivity extends AppCompatActivity {
 
         checkForAuth();
         init(savedInstanceState);
+        updateCartQuantity();
     }
 
     private void checkForAuth()

@@ -1,6 +1,7 @@
 package com.triamatter.epharma.utils;
 
 public class GLOBAL {
+    //Cart
     public static int CART_QUANTITY = 0;
 
     //Signup
