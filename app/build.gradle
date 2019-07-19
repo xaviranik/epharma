@@ -50,4 +50,7 @@ dependencies {
 
     //Cart
     implementation 'com.carteasy.v1.lib:carteasy:0.0.5'
+
+    //Dropdown
+    implementation 'com.jaredrummler:material-spinner:1.3.1'
 }
