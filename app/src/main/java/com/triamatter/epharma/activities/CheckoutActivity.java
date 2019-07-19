@@ -47,6 +47,7 @@ public class CheckoutActivity extends AppCompatActivity {
     private float deliveryCharge = 0;
     private int discount = 0;
     private float totalPrice = 0;
+    private long orderID;
 
     int productID;
     String productName;
@@ -89,7 +90,7 @@ public class CheckoutActivity extends AppCompatActivity {
     private void checkoutOrder()
     {
         checkoutButton.setEnabled(false);
-        long orderID = generateOrderID();
+        orderID = generateOrderID();
 
         numberOfRequestsToMake = productList.size();
 
@@ -118,7 +119,8 @@ public class CheckoutActivity extends AppCompatActivity {
         Carteasy cs = new Carteasy();
         cs.clearCart(getApplicationContext());
 
-        Intent i = new Intent(CheckoutActivity.this, MainActivity.class);
+        Intent i = new Intent(CheckoutActivity.this, ThankYouActivity.class);
+        i.putExtra(KEYS.ORDER_ID, orderID);
         i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(i);
     }
@@ -148,7 +150,6 @@ public class CheckoutActivity extends AppCompatActivity {
                                 {
                                     //All requests finished correctly
                                     clearCart();
-                                    Utils.makeToast(getApplicationContext(), "ORDER PLACED!");
                                 }
                                 else
                                 {
@@ -169,6 +170,7 @@ public class CheckoutActivity extends AppCompatActivity {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         // error
+                        Utils.makeToast(getApplicationContext(), "Please check your internet connection!");
                         numberOfRequestsToMake--;
                         hasRequestFailed = true;
 
@@ -199,10 +201,7 @@ public class CheckoutActivity extends AppCompatActivity {
 
     private long generateOrderID()
     {
-        //method 1
         Timestamp timestamp = new Timestamp(System.currentTimeMillis());
-
-        //return number of milliseconds since January 1, 1970, 00:00:00 GMT
         return timestamp.getTime();
     }
 
