@@ -83,6 +83,20 @@ public class CartFragment extends Fragment implements CartAdapter.OnItemClickLis
         setupCartRecyclerView();
     }
 
+    private void refreshCheckoutButton()
+    {
+        if(productList.isEmpty())
+        {
+            checkoutButton.setEnabled(false);
+            checkoutButton.setAlpha(0.5f);
+        }
+        else
+        {
+            checkoutButton.setEnabled(true);
+            checkoutButton.setAlpha(1f);
+        }
+    }
+
     private void checkout()
     {
         List<Product> object = productList;
@@ -132,6 +146,8 @@ public class CartFragment extends Fragment implements CartAdapter.OnItemClickLis
             Product product = new Product(productID, productName, productPrice, productQuantity);
             productList.add(product);
         }
+
+        refreshCheckoutButton();
     }
 
     public void refreshCartDetails()
@@ -143,6 +159,8 @@ public class CartFragment extends Fragment implements CartAdapter.OnItemClickLis
         textViewDeliveryCharge.setText(Utils.formatPrice(deliveryCharge));
         textViewDiscount.setText(String.valueOf(discount));
         textViewTotal.setText(Utils.formatPrice(totalPrice));
+
+        refreshCheckoutButton();
     }
 
     @Override

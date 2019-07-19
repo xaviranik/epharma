@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@android:color/white"
     tools:context=".activities.ThankYouActivity">
 
     <TextView
@@ -29,7 +30,7 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
-        android:fontFamily="@font/montserrat"
+        android:fontFamily="sans-serif-light"
         android:text="Order ID: #253599863"
         android:textColor="@color/textColorDark"
         android:textSize="18sp"
@@ -58,7 +59,7 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="32dp"
         android:layout_marginEnd="8dp"
-        android:fontFamily="@font/montserrat"
+        android:fontFamily="sans-serif-light"
         android:text="Feel free to keep shopping!"
         android:textColor="@color/textColorDark"
         android:textSize="18sp"
