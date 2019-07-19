@@ -1,98 +1,55 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@android:color/white"
+    tools:context=".activities.CheckoutActivity">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <ImageView
+        android:id="@+id/toolbar_bg2"
+        android:layout_width="0dp"
+        android:layout_height="56dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/drawable_primary_bg" />
+
+    <TextView
+        android:id="@+id/app_title2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:fontFamily="@font/montserrat"
+        android:text="Checkout"
+        android:textColor="@color/textColorLight"
+        android:textSize="24sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/toolbar_bg2" />
+
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <TextView
-            android:id="@+id/emptyView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginBottom="8dp"
-            android:fontFamily="@font/montserrat"
-            android:text="Nothing on your cart!"
-            android:textSize="18sp"
-            android:visibility="gone"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <com.triamatter.epharma.utils.EmptyRecyclerView
-            android:id="@+id/product_recyclerView_cart"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_marginBottom="56dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.0" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/bottom_sheet"
-        android:layout_width="match_parent"
-        android:layout_height="450dp"
-        android:background="@drawable/drawable_bottom_sheet_bg"
-        android:elevation="4dp"
-        app:behavior_hideable="false"
-        app:behavior_peekHeight="56dp"
-        app:layout_behavior="@string/bottom_sheet_behavior">
-
-        <ImageView
-            android:id="@+id/cart_icon"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="16dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/ic_add_to_cart" />
-
-        <ImageView
-            android:id="@+id/up_arrow"
-            android:layout_width="18dp"
-            android:layout_height="18dp"
-            android:layout_marginEnd="16dp"
-            app:layout_constraintBottom_toBottomOf="@+id/cart_details_title"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/cart_details_title"
-            app:srcCompat="@drawable/ic_up_arrow" />
-
-        <TextView
-            android:id="@+id/cart_details_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:fontFamily="@font/montserrat"
-            android:text="Cart Details"
-            android:textColor="@android:color/white"
-            android:textSize="18sp"
-            app:layout_constraintBottom_toBottomOf="@+id/cart_icon"
-            app:layout_constraintStart_toEndOf="@+id/cart_icon"
-            app:layout_constraintTop_toTopOf="@+id/cart_icon" />
+        android:layout_height="0dp"
+        android:fillViewport="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar_bg2" >
 
         <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_marginTop="16dp"
+            android:id="@+id/linearLayout2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:background="@android:color/white"
             android:orientation="vertical"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/cart_details_title">
+            app:layout_constraintTop_toBottomOf="@+id/toolbar_bg2"
+            tools:visibility="visible">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -214,14 +171,61 @@
                     android:textSize="14sp" />
             </LinearLayout>
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginEnd="16dp">
+
+                <TextView
+                    android:id="@+id/coupon_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/montserrat"
+                    android:gravity="start"
+                    android:padding="8dp"
+                    android:paddingStart="16dp"
+                    android:paddingEnd="16dp"
+                    android:text="Enter Coupon (Optional)"
+                    android:textColor="@color/textColorDark"
+                    android:textSize="14sp" />
+
+                <EditText
+                    android:id="@+id/editText_coupon"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/montserrat"
+                    android:gravity="end"
+                    android:hint="Coupon code"
+                    android:inputType="text"
+                    android:padding="8dp"
+                    android:paddingStart="16dp"
+                    android:paddingEnd="16dp"
+                    android:singleLine="true"
+                    android:textColor="@color/textColorDark"
+                    android:textSize="14sp"
+                    android:theme="@style/EditTextTheme" />
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/button_add_coupon"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"
+                android:background="@drawable/drawable_button_bg"
+                android:fontFamily="@font/montserrat"
+                android:text="Add Coupon Code"
+                android:textColor="@android:color/white" />
+
+
             <View
-                android:id="@+id/divider1"
+                android:id="@+id/divider3"
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
+                android:layout_marginTop="16dp"
                 android:layout_marginLeft="8dp"
                 android:layout_marginRight="8dp"
                 android:background="?android:attr/listDivider" />
-
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -264,17 +268,54 @@
                 android:layout_marginRight="8dp"
                 android:background="?android:attr/listDivider" />
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="18dp"
+                android:layout_marginBottom="18dp"
+                android:layout_marginEnd="16dp">
+
+                <TextView
+                    android:id="@+id/address_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/montserrat"
+                    android:gravity="start"
+                    android:padding="8dp"
+                    android:paddingStart="16dp"
+                    android:paddingEnd="16dp"
+                    android:text="Delivery Adresss"
+                    android:textColor="@color/textColorDark"
+                    android:textSize="14sp" />
+
+                <EditText
+                    android:id="@+id/editText_address"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/montserrat"
+                    android:gravity="end"
+                    android:hint="Full address"
+                    android:inputType="text"
+                    android:padding="8dp"
+                    android:paddingStart="16dp"
+                    android:paddingEnd="16dp"
+                    android:singleLine="true"
+                    android:textColor="@color/textColorDark"
+                    android:textSize="14sp"
+                    android:theme="@style/EditTextTheme" />
+            </LinearLayout>
+
             <Button
-                android:id="@+id/button_checkout_cart"
+                android:id="@+id/button_place_order"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="16dp"
                 android:background="@drawable/drawable_button_bg"
                 android:fontFamily="@font/montserrat"
-                android:text="Checkout"
+                android:text="Place Order"
                 android:textColor="@android:color/white" />
         </LinearLayout>
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.core.widget.NestedScrollView>
 
-
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

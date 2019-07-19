@@ -6,6 +6,8 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
 import android.app.Activity;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
@@ -34,7 +36,25 @@ public class MainActivity extends AppCompatActivity {
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        checkForAuth();
         init(savedInstanceState);
+        updateCartQuantity();
+    }
+
+    private void checkForAuth()
+    {
+        SharedPreferences prefs = getSharedPreferences(GLOBAL.AUTH_PREF, MODE_PRIVATE);
+        boolean isAuthenticated  = prefs.getBoolean(GLOBAL.AUTH_STATUS, false);
+        if (isAuthenticated)
+        {
+            Utils.makeToast(getApplicationContext(), "You are logged in!");
+        }
+        else
+        {
+            Utils.makeToast(getApplicationContext(), "You are not logged in!");
+            startActivity(new Intent(MainActivity.this, LoginActivity.class));
+        }
     }
 
     private void init(Bundle savedInstanceState)

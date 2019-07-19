@@ -1,9 +1,11 @@
 package com.triamatter.epharma.fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -13,6 +15,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.carteasy.v1.lib.Carteasy;
 import com.triamatter.epharma.R;
+import com.triamatter.epharma.activities.CheckoutActivity;
 import com.triamatter.epharma.activities.MainActivity;
 import com.triamatter.epharma.adapter.CartAdapter;
 import com.triamatter.epharma.model.Product;
@@ -20,6 +23,7 @@ import com.triamatter.epharma.network.web.KEYS;
 import com.triamatter.epharma.utils.EmptyRecyclerView;
 import com.triamatter.epharma.utils.Utils;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -37,6 +41,8 @@ public class CartFragment extends Fragment implements CartAdapter.OnItemClickLis
     private TextView textViewSubtotal;
     private TextView textViewTotal;
     private TextView textViewDiscount;
+
+    private Button checkoutButton;
 
     private int totalQuantity = 0;
     private float subTotalPrice = 0;
@@ -65,7 +71,27 @@ public class CartFragment extends Fragment implements CartAdapter.OnItemClickLis
         textViewTotal = (TextView) view.findViewById(R.id.textView_total_price);
         textViewDeliveryCharge = (TextView) view.findViewById(R.id.textView_delivery_charge);
 
+        checkoutButton = (Button) view.findViewById(R.id.button_checkout_cart);
+        checkoutButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view)
+            {
+                checkout();
+            }
+        });
+
         setupCartRecyclerView();
+    }
+
+    private void checkout()
+    {
+        List<Product> object = productList;
+        Intent intent = new Intent(getActivity(), CheckoutActivity.class);
+        Bundle args = new Bundle();
+
+        args.putSerializable("ARRAYLIST",(Serializable)object);
+        intent.putExtra("PRODUCTLIST",args);
+        startActivity(intent);
     }
 
     private void setupCartRecyclerView()

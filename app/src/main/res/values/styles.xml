@@ -19,4 +19,11 @@
         <item name="android:fontFamily">sans-serif-thin</item>
     </style>
 
+    <!--EditText Theme-->
+    <style name="EditTextTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="colorControlNormal">@android:color/tertiary_text_dark</item>
+        <item name="colorControlActivated">@color/colorPrimary</item>
+        <item name="colorControlHighlight">@color/colorButtonRipple</item>
+    </style>
+
 </resources>
