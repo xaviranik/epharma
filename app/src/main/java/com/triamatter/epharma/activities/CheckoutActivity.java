@@ -191,7 +191,7 @@ public class CheckoutActivity extends AppCompatActivity {
 
                             if(res.equals("true"))
                             {
-                                clearCart();
+                                //clearCart();
                             }
                         }
                         catch (JSONException e)
@@ -270,6 +270,7 @@ public class CheckoutActivity extends AppCompatActivity {
                                 {
                                     //All requests finished correctly
                                     insertShippingToDatabase("Flat Rate", "shipping", orderID);
+                                    clearCart();
                                 }
                                 else
                                 {
@@ -291,6 +292,7 @@ public class CheckoutActivity extends AppCompatActivity {
                     public void onErrorResponse(VolleyError error) {
                         // error
                         Utils.makeToast(getApplicationContext(), "Please check your internet connection!");
+                        startActivity(new Intent(CheckoutActivity.this, MainActivity.class));
                         numberOfRequestsToMake--;
                         hasRequestFailed = true;
 
