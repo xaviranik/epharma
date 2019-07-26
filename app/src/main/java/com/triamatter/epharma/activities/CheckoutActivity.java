@@ -172,6 +172,66 @@ public class CheckoutActivity extends AppCompatActivity {
         }
     }
 
+    private void insertShippingToDatabase(final String productName, final String orderItemType, final long orderID)
+    {
+        String url = API.POST_INSERT_SHIPPING;
+
+        StringRequest shippingRequest = new StringRequest(Request.Method.POST, url,
+                new Response.Listener<String>()
+                {
+                    @Override
+                    public void onResponse(String response) {
+                        // response
+                        try
+                        {
+                            JSONArray jsonArray = new JSONArray(response);
+
+                            JSONObject jsonObject = jsonArray.getJSONObject(0);
+                            String res = jsonObject.getString("success");
+
+                            if(res.equals("true"))
+                            {
+                                clearCart();
+                            }
+                        }
+                        catch (JSONException e)
+                        {
+                            e.printStackTrace();
+                        }
+
+                    }
+                },
+                new Response.ErrorListener()
+                {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        // error
+                        Utils.makeToast(getApplicationContext(), "Please check your internet connection!");
+                        numberOfRequestsToMake--;
+                        hasRequestFailed = true;
+
+                        if(numberOfRequestsToMake == 0)
+                        {
+                            //The last request failed
+                        }
+                    }
+                }
+        ) {
+            @Override
+            protected Map<String, String> getParams()
+            {
+                Map<String, String>  params = new HashMap<String, String>();
+                params.put(KEYS.PRODUCT_NAME, productName);
+                params.put(KEYS.ORDER_ID, String.valueOf(orderID));
+                params.put(KEYS.ORDER_ITEM_TYPE, orderItemType);
+
+                return params;
+            }
+        };
+
+        NetworkSingleton.getInstance(this).addToRequestQueue(shippingRequest);
+    }
+
     private void clearCart()
     {
         GLOBAL.CART_QUANTITY = 0;
@@ -209,7 +269,7 @@ public class CheckoutActivity extends AppCompatActivity {
                                 if(!hasRequestFailed)
                                 {
                                     //All requests finished correctly
-                                    clearCart();
+                                    insertShippingToDatabase("Flat Rate", "shipping", orderID);
                                 }
                                 else
                                 {

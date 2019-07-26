@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.tapadoo.alerter.Alerter;
 import com.triamatter.epharma.R;
 import com.triamatter.epharma.network.web.KEYS;
 import com.triamatter.epharma.utils.Utils;
@@ -28,7 +29,7 @@ public class ThankYouActivity extends AppCompatActivity {
         textViewOrderID = (TextView) findViewById(R.id.textView_order_id);
         continueShoppingButton = (Button) findViewById(R.id.button_continue_shopping);
 
-        Utils.makeSuccessAlert(this, "Your order has been placed successfully!", null, R.drawable.ic_check_order_confirmation);
+        Utils.makeSuccessAlert(ThankYouActivity.this, "Your order has been placed successfully!", null, R.drawable.ic_check_order_confirmation);
 
         orderID = getIntent().getLongExtra(KEYS.ORDER_ID, 0);
         if(orderID != 0)
