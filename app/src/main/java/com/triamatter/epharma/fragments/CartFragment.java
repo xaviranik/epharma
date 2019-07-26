@@ -14,6 +14,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.carteasy.v1.lib.Carteasy;
+import com.tapadoo.alerter.Alerter;
 import com.triamatter.epharma.R;
 import com.triamatter.epharma.activities.CheckoutActivity;
 import com.triamatter.epharma.activities.MainActivity;
@@ -99,6 +100,7 @@ public class CartFragment extends Fragment implements CartAdapter.OnItemClickLis
 
     private void checkout()
     {
+        Alerter.hide();
         List<Product> object = productList;
         Intent intent = new Intent(getActivity(), CheckoutActivity.class);
         Bundle args = new Bundle();
