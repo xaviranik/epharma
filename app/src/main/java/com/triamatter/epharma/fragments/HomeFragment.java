@@ -5,6 +5,7 @@ import android.os.Handler;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +13,8 @@ import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -58,6 +61,8 @@ public class HomeFragment extends Fragment implements ProductAdapter.OnItemClick
     private List<Product> searchedProductList;
     private ArrayList<String> searchList = new ArrayList<String>();
 
+    private String searchString = "";
+
 
     @Nullable
     @Override
@@ -91,6 +96,10 @@ public class HomeFragment extends Fragment implements ProductAdapter.OnItemClick
 
     private void setupSearchBar()
     {
+        String url = API.GET_SEARCH + "?search_string=" + searchString;
+
+        parseJSONForSearch(url);
+
         searchAdapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_list_item_1, searchList);
         searchAdapter.setNotifyOnChange(true);
         searchBarTextView.setAdapter(searchAdapter);
@@ -127,7 +136,7 @@ public class HomeFragment extends Fragment implements ProductAdapter.OnItemClick
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2)
             {
-                String searchString = charSequence.toString();
+                searchString = charSequence.toString();
                 if(searchString.isEmpty())
                 {
                     return;
