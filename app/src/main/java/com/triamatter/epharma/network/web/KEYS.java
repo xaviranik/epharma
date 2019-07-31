@@ -2,6 +2,7 @@ package com.triamatter.epharma.network.web;
 
 public class KEYS {
     //User
+    public static final String USER_ID = "user_id";
     public static final String USER_NAME = "user_name";
     public static final String USER_PASSWORD = "user_password";
     public static final String USER_EMAIL = "user_email";
@@ -23,4 +24,8 @@ public class KEYS {
     public static final String ORDER_ID = "order_id";
     public static final String ORDER_ITEM_TYPE = "order_item_type";
     public static final String LINE_TOTAL = "line_total";
+
+    //Image upload
+    public static final String IMAGE = "image";
+    public static final String IMAGE_NAME = "image_name";
 }
