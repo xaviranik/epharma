@@ -1,5 +1,6 @@
 package com.triamatter.epharma.fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.Editable;
@@ -13,6 +14,7 @@ import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -28,6 +30,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.triamatter.epharma.R;
 import com.triamatter.epharma.activities.MainActivity;
+import com.triamatter.epharma.activities.PrescriptionUploadActivity;
 import com.triamatter.epharma.adapter.CategoryAdapter;
 import com.triamatter.epharma.adapter.ProductAdapter;
 import com.triamatter.epharma.model.Category;
@@ -63,6 +66,8 @@ public class HomeFragment extends Fragment implements ProductAdapter.OnItemClick
 
     private String searchString = "";
 
+    private Button uploadPrescriptionButton;
+
 
     @Nullable
     @Override
@@ -88,10 +93,25 @@ public class HomeFragment extends Fragment implements ProductAdapter.OnItemClick
         productRecyclerView.setHasFixedSize(true);
         productRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
 
+        uploadPrescriptionButton  = (Button) view.findViewById(R.id.button_upload_prescription);
+
         setupCategoryRecyclerView();
         setupLatestProductRecyclerView();
+        setupUploadPrescriptionButton();
 
         ((MainActivity)getActivity()).setAppTitle("E-Pharma");
+    }
+
+    private void setupUploadPrescriptionButton()
+    {
+        uploadPrescriptionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view)
+            {
+                Intent intent = new Intent(getActivity(), PrescriptionUploadActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
     private void setupSearchBar()

@@ -13,7 +13,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".activities.ThankYouActivity"></activity>
+        <activity android:name=".activities.PrescriptionUploadActivity"></activity>
+        <activity android:name=".activities.ThankYouActivity" />
         <activity android:name=".activities.CheckoutActivity" />
         <activity android:name=".activities.InfoActivity" />
         <activity android:name=".activities.SignupActivity" />
