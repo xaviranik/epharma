@@ -35,6 +35,7 @@ public class InfoActivity extends AppCompatActivity {
     private EditText editTextFirstName;
     private EditText editTextLastName;
     private EditText editTextAddress;
+    private EditText editTextPhone;
 
     private Button signupButton;
 
@@ -48,6 +49,7 @@ public class InfoActivity extends AppCompatActivity {
         editTextFirstName = (EditText) findViewById(R.id.editText_first_name);
         editTextLastName = (EditText) findViewById(R.id.editText_last_name);
         editTextAddress = (EditText) findViewById(R.id.editText_address);
+        editTextPhone = (EditText) findViewById(R.id.editText_phone);
 
         signupButton = (Button) findViewById(R.id.button_signup);
 
@@ -68,6 +70,7 @@ public class InfoActivity extends AppCompatActivity {
         final String userFirstName = editTextFirstName.getText().toString();
         final String userLastName = editTextLastName.getText().toString();
         final String userAddress = editTextAddress.getText().toString();
+        final String userPhone = editTextPhone.getText().toString();
 
         if(userName.isEmpty())
         {
@@ -107,6 +110,13 @@ public class InfoActivity extends AppCompatActivity {
         if(userAddress.isEmpty())
         {
             editTextAddress.setError("Address can't be empty!");
+            editTextAddress.requestFocus();
+            return;
+        }
+
+        if(userPhone.isEmpty())
+        {
+            editTextAddress.setError("Phone can't be empty!");
             editTextAddress.requestFocus();
             return;
         }
@@ -170,6 +180,7 @@ public class InfoActivity extends AppCompatActivity {
                 params.put(KEYS.USER_FIRST_NAME, userFirstName);
                 params.put(KEYS.USER_LAST_NAME, userLastName);
                 params.put(KEYS.USER_ADDRESS, userAddress);
+                params.put(KEYS.USER_PHONE, userPhone);
 
                 return params;
             }

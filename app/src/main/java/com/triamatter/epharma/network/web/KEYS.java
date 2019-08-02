@@ -9,6 +9,7 @@ public class KEYS {
     public static final String USER_FIRST_NAME = "first_name";
     public static final String USER_LAST_NAME = "last_name";
     public static final String USER_ADDRESS = "user_address";
+    public static final String USER_PHONE = "user_phone";
 
     //Category
     public static final String CATEGORY_ID = "category_id";
