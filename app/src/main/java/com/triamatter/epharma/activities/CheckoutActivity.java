@@ -3,9 +3,11 @@ package com.triamatter.epharma.activities;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -36,6 +38,8 @@ import java.util.List;
 import java.util.Map;
 
 public class CheckoutActivity extends AppCompatActivity {
+
+    private String user_id, user_email, user_address, user_phone, first_name, last_name;
 
     private int numberOfRequestsToMake = 0;
     private boolean hasRequestFailed = false;
@@ -73,6 +77,7 @@ public class CheckoutActivity extends AppCompatActivity {
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_checkout);
+        checkForProfile();
 
         textViewTotalQuantity = (TextView) findViewById(R.id.textView_total_quantity);
         textViewSubtotal = (TextView) findViewById(R.id.textView_subtotal);
@@ -94,57 +99,11 @@ public class CheckoutActivity extends AppCompatActivity {
             }
         });
 
+        couponTextWatcher();
 
         getDeliveryZone();
         getProductList();
 
-        editTextCoupon.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2)
-            {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2)
-            {
-                if(charSequence.length() == 0)
-                {
-                    addCouponButton.setVisibility(View.GONE);
-                }
-                else
-                {
-                    addCouponButton.setVisibility(View.VISIBLE);
-                }
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable)
-            {
-
-            }
-        });
-    }
-
-    private void getDeliveryZone()
-    {
-        spinner.setItems("Inside Dhaka", "Outside Dhaka");
-        spinner.setOnItemSelectedListener(new MaterialSpinner.OnItemSelectedListener<String>() {
-
-            @Override public void onItemSelected(MaterialSpinner view, int position, long id, String item)
-            {
-                if(position == 0)
-                {
-                    deliveryCharge = 60;
-                    refreshCartDetails();
-                }
-                else if(position == 1)
-                {
-                    deliveryCharge = 100;
-                    refreshCartDetails();
-                }
-            }
-        });
     }
 
     private void checkoutOrder()
@@ -207,13 +166,6 @@ public class CheckoutActivity extends AppCompatActivity {
                     public void onErrorResponse(VolleyError error) {
                         // error
                         Utils.makeToast(getApplicationContext(), "Please check your internet connection!");
-                        numberOfRequestsToMake--;
-                        hasRequestFailed = true;
-
-                        if(numberOfRequestsToMake == 0)
-                        {
-                            //The last request failed
-                        }
                     }
                 }
         ) {
@@ -230,19 +182,6 @@ public class CheckoutActivity extends AppCompatActivity {
         };
 
         NetworkSingleton.getInstance(this).addToRequestQueue(shippingRequest);
-    }
-
-    private void clearCart()
-    {
-        GLOBAL.CART_QUANTITY = 0;
-        productList.clear();
-        Carteasy cs = new Carteasy();
-        cs.clearCart(getApplicationContext());
-
-        Intent i = new Intent(CheckoutActivity.this, ThankYouActivity.class);
-        i.putExtra(KEYS.ORDER_ID, orderID);
-        i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        startActivity(i);
     }
 
     private void insertCartToDatabase(final int productID, final String productName, final int productQuantity, final float lineTotal, final String orderItemType, final long orderID)
@@ -270,7 +209,8 @@ public class CheckoutActivity extends AppCompatActivity {
                                 {
                                     //All requests finished correctly
                                     insertShippingToDatabase("Flat Rate", "shipping", orderID);
-                                    clearCart();
+                                    insertOderInfo();
+                                    //clearCart();
                                 }
                                 else
                                 {
@@ -291,7 +231,8 @@ public class CheckoutActivity extends AppCompatActivity {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         // error
-                        Utils.makeToast(getApplicationContext(), "Please check your internet connection!");
+                        Utils.makeToast(getApplicationContext(), "Error! Please check your internet connection!");
+                        Log.i("CART ERROR", "" + error.getMessage());
                         startActivity(new Intent(CheckoutActivity.this, MainActivity.class));
                         numberOfRequestsToMake--;
                         hasRequestFailed = true;
@@ -319,6 +260,103 @@ public class CheckoutActivity extends AppCompatActivity {
         };
 
         NetworkSingleton.getInstance(this).addToRequestQueue(postRequest);
+    }
+
+    private void insertOderInfo()
+    {
+        String url = API.POST_INSERT_ORDER_INFO;
+
+        StringRequest shippingRequest = new StringRequest(Request.Method.POST, url,
+                new Response.Listener<String>()
+                {
+                    @Override
+                    public void onResponse(String response) {
+                        // response
+                        try
+                        {
+                            JSONArray jsonArray = new JSONArray(response);
+
+                            JSONObject jsonObject = jsonArray.getJSONObject(0);
+                            String res = jsonObject.getString("success");
+
+                            if(res.equals("inserted"))
+                            {
+                                Utils.makeToast(getApplicationContext(), "Success");
+                                clearCart();
+                            }
+                        }
+                        catch (JSONException e)
+                        {
+                            e.printStackTrace();
+                        }
+
+                    }
+                },
+                new Response.ErrorListener()
+                {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        // error
+                        Utils.makeToast(getApplicationContext(), "Please check your internet connection!");
+                        Log.i("CART ERROR", "" + error.getMessage());
+                    }
+                }
+        ) {
+            @Override
+            protected Map<String, String> getParams()
+            {
+                Map<String, String>  params = new HashMap<String, String>();
+                params.put(KEYS.ORDER_ID, String.valueOf(orderID));
+                params.put(KEYS.USER_ID, user_id);
+                params.put(KEYS.USER_FIRST_NAME, first_name);
+                params.put(KEYS.USER_LAST_NAME, last_name);
+                params.put(KEYS.USER_EMAIL, user_email);
+                params.put(KEYS.USER_PHONE, "88" + user_phone);
+                params.put("address", user_address);
+                params.put("city", "Dhaka");
+                params.put("order_total", String.valueOf(totalPrice));
+                params.put("_order_shipping", "60");
+                params.put("cart_discount", "0");
+
+                return params;
+            }
+        };
+
+        NetworkSingleton.getInstance(this).addToRequestQueue(shippingRequest);
+    }
+
+    private void getDeliveryZone()
+    {
+        spinner.setItems("Inside Dhaka", "Outside Dhaka");
+        spinner.setOnItemSelectedListener(new MaterialSpinner.OnItemSelectedListener<String>() {
+
+            @Override public void onItemSelected(MaterialSpinner view, int position, long id, String item)
+            {
+                if(position == 0)
+                {
+                    deliveryCharge = 60;
+                    refreshCartDetails();
+                }
+                else if(position == 1)
+                {
+                    deliveryCharge = 100;
+                    refreshCartDetails();
+                }
+            }
+        });
+    }
+
+    private void clearCart()
+    {
+        GLOBAL.CART_QUANTITY = 0;
+        productList.clear();
+        Carteasy cs = new Carteasy();
+        cs.clearCart(getApplicationContext());
+
+        Intent i = new Intent(CheckoutActivity.this, ThankYouActivity.class);
+        i.putExtra(KEYS.ORDER_ID, orderID);
+        i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(i);
     }
 
     private long generateOrderID()
@@ -356,5 +394,50 @@ public class CheckoutActivity extends AppCompatActivity {
         textViewDeliveryCharge.setText(Utils.formatPrice(deliveryCharge));
         textViewDiscount.setText(String.valueOf(discount));
         textViewTotal.setText(Utils.formatPrice(totalPrice));
+
+        Utils.makeToast(getApplicationContext(), "" + totalPrice);
     }
+
+    private void couponTextWatcher()
+    {
+        editTextCoupon.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2)
+            {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2)
+            {
+                if(charSequence.length() == 0)
+                {
+                    addCouponButton.setVisibility(View.GONE);
+                }
+                else
+                {
+                    addCouponButton.setVisibility(View.VISIBLE);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable)
+            {
+
+            }
+        });
+    }
+
+    private void checkForProfile()
+    {
+        SharedPreferences prefs = getSharedPreferences(GLOBAL.AUTH_PREF, MODE_PRIVATE);
+        user_id = prefs.getString(KEYS.USER_ID, "");
+        first_name = prefs.getString(KEYS.USER_FIRST_NAME, "");
+        last_name = prefs.getString(KEYS.USER_LAST_NAME, "");
+        user_email = prefs.getString(KEYS.USER_EMAIL, "");
+        user_address = prefs.getString(KEYS.USER_ADDRESS, "");
+        user_phone = prefs.getString(KEYS.USER_PHONE, "");
+        Utils.makeToast(getApplicationContext(), "" + user_id + " " + first_name + " " + last_name + user_address + user_phone + user_email);
+    }
+
 }

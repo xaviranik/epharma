@@ -52,7 +52,7 @@ public class ProfileActivity extends AppCompatActivity {
                             String user_id = jsonObject.getString(KEYS.USER_ID);
                             String first_name = jsonObject.getString(KEYS.USER_FIRST_NAME);
                             String last_name = jsonObject.getString(KEYS.USER_LAST_NAME);
-                            String user_phone = jsonObject.getString(KEYS.USER_LAST_NAME);
+                            String user_phone = jsonObject.getString(KEYS.USER_PHONE);
                             String user_address = jsonObject.getString(KEYS.USER_ADDRESS);
 
                             SharedPreferences.Editor editor = getSharedPreferences(GLOBAL.AUTH_PREF, MODE_PRIVATE).edit();
@@ -61,7 +61,7 @@ public class ProfileActivity extends AppCompatActivity {
                             editor.putString(KEYS.USER_FIRST_NAME, first_name);
                             editor.putString(KEYS.USER_LAST_NAME, last_name);
                             editor.putString(KEYS.USER_PHONE, user_phone);
-                            editor.putString(KEYS.USER_PASSWORD, user_address);
+                            editor.putString(KEYS.USER_ADDRESS, user_address);
 
                             editor.putBoolean(GLOBAL.AUTH_STATUS, true);
                             editor.apply();
