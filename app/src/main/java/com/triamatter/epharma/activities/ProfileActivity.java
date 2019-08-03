@@ -62,6 +62,8 @@ public class ProfileActivity extends AppCompatActivity {
                             editor.putString(KEYS.USER_LAST_NAME, last_name);
                             editor.putString(KEYS.USER_PHONE, user_phone);
                             editor.putString(KEYS.USER_PASSWORD, user_address);
+
+                            editor.putBoolean(GLOBAL.AUTH_STATUS, true);
                             editor.apply();
 
                             Intent i = new Intent(ProfileActivity.this, MainActivity.class);

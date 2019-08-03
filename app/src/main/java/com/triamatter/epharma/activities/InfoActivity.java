@@ -140,11 +140,8 @@ public class InfoActivity extends AppCompatActivity {
                             String res = jsonObject.getString("signup");
                             if(res.equals("true"))
                             {
-                                SharedPreferences.Editor editor = getSharedPreferences(GLOBAL.AUTH_PREF, MODE_PRIVATE).edit();
-                                editor.putBoolean(GLOBAL.AUTH_STATUS, true);
-                                editor.apply();
-
-                                Intent i = new Intent(InfoActivity.this, MainActivity.class);
+                                Intent i = new Intent(InfoActivity.this, ProfileActivity.class);
+                                i.putExtra(GLOBAL.SIGNUP_EMAIL, userEmail);
                                 i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                                 startActivity(i);
                             }
