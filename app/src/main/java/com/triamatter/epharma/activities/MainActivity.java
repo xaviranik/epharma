@@ -21,6 +21,7 @@ import com.triamatter.epharma.R;
 import com.triamatter.epharma.fragments.CartFragment;
 import com.triamatter.epharma.fragments.HomeFragment;
 import com.triamatter.epharma.fragments.OrderFragment;
+import com.triamatter.epharma.network.web.KEYS;
 import com.triamatter.epharma.utils.GLOBAL;
 import com.triamatter.epharma.utils.Utils;
 
@@ -40,6 +41,7 @@ public class MainActivity extends AppCompatActivity {
         checkForAuth();
         init(savedInstanceState);
         updateCartQuantity();
+        checkForProfile();
     }
 
     private void checkForAuth()
@@ -55,6 +57,14 @@ public class MainActivity extends AppCompatActivity {
             Utils.makeToast(getApplicationContext(), "You are not logged in!");
             startActivity(new Intent(MainActivity.this, LoginActivity.class));
         }
+    }
+
+    private void checkForProfile()
+    {
+        SharedPreferences prefs = getSharedPreferences(GLOBAL.AUTH_PREF, MODE_PRIVATE);
+        String first_name = prefs.getString(KEYS.USER_FIRST_NAME, "");
+        String last_name = prefs.getString(KEYS.USER_LAST_NAME, "");
+        Utils.makeToast(getApplicationContext(), "" + first_name + " " + last_name);
     }
 
     private void init(Bundle savedInstanceState)
