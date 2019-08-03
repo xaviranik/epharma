@@ -63,8 +63,8 @@ public class MainActivity extends AppCompatActivity {
     {
         SharedPreferences prefs = getSharedPreferences(GLOBAL.AUTH_PREF, MODE_PRIVATE);
         String first_name = prefs.getString(KEYS.USER_FIRST_NAME, "");
+        String user_id = prefs.getString(KEYS.USER_ID, "");
         String last_name = prefs.getString(KEYS.USER_LAST_NAME, "");
-        Utils.makeToast(getApplicationContext(), "" + first_name + " " + last_name);
     }
 
     private void init(Bundle savedInstanceState)

@@ -49,12 +49,19 @@ public class ProfileActivity extends AppCompatActivity {
                         // response
                         try {
                             JSONObject jsonObject = new JSONObject(response);
+                            String user_id = jsonObject.getString(KEYS.USER_ID);
                             String first_name = jsonObject.getString(KEYS.USER_FIRST_NAME);
                             String last_name = jsonObject.getString(KEYS.USER_LAST_NAME);
+                            String user_phone = jsonObject.getString(KEYS.USER_LAST_NAME);
+                            String user_address = jsonObject.getString(KEYS.USER_ADDRESS);
 
                             SharedPreferences.Editor editor = getSharedPreferences(GLOBAL.AUTH_PREF, MODE_PRIVATE).edit();
+                            editor.putString(KEYS.USER_ID, user_id);
+                            editor.putString(KEYS.USER_EMAIL, userEmail);
                             editor.putString(KEYS.USER_FIRST_NAME, first_name);
                             editor.putString(KEYS.USER_LAST_NAME, last_name);
+                            editor.putString(KEYS.USER_PHONE, user_phone);
+                            editor.putString(KEYS.USER_PASSWORD, user_address);
                             editor.apply();
 
                             Intent i = new Intent(ProfileActivity.this, MainActivity.class);
@@ -79,8 +86,7 @@ public class ProfileActivity extends AppCompatActivity {
             protected Map<String, String> getParams()
             {
                 Map<String, String>  params = new HashMap<String, String>();
-//                params.put(KEYS.USER_EMAIL, userEmail);
-                params.put(KEYS.USER_ID, "29");
+                params.put(KEYS.USER_EMAIL, userEmail);
                 return params;
             }
         };
