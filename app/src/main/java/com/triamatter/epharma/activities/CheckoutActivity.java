@@ -68,6 +68,7 @@ public class CheckoutActivity extends AppCompatActivity {
     private TextView textViewDiscount;
 
     private EditText editTextCoupon;
+    private EditText editTextAddress;
 
     private Button checkoutButton;
     private Button addCouponButton;
@@ -79,14 +80,15 @@ public class CheckoutActivity extends AppCompatActivity {
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_checkout);
-        checkForProfile();
-
+        checkForAuth();
         textViewTotalQuantity = (TextView) findViewById(R.id.textView_total_quantity);
         textViewSubtotal = (TextView) findViewById(R.id.textView_subtotal);
         textViewDiscount = (TextView) findViewById(R.id.textView_discount_percent);
         textViewTotal = (TextView) findViewById(R.id.textView_total_price);
         textViewDeliveryCharge = (TextView) findViewById(R.id.textView_delivery_charge);
         editTextCoupon = (EditText) findViewById(R.id.editText_coupon);
+        editTextAddress = (EditText) findViewById(R.id.editText_address_checkout);
+        editTextAddress.setText(user_address);
         spinner = (MaterialSpinner) findViewById(R.id.spinner);
 
         checkoutButton = (Button) findViewById(R.id.button_place_order);
@@ -283,7 +285,6 @@ public class CheckoutActivity extends AppCompatActivity {
 
                             if(res.equals("inserted"))
                             {
-                                Utils.makeToast(getApplicationContext(), "Success");
                                 clearCart();
                             }
                         }
@@ -314,7 +315,7 @@ public class CheckoutActivity extends AppCompatActivity {
                 params.put(KEYS.USER_LAST_NAME, last_name);
                 params.put(KEYS.USER_EMAIL, user_email);
                 params.put("user_phone", user_phone);
-                params.put("address", user_address);
+                params.put("address", editTextAddress.getText().toString());
                 params.put("city", city);
                 params.put("order_total", String.valueOf(totalPrice));
                 params.put("_order_shipping", String.valueOf(deliveryCharge));
@@ -398,8 +399,6 @@ public class CheckoutActivity extends AppCompatActivity {
         textViewDeliveryCharge.setText(Utils.formatPrice(deliveryCharge));
         textViewDiscount.setText(String.valueOf(discount));
         textViewTotal.setText(Utils.formatPrice(totalPrice));
-
-        Utils.makeToast(getApplicationContext(), "" + totalPrice);
     }
 
     private void couponTextWatcher()
@@ -430,6 +429,22 @@ public class CheckoutActivity extends AppCompatActivity {
 
             }
         });
+    }
+
+    private void checkForAuth()
+    {
+        SharedPreferences prefs = getSharedPreferences(GLOBAL.AUTH_PREF, MODE_PRIVATE);
+        boolean isAuthenticated  = prefs.getBoolean(GLOBAL.AUTH_STATUS, false);
+        if (isAuthenticated)
+        {
+            Utils.makeToast(getApplicationContext(), "You are logged in!");
+            checkForProfile();
+        }
+        else
+        {
+            Utils.makeToast(getApplicationContext(), "You are not logged in!");
+            startActivity(new Intent(CheckoutActivity.this, LoginActivity.class));
+        }
     }
 
     private void checkForProfile()

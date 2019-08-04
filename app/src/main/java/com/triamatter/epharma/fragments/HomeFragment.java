@@ -197,7 +197,10 @@ public class HomeFragment extends Fragment implements ProductAdapter.OnItemClick
 
                         newSuggestionList.add(productName);
                     }
-                    searchAdapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_list_item_1, newSuggestionList);
+                    if(searchAdapter != null)
+                    {
+                        searchAdapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_list_item_1, newSuggestionList);
+                    }
                     searchBarTextView.setAdapter(searchAdapter);
                 }
                 catch (JSONException e)

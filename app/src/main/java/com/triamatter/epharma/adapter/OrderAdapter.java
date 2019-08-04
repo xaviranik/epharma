@@ -46,7 +46,7 @@ public class OrderAdapter extends EmptyRecyclerView.Adapter<OrderAdapter.ViewHol
     {
         Order order = orderList.get(position);
         holder.textViewOrderID.setText("Order ID: #" + order.getOrder_id());
-        holder.textViewOrderDate.setText(order.getOrder_date());
+        holder.textViewOrderDate.setText("Order placed: " + order.getOrder_date());
 
         switch (order.getOrder_status())
         {
