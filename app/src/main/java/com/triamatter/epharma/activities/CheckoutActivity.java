@@ -441,7 +441,6 @@ public class CheckoutActivity extends AppCompatActivity {
         user_email = prefs.getString(KEYS.USER_EMAIL, "");
         user_address = prefs.getString(KEYS.USER_ADDRESS, "");
         user_phone = 88 + prefs.getString(KEYS.USER_PHONE, "");
-        Utils.makeToast(getApplicationContext(), "" + user_id + " " + first_name + " " + last_name + user_address + user_phone + user_email);
     }
 
 }

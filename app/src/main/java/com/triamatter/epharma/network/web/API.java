@@ -15,6 +15,7 @@ public class API {
     public static final String POST_INSERT_ORDER = "http://www.emedicbd.com/epharma/order_insert.php";
     public static final String POST_INSERT_SHIPPING = "http://www.emedicbd.com/epharma/shipping_insert.php";
     public static final String POST_INSERT_ORDER_INFO = "http://www.emedicbd.com/epharma/postorder_insert.php";
+    public static final String POST_ORDER_TRACK= "http://www.emedicbd.com/epharma/ordertrack.php";
 
     public static final String POST_IMAGE_UPLOAD = "http://www.emedicbd.com/epharma/image_upload.php";
 }
