@@ -4,6 +4,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
@@ -23,6 +24,7 @@ import com.triamatter.epharma.R;
 import com.triamatter.epharma.network.NetworkSingleton;
 import com.triamatter.epharma.network.web.API;
 import com.triamatter.epharma.network.web.KEYS;
+import com.triamatter.epharma.utils.GLOBAL;
 import com.triamatter.epharma.utils.Utils;
 
 import org.json.JSONArray;
@@ -36,6 +38,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class PrescriptionUploadActivity extends AppCompatActivity implements View.OnClickListener {
+    private String user_id;
+
     private Button chooseImageButton;
     private Button uploadImageButton;
     private ImageView choosedImageview;
@@ -52,6 +56,7 @@ public class PrescriptionUploadActivity extends AppCompatActivity implements Vie
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_prescription_upload);
 
+        checkForAuth();
         choosedImageview = (ImageView) findViewById(R.id.upload_imageView);
         chooseImageButton = (Button) findViewById(R.id.button_choose_image);
         uploadImageButton = (Button) findViewById(R.id.button_upload_prescription);
@@ -115,7 +120,7 @@ public class PrescriptionUploadActivity extends AppCompatActivity implements Vie
             protected Map<String, String> getParams()
             {
                 Map<String, String>  params = new HashMap<String, String>();
-                params.put(KEYS.USER_ID, "1");
+                params.put(KEYS.USER_ID, user_id);
                 params.put(KEYS.ORDER_ID, String.valueOf(orderID));
                 params.put(KEYS.IMAGE_NAME, imageName);
                 params.put(KEYS.IMAGE, imageToString(bitmap));
@@ -186,5 +191,27 @@ public class PrescriptionUploadActivity extends AppCompatActivity implements Vie
                 break;
             }
         }
+    }
+
+    private void checkForAuth()
+    {
+        SharedPreferences prefs = getSharedPreferences(GLOBAL.AUTH_PREF, MODE_PRIVATE);
+        boolean isAuthenticated  = prefs.getBoolean(GLOBAL.AUTH_STATUS, false);
+        if (isAuthenticated)
+        {
+            Utils.makeToast(getApplicationContext(), "You are logged in!");
+            checkForProfile();
+        }
+        else
+        {
+            Utils.makeToast(getApplicationContext(), "You are not logged in!");
+            startActivity(new Intent(PrescriptionUploadActivity.this, LoginActivity.class));
+        }
+    }
+
+    private void checkForProfile()
+    {
+        SharedPreferences prefs = getSharedPreferences(GLOBAL.AUTH_PREF, MODE_PRIVATE);
+        user_id = prefs.getString(KEYS.USER_ID, "");
     }
 }
