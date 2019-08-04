@@ -72,7 +72,6 @@ public class CategoryRequest {
             {
                 error.printStackTrace();
                 ((MainActivity)context).setLoadingView(false);
-                Log.e("networkerror",error.getMessage());
                 Utils.responseErrorHandler(context, error);
             }
         })

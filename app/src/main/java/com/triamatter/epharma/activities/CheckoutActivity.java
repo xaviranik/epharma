@@ -53,6 +53,8 @@ public class CheckoutActivity extends AppCompatActivity {
     private float totalPrice = 0;
     private long orderID;
     private String couponCode;
+    private String city = "Dhaka";
+    private float discountAmount;
 
     int productID;
     String productName;
@@ -311,11 +313,11 @@ public class CheckoutActivity extends AppCompatActivity {
                 params.put(KEYS.USER_FIRST_NAME, first_name);
                 params.put(KEYS.USER_LAST_NAME, last_name);
                 params.put(KEYS.USER_EMAIL, user_email);
-                params.put(KEYS.USER_PHONE, "88" + user_phone);
+                params.put("user_phone", user_phone);
                 params.put("address", user_address);
-                params.put("city", "Dhaka");
+                params.put("city", city);
                 params.put("order_total", String.valueOf(totalPrice));
-                params.put("_order_shipping", "60");
+                params.put("_order_shipping", String.valueOf(deliveryCharge));
                 params.put("cart_discount", "0");
 
                 return params;
@@ -334,11 +336,13 @@ public class CheckoutActivity extends AppCompatActivity {
             {
                 if(position == 0)
                 {
+                    city = "Dhaka";
                     deliveryCharge = 60;
                     refreshCartDetails();
                 }
                 else if(position == 1)
                 {
+                    city = "Outside Dhaka";
                     deliveryCharge = 100;
                     refreshCartDetails();
                 }
@@ -436,7 +440,7 @@ public class CheckoutActivity extends AppCompatActivity {
         last_name = prefs.getString(KEYS.USER_LAST_NAME, "");
         user_email = prefs.getString(KEYS.USER_EMAIL, "");
         user_address = prefs.getString(KEYS.USER_ADDRESS, "");
-        user_phone = prefs.getString(KEYS.USER_PHONE, "");
+        user_phone = 88 + prefs.getString(KEYS.USER_PHONE, "");
         Utils.makeToast(getApplicationContext(), "" + user_id + " " + first_name + " " + last_name + user_address + user_phone + user_email);
     }
 
