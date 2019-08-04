@@ -1,6 +1,7 @@
 package com.triamatter.epharma.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -74,6 +75,7 @@ public class CheckoutActivity extends AppCompatActivity {
     private Button addCouponButton;
 
     private MaterialSpinner spinner;
+    private ConstraintLayout loadingView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -89,6 +91,7 @@ public class CheckoutActivity extends AppCompatActivity {
         editTextCoupon = (EditText) findViewById(R.id.editText_coupon);
         editTextAddress = (EditText) findViewById(R.id.editText_address_checkout);
         editTextAddress.setText(user_address);
+        loadingView = (ConstraintLayout) findViewById(R.id.loading_view_checkout);
         spinner = (MaterialSpinner) findViewById(R.id.spinner);
 
         checkoutButton = (Button) findViewById(R.id.button_place_order);
@@ -112,6 +115,7 @@ public class CheckoutActivity extends AppCompatActivity {
 
     private void checkoutOrder()
     {
+        loadingView.setVisibility(View.VISIBLE);
         checkoutButton.setEnabled(false);
         orderID = generateOrderID();
 
