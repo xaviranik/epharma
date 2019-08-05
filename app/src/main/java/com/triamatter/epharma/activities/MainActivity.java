@@ -20,6 +20,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.triamatter.epharma.R;
 import com.triamatter.epharma.fragments.CartFragment;
 import com.triamatter.epharma.fragments.HomeFragment;
+import com.triamatter.epharma.fragments.MoreOptionsFragment;
 import com.triamatter.epharma.fragments.OrderFragment;
 import com.triamatter.epharma.network.web.KEYS;
 import com.triamatter.epharma.utils.GLOBAL;
@@ -115,7 +116,18 @@ public class MainActivity extends AppCompatActivity {
                             }
                         }
                         case R.id.nav_more:
-                            break;
+                        {
+                            Fragment f = getSupportFragmentManager().findFragmentById(R.id.fragment_container);
+                            if (f instanceof MoreOptionsFragment)
+                            {
+                                break;
+                            }
+                            else
+                            {
+                                selectedFragment = new MoreOptionsFragment();
+                                break;
+                            }
+                        }
                     }
 
                     if(selectedFragment != null)
