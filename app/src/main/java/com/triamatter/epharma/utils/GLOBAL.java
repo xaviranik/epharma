@@ -11,4 +11,5 @@ public class GLOBAL {
     //Auth
     public static final String AUTH_PREF = "auth_pref";
     public static final String AUTH_STATUS = "auth_status";
+    public static final String NEW_USER_STATUS = "new_user_status";
 }

@@ -205,7 +205,9 @@ public class PrescriptionUploadActivity extends AppCompatActivity implements Vie
         else
         {
             Utils.makeToast(getApplicationContext(), "You are not logged in!");
-            startActivity(new Intent(PrescriptionUploadActivity.this, LoginActivity.class));
+            Intent i = new Intent(PrescriptionUploadActivity.this, LoginActivity.class);
+            i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(i);
         }
     }
 
