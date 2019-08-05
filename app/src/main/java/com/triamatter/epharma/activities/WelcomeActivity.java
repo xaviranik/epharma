@@ -19,7 +19,6 @@ public class WelcomeActivity extends TutorialActivity {
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        checkForNewUser();
 
         addFragment(new Step.Builder().setTitle("ORDER MEDICAL ITEMS ON DEMAND")
                 .setContent("Order and get your products in no time!")
@@ -58,18 +57,5 @@ public class WelcomeActivity extends TutorialActivity {
         Intent i = new Intent(WelcomeActivity.this, MainActivity.class);
         i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(i);
-    }
-
-    private void checkForNewUser()
-    {
-        SharedPreferences prefs = getSharedPreferences(GLOBAL.AUTH_PREF, MODE_PRIVATE);
-        boolean newUser = prefs.getBoolean(GLOBAL.NEW_USER_STATUS, true);
-
-        if(!newUser)
-        {
-            Intent i = new Intent(WelcomeActivity.this, MainActivity.class);
-            i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-            startActivity(i);
-        }
     }
 }

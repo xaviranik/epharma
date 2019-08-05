@@ -57,4 +57,7 @@ dependencies {
 
     //Welcome
     implementation 'com.github.msayan:tutorial-view:v1.0.10'
+
+    //Splash
+    implementation 'gr.pantrif:easy-android-splash-screen:0.0.1'
 }
