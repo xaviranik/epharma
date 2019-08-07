@@ -56,9 +56,15 @@ public class ProductRequest {
                         int productID = hit.getInt(KEYS.PRODUCT_ID);
                         String productName = hit.getString(KEYS.PRODUCT_NAME);
                         String productPriceString = hit.getString(KEYS.PRODUCT_PRICE);
-                        float productPrice = Float.valueOf(productPriceString.replace("Tk", ""));
+                        try {
+                            float productPrice = Float.valueOf(productPriceString.replace("Tk", ""));
+                            list.add(new Product(productID, productName, productPrice));
+                        }
+                        catch (NumberFormatException e)
+                        {
+                            Log.i("PRODUCT EXCEPTION", "ERROR: " + e.getMessage() + " " + productPriceString);
+                        }
 
-                        list.add(new Product(productID, productName, productPrice));
                     }
                     ((MainActivity)context).setLoadingView(false);
                     adapter.notifyDataSetChanged();
