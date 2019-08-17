@@ -169,7 +169,14 @@ public class HomeFragment extends Fragment implements ProductAdapter.OnItemClick
             @Override
             public void afterTextChanged(Editable editable)
             {
+                searchString = editable.toString();
+                if(searchString.isEmpty())
+                {
+                    return;
+                }
+                String url = API.GET_SEARCH + "?search_string=" + searchString;
 
+                parseJSONForSearch(url);
             }
         });
     }
@@ -186,22 +193,33 @@ public class HomeFragment extends Fragment implements ProductAdapter.OnItemClick
                 {
                     for(int i=0; i<response.length(); i++)
                     {
+
                         JSONObject hit = response.getJSONObject(i);
 
                         int productID = hit.getInt(KEYS.PRODUCT_ID);
                         String productName = hit.getString(KEYS.PRODUCT_NAME);
                         String productPriceString = hit.getString(KEYS.PRODUCT_PRICE);
-                        float productPrice = Float.valueOf(productPriceString.replace("Tk", ""));
 
-                        searchedProductList.add(new Product(productID, productName, productPrice));
+                       try {
+                           float productPrice = Float.valueOf(productPriceString.replace("Tk", ""));
+
+                           searchedProductList.add(new Product(productID, productName, productPrice));
+                       }catch (Exception ex){
+
+                       }
+
 
                         newSuggestionList.add(productName);
+                            Log.e("newsugg",newSuggestionList.get(i));
+
                     }
                     if(getContext() != null)
                     {
                         searchAdapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_list_item_1, newSuggestionList);
+                        searchBarTextView.setAdapter(searchAdapter);
+                        searchAdapter.notifyDataSetChanged();
+
                     }
-                    searchBarTextView.setAdapter(searchAdapter);
                 }
                 catch (JSONException e)
                 {
