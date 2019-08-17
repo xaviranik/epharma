@@ -8,11 +8,13 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
+import com.jaredrummler.materialspinner.MaterialSpinner;
 import com.triamatter.epharma.R;
 import com.triamatter.epharma.network.NetworkSingleton;
 import com.triamatter.epharma.network.web.API;
@@ -39,6 +41,8 @@ public class InfoActivity extends AppCompatActivity {
 
     private Button signupButton;
 
+    private MaterialSpinner spinner;
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -62,6 +66,9 @@ public class InfoActivity extends AppCompatActivity {
                 validateAndRegisterUser();
             }
         });
+
+        spinner = (MaterialSpinner) findViewById(R.id.spinner);
+        spinner.setItems("Dhaka","Faridpur","Gazipur","Gopalganj","Jamalpur","Kishoreganj","Madaripur","Manikganj","Munshiganj","Mymensingh","Narayanganj","Narsingdi","Netrokona","Rajbari","Shariatpur","Sherpur","Tangail","Bogura","Joypurhat","Naogaon","Natore","Chapainawabganj","Pabna","Rajshahi","Sirajgonj");
     }
 
     private void validateAndRegisterUser()
