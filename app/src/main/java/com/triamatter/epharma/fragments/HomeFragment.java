@@ -203,7 +203,7 @@ public class HomeFragment extends Fragment implements ProductAdapter.OnItemClick
                        try {
                            float productPrice = Float.valueOf(productPriceString.replace("Tk", ""));
 
-                           searchedProductList.add(new Product(productID, productName, productPrice));
+                           searchedProductList.add(new Product(productID, productName, productPrice,""));
                        }catch (Exception ex){
 
                        }

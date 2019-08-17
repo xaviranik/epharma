@@ -57,7 +57,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
         holder.textViewProductPrice.setText(Utils.formatPrice(product.getProductPrice()));
 
         Glide.with(context)
-                .load("")
+                .load(product.getProductImage())
                 .placeholder(R.drawable.ic_medicine_default)
                 .into(holder.imageViewProduct);
     }
