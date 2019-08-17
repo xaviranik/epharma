@@ -139,6 +139,8 @@ public class HomeFragment extends Fragment implements ProductAdapter.OnItemClick
                     args.putInt(KEYS.PRODUCT_ID, product.getProductID());
                     args.putString(KEYS.PRODUCT_NAME, product.getProductName());
                     args.putFloat(KEYS.PRODUCT_PRICE, product.getProductPrice());
+                    Log.e("putextracheck",product.getProductImage()+"");
+                    args.putString(KEYS.PRODUCT_IMAGE, product.getProductImage());
                     fragment.setArguments(args);
 
                     ((MainActivity) getActivity()).replaceFragments(fragment);
@@ -199,11 +201,14 @@ public class HomeFragment extends Fragment implements ProductAdapter.OnItemClick
                         int productID = hit.getInt(KEYS.PRODUCT_ID);
                         String productName = hit.getString(KEYS.PRODUCT_NAME);
                         String productPriceString = hit.getString(KEYS.PRODUCT_PRICE);
+                        String productImage = hit.getString(KEYS.PRODUCT_IMAGE);
+                        Log.e("seachimagedata",productImage+ " "+productName);
 
                        try {
                            float productPrice = Float.valueOf(productPriceString.replace("Tk", ""));
 
-                           searchedProductList.add(new Product(productID, productName, productPrice,""));
+                           searchedProductList.add(new Product(productID, productName, productPrice,productImage+""));
+                           Log.e("sadasd",searchedProductList.get(i).getProductImage()+"   "+productName);
                        }catch (Exception ex){
 
                        }

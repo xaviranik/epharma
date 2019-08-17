@@ -133,6 +133,7 @@ public class CategoryFragment extends Fragment implements ProductAdapter.OnItemC
         args.putInt(KEYS.PRODUCT_ID, product.getProductID());
         args.putString(KEYS.PRODUCT_NAME, product.getProductName());
         args.putFloat(KEYS.PRODUCT_PRICE, product.getProductPrice());
+        args.putString(KEYS.PRODUCT_IMAGE, product.getProductImage());
         fragment.setArguments(args);
 
         ((MainActivity) getActivity()).replaceFragments(fragment);

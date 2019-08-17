@@ -3,6 +3,7 @@ package com.triamatter.epharma.fragments;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +15,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.bumptech.glide.Glide;
 import com.carteasy.v1.lib.Carteasy;
 import com.triamatter.epharma.R;
 import com.triamatter.epharma.activities.MainActivity;
@@ -25,6 +27,7 @@ import java.util.Map;
 public class ProductFragment extends Fragment implements View.OnClickListener{
 
     private String productID;
+    private  String productImage;
     private String productName;
     private float productPrice;
     private int productQuantity;
@@ -35,6 +38,7 @@ public class ProductFragment extends Fragment implements View.OnClickListener{
 
     private ImageView buttonAddQuantity;
     private ImageView buttonRemoveQuantity;
+    private ImageView imageViewProduct;
     private Button buttonAddToCart;
 
     private Carteasy cart;
@@ -55,6 +59,7 @@ public class ProductFragment extends Fragment implements View.OnClickListener{
         textViewProductPrice = (TextView) view.findViewById(R.id.textView_product_price);
 
         buttonAddQuantity = (ImageView) view.findViewById(R.id.button_add_quantity);
+        imageViewProduct = (ImageView) view.findViewById(R.id.imageView_product);
         buttonRemoveQuantity = (ImageView) view.findViewById(R.id.button_minus_quantity);
         textViewQuantity = (TextView) view.findViewById(R.id.textView_product_quantity);
 
@@ -67,6 +72,8 @@ public class ProductFragment extends Fragment implements View.OnClickListener{
         quantityWatcher();
         cartInit();
         getArgumentsFromPreviousFragment();
+
+
     }
 
     private void cartInit()
@@ -145,9 +152,15 @@ public class ProductFragment extends Fragment implements View.OnClickListener{
             productID = String.valueOf(getArguments().getInt(KEYS.PRODUCT_ID));
             productName = getArguments().getString(KEYS.PRODUCT_NAME);
             productPrice = getArguments().getFloat(KEYS.PRODUCT_PRICE);
+            productImage = getArguments().getString(KEYS.PRODUCT_IMAGE);
+            Log.e("getimagedata", ""+productImage);
 
             textViewProductName.setText(productName);
             textViewProductPrice.setText(Utils.formatPrice(productPrice));
+            Glide.with(getContext())
+                    .load(productImage)
+                    .placeholder(R.drawable.ic_medicine_default)
+                    .into(imageViewProduct);
         }
     }
 
