@@ -15,7 +15,12 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".activities.ShowProfileActivity"></activity>
+        <service
+            android:name=".notification.EmedicService"
+            android:enabled="true"
+            android:exported="true"></service>
+
+        <activity android:name=".activities.ShowProfileActivity" />
         <activity android:name=".activities.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -23,7 +28,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activities.WelcomeActivity"></activity>
+        <activity android:name=".activities.WelcomeActivity" />
         <activity android:name=".activities.ProfileActivity" />
         <activity android:name=".activities.PrescriptionUploadActivity" />
         <activity android:name=".activities.ThankYouActivity" />

@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "482654574769",
+    "firebase_url": "https://emedic-699c3.firebaseio.com",
+    "project_id": "emedic-699c3",
+    "storage_bucket": "emedic-699c3.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:482654574769:android:ad2e543b96657906",
+        "android_client_info": {
+          "package_name": "com.triamatter.epharma"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "482654574769-lf7igdg08u4h9832npdufcr5b1b4s967.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.triamatter.epharma",
+            "certificate_hash": "be4784a02fb9b04462a27d623c4fc4049b87d03e"
+          }
+        },
+        {
+          "client_id": "482654574769-bj1eiq7747hi42e572db119uebrb7bh6.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB3fWiYtMEoGx0EEj_CtOOraIzNkI__4tE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "482654574769-bj1eiq7747hi42e572db119uebrb7bh6.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
