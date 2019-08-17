@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.triamatter.epharma">
+    package="com.medicine.emedic">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -9,35 +9,35 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@drawable/logo"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:roundIcon="@drawable/logo"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
         <service
-            android:name=".notification.EmedicService"
+            android:name="com.medicine.emedic.notification.EmedicService"
             android:enabled="true"
             android:exported="true"></service>
 
-        <activity android:name=".activities.ShowProfileActivity" />
-        <activity android:name=".activities.SplashActivity">
+        <activity android:name="com.medicine.emedic.activities.ShowProfileActivity" />
+        <activity android:name="com.medicine.emedic.activities.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activities.WelcomeActivity" />
-        <activity android:name=".activities.ProfileActivity" />
-        <activity android:name=".activities.PrescriptionUploadActivity" />
-        <activity android:name=".activities.ThankYouActivity" />
-        <activity android:name=".activities.CheckoutActivity" />
-        <activity android:name=".activities.InfoActivity" />
-        <activity android:name=".activities.SignupActivity" />
-        <activity android:name=".activities.LoginActivity" />
+        <activity android:name="com.medicine.emedic.activities.WelcomeActivity" />
+        <activity android:name="com.medicine.emedic.activities.ProfileActivity" />
+        <activity android:name="com.medicine.emedic.activities.PrescriptionUploadActivity" />
+        <activity android:name="com.medicine.emedic.activities.ThankYouActivity" />
+        <activity android:name="com.medicine.emedic.activities.CheckoutActivity" />
+        <activity android:name="com.medicine.emedic.activities.InfoActivity" />
+        <activity android:name="com.medicine.emedic.activities.SignupActivity" />
+        <activity android:name="com.medicine.emedic.activities.LoginActivity" />
         <activity
-            android:name=".activities.MainActivity"
+            android:name="com.medicine.emedic.activities.MainActivity"
             android:screenOrientation="portrait" />
 
         <meta-data

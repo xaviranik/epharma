@@ -23,7 +23,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <com.triamatter.epharma.utils.EmptyRecyclerView
+    <com.medicine.emedic.utils.EmptyRecyclerView
         android:id="@+id/order_status_recyclerview"
         android:layout_width="0dp"
         android:layout_height="0dp"
