@@ -13,6 +13,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -21,6 +22,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.carteasy.v1.lib.Carteasy;
 import com.jaredrummler.materialspinner.MaterialSpinner;
 import com.medicine.emedic.R;
+import com.medicine.emedic.model.Order;
 import com.medicine.emedic.model.Product;
 import com.medicine.emedic.network.NetworkSingleton;
 import com.medicine.emedic.network.web.API;
@@ -45,6 +47,8 @@ public class CheckoutActivity extends AppCompatActivity {
     private int numberOfRequestsToMake = 0;
     private boolean hasRequestFailed = false;
 
+    private boolean firstOrder = false;
+
     List<Product> productList;
 
     private int totalQuantity = 0;
@@ -57,6 +61,7 @@ public class CheckoutActivity extends AppCompatActivity {
     private String city = "Dhaka";
     private float discountAmount;
     private float deliveryOptionPrice = 0;
+    private float deliveryPrice = deliveryZonePrice + deliveryOptionPrice;
 
     int productID;
     String productName;
@@ -68,6 +73,7 @@ public class CheckoutActivity extends AppCompatActivity {
     private TextView textViewSubtotal;
     private TextView textViewTotal;
     private TextView textViewDiscount;
+    private TextView textViewDiscountTotal;
 
     private EditText editTextCoupon;
     private EditText editTextAddress;
@@ -88,6 +94,7 @@ public class CheckoutActivity extends AppCompatActivity {
         textViewTotalQuantity = (TextView) findViewById(R.id.textView_total_quantity);
         textViewSubtotal = (TextView) findViewById(R.id.textView_subtotal);
         textViewDiscount = (TextView) findViewById(R.id.textView_discount_percent);
+        textViewDiscountTotal = (TextView) findViewById(R.id.textView_total_discount);
         textViewTotal = (TextView) findViewById(R.id.textView_total_price);
         textViewDeliveryCharge = (TextView) findViewById(R.id.textView_delivery_charge);
         editTextCoupon = (EditText) findViewById(R.id.editText_coupon);
@@ -109,6 +116,7 @@ public class CheckoutActivity extends AppCompatActivity {
             }
         });
 
+        checkForFirstOrder();
         couponTextWatcher();
 
         getDeliveryZone();
@@ -326,7 +334,7 @@ public class CheckoutActivity extends AppCompatActivity {
                 params.put("address", editTextAddress.getText().toString());
                 params.put("city", city);
                 params.put("order_total", String.valueOf(totalPrice));
-                params.put("_order_shipping", String.valueOf(deliveryZonePrice));
+                params.put("_order_shipping", String.valueOf(deliveryPrice));
                 params.put("cart_discount", "0");
 
                 return params;
@@ -407,7 +415,7 @@ public class CheckoutActivity extends AppCompatActivity {
             deliveryZonePrice = 0;
         }
 
-        if(subTotalPrice > 4000)
+        if(subTotalPrice > 4000 || firstOrder)
         {
             discountPercent = 7;
             discountPrice = subTotalPrice * 0.07f;
@@ -417,13 +425,16 @@ public class CheckoutActivity extends AppCompatActivity {
             discountPercent = 0;
         }
 
-        float deliveryPrice = deliveryZonePrice + deliveryOptionPrice;
+
+        deliveryPrice = deliveryZonePrice + deliveryOptionPrice;
+
         totalPrice = subTotalPrice - discountPrice + deliveryPrice;
 
         textViewTotalQuantity.setText(String.valueOf(totalQuantity));
         textViewSubtotal.setText(Utils.formatPrice(subTotalPrice));
         textViewDeliveryCharge.setText(Utils.formatPrice(deliveryPrice));
         textViewDiscount.setText(String.valueOf(discountPercent));
+        textViewDiscountTotal.setText("- " + Utils.formatPrice(discountPrice));
         textViewTotal.setText(Utils.formatPrice(totalPrice));
     }
 
@@ -506,5 +517,45 @@ public class CheckoutActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    private void checkForFirstOrder()
+    {
+
+        String url = API.POST_ORDER_TRACK;
+
+        StringRequest shippingRequest = new StringRequest(Request.Method.POST, url,
+                new Response.Listener<String>()
+                {
+                    @Override
+                    public void onResponse(String response) {
+                        // response
+                        if(response.equals("[]"))
+                        {
+                            firstOrder = true;
+                            refreshCartDetails();
+                            Utils.makeSuccessAlert(CheckoutActivity.this, "Welcome, this is your first order", "Get 7% discount on your first order!", R.drawable.ic_shopping_cart);
+                        }
+
+                    }
+                },
+                new Response.ErrorListener()
+                {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        // error
+                    }
+                }
+        ) {
+            @Override
+            protected Map<String, String> getParams()
+            {
+                Map<String, String>  params = new HashMap<String, String>();
+                params.put(KEYS.USER_ID, user_id);
+                return params;
+            }
+        };
+
+        NetworkSingleton.getInstance(getApplicationContext()).addToRequestQueue(shippingRequest);
     }
 }

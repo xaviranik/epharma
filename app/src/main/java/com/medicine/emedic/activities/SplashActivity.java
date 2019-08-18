@@ -41,7 +41,7 @@ public class SplashActivity extends AppCompatActivity {
                     .withFullScreen()
                     .withTargetActivity(WelcomeActivity.class)
                     .withSplashTimeOut(1000)
-                    .withLogo(R.drawable.ic_emedic_logo)
+                    .withLogo(R.drawable.logo)
                     .create();
             setContentView(easySplashScreenView);
         }
