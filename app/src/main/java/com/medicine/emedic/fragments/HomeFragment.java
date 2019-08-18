@@ -261,7 +261,7 @@ public class HomeFragment extends Fragment implements ProductAdapter.OnItemClick
 
         Category c1=new Category(1347,"Medical Care Products");
         Category c2=new Category(2,"Medical Care Devices");
-        Category c3=new Category(3,"Family Care  Products");
+        Category c3=new Category(3784,"Family Care  Products");
         Category c4=new Category(4,"Health Care ");
         Category c5=new Category(5,"Diabetic Care Product");
         categoryList.add(c1);

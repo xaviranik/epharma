@@ -122,7 +122,6 @@ public class CheckoutActivity extends AppCompatActivity {
         getDeliveryZone();
         getDeliveryOption();
         getProductList();
-
     }
 
     private void checkoutOrder()
@@ -147,12 +146,18 @@ public class CheckoutActivity extends AppCompatActivity {
                 String orderItemType = "line_item";
 
                 insertCartToDatabase(productID, productName, productQuantity, lineTotal, orderItemType, orderID);
+
+
             }
+
+            Log.e("phonenumber",user_phone);
+
+            sendsms();
         }
     }
 
 
-    private void sendsms(final String phonenumber)
+    private void sendsms()
     {
         String url = API.SEND_SMS;
 
@@ -161,6 +166,8 @@ public class CheckoutActivity extends AppCompatActivity {
                 {
                     @Override
                     public void onResponse(String response) {
+
+                        Log.e("response",response);
                         // response
 
                     }
@@ -178,7 +185,7 @@ public class CheckoutActivity extends AppCompatActivity {
             protected Map<String, String> getParams()
             {
                 Map<String, String>  params = new HashMap<String, String>();
-                params.put("phone", phonenumber);
+                params.put("phone", user_phone);
 
 
                 return params;
