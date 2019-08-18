@@ -102,6 +102,7 @@
                     android:layout_marginBottom="16dp"
                     android:fontFamily="@font/montserrat"
                     android:text="Call Help Line"
+                    android:textColor="@color/textColorDark"
                     android:textSize="18sp" />
             </LinearLayout>
             <View

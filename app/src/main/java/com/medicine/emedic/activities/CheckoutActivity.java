@@ -49,13 +49,14 @@ public class CheckoutActivity extends AppCompatActivity {
 
     private int totalQuantity = 0;
     private float subTotalPrice = 0;
-    private float deliveryCharge = 60;
-    private int discount = 0;
+    private float deliveryZonePrice = 60;
+    private int discountPercent = 0;
     private float totalPrice = 0;
     private long orderID;
     private String couponCode;
     private String city = "Dhaka";
     private float discountAmount;
+    private float deliveryOptionPrice = 0;
 
     int productID;
     String productName;
@@ -75,6 +76,7 @@ public class CheckoutActivity extends AppCompatActivity {
     private Button addCouponButton;
 
     private MaterialSpinner spinner;
+    private MaterialSpinner spinnerDeliveryOption;
     private ConstraintLayout loadingView;
 
     @Override
@@ -93,6 +95,7 @@ public class CheckoutActivity extends AppCompatActivity {
         editTextAddress.setText(user_address);
         loadingView = (ConstraintLayout) findViewById(R.id.loading_view_checkout);
         spinner = (MaterialSpinner) findViewById(R.id.spinner);
+        spinnerDeliveryOption = (MaterialSpinner) findViewById(R.id.spinner_delivery);
 
         checkoutButton = (Button) findViewById(R.id.button_place_order);
         addCouponButton = (Button) findViewById(R.id.button_add_coupon);
@@ -109,6 +112,7 @@ public class CheckoutActivity extends AppCompatActivity {
         couponTextWatcher();
 
         getDeliveryZone();
+        getDeliveryOption();
         getProductList();
 
     }
@@ -322,7 +326,7 @@ public class CheckoutActivity extends AppCompatActivity {
                 params.put("address", editTextAddress.getText().toString());
                 params.put("city", city);
                 params.put("order_total", String.valueOf(totalPrice));
-                params.put("_order_shipping", String.valueOf(deliveryCharge));
+                params.put("_order_shipping", String.valueOf(deliveryZonePrice));
                 params.put("cart_discount", "0");
 
                 return params;
@@ -342,13 +346,13 @@ public class CheckoutActivity extends AppCompatActivity {
                 if(position == 0)
                 {
                     city = "Dhaka";
-                    deliveryCharge = 60;
+                    deliveryZonePrice = 60;
                     refreshCartDetails();
                 }
                 else if(position == 1)
                 {
                     city = "Outside Dhaka";
-                    deliveryCharge = 100;
+                    deliveryZonePrice = 100;
                     refreshCartDetails();
                 }
             }
@@ -396,43 +400,31 @@ public class CheckoutActivity extends AppCompatActivity {
 
     public void refreshCartDetails()
     {
-        totalPrice = subTotalPrice - (subTotalPrice * discount) + deliveryCharge;
+        float discountPrice = 0;
+
+        if(subTotalPrice >= 777)
+        {
+            deliveryZonePrice = 0;
+        }
+
+        if(subTotalPrice > 4000)
+        {
+            discountPercent = 7;
+            discountPrice = subTotalPrice * 0.07f;
+        }
+        else
+        {
+            discountPercent = 0;
+        }
+
+        float deliveryPrice = deliveryZonePrice + deliveryOptionPrice;
+        totalPrice = subTotalPrice - discountPrice + deliveryPrice;
 
         textViewTotalQuantity.setText(String.valueOf(totalQuantity));
         textViewSubtotal.setText(Utils.formatPrice(subTotalPrice));
-        textViewDeliveryCharge.setText(Utils.formatPrice(deliveryCharge));
-        textViewDiscount.setText(String.valueOf(discount));
+        textViewDeliveryCharge.setText(Utils.formatPrice(deliveryPrice));
+        textViewDiscount.setText(String.valueOf(discountPercent));
         textViewTotal.setText(Utils.formatPrice(totalPrice));
-    }
-
-    private void couponTextWatcher()
-    {
-        editTextCoupon.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2)
-            {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2)
-            {
-                if(charSequence.length() == 0)
-                {
-                    addCouponButton.setVisibility(View.GONE);
-                }
-                else
-                {
-                    addCouponButton.setVisibility(View.VISIBLE);
-                }
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable)
-            {
-
-            }
-        });
     }
 
     private void checkForAuth()
@@ -464,4 +456,55 @@ public class CheckoutActivity extends AppCompatActivity {
         user_phone = 88 + prefs.getString(KEYS.USER_PHONE, "");
     }
 
+
+    private void couponTextWatcher()
+    {
+        editTextCoupon.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2)
+            {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2)
+            {
+                if(charSequence.length() == 0)
+                {
+                    addCouponButton.setVisibility(View.GONE);
+                }
+                else
+                {
+                    addCouponButton.setVisibility(View.VISIBLE);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable)
+            {
+
+            }
+        });
+    }
+
+    private void getDeliveryOption()
+    {
+        spinnerDeliveryOption.setItems("Same Day Delivery", "Express Delivery (2-3 hour)", "Next Day Delivery");
+        spinnerDeliveryOption.setOnItemSelectedListener(new MaterialSpinner.OnItemSelectedListener<String>() {
+
+            @Override public void onItemSelected(MaterialSpinner view, int position, long id, String item)
+            {
+                if(position == 1)
+                {
+                    deliveryOptionPrice = 200;
+                    refreshCartDetails();
+                }
+                else
+                {
+                    deliveryOptionPrice = 0;
+                    refreshCartDetails();
+                }
+            }
+        });
+    }
 }

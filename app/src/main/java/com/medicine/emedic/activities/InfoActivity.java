@@ -84,9 +84,9 @@ public class InfoActivity extends AppCompatActivity {
             return;
         }
 
-        if(userName.length() < 7)
+        if(userName.length() < 3)
         {
-            editTextUserName.setError("Username length must be at least 7 characters");
+            editTextUserName.setError("Username length must be at least 3 characters");
             editTextUserName.requestFocus();
             return;
         }
