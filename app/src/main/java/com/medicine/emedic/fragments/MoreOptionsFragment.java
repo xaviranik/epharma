@@ -15,9 +15,13 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.carteasy.v1.lib.Carteasy;
 import com.medicine.emedic.R;
+import com.medicine.emedic.activities.LoginActivity;
 import com.medicine.emedic.activities.ShowProfileActivity;
 import com.medicine.emedic.utils.GLOBAL;
+
+import java.io.File;
 
 import static android.content.Context.MODE_PRIVATE;
 
@@ -59,6 +63,26 @@ public class MoreOptionsFragment extends Fragment {
             {
                 Intent intent = new Intent(getActivity(), ShowProfileActivity.class);
                 startActivity(intent);
+            }
+        });
+
+        textViewLogout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                File sharedPreferenceFile = new File("/data/data/"+ getActivity().getPackageName()+ "/shared_prefs/");
+                File[] listFiles = sharedPreferenceFile.listFiles();
+                for (File file : listFiles) {
+                    file.delete();
+                }
+
+
+                Carteasy cs = new Carteasy();
+                cs.clearCart(getContext());
+
+                Intent i = new Intent(getActivity(), LoginActivity.class);
+                i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(i);
+
             }
         });
 
