@@ -52,7 +52,7 @@ public class MoreOptionsFragment extends Fragment {
             @Override
             public void onClick(View view)
             {
-                Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + "+880172222941"));
+                Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + "+8801313438866"));
                 startActivity(intent);
             }
         });

@@ -258,13 +258,29 @@ public class HomeFragment extends Fragment implements ProductAdapter.OnItemClick
     {
         categoryList = new ArrayList<>();
 
+
+        Category c1=new Category(1347,"Medical Care Products");
+        Category c2=new Category(2,"Medical Care Devices");
+        Category c3=new Category(3,"Family Care  Products");
+        Category c4=new Category(4,"Health Care ");
+        Category c5=new Category(5,"Diabetic Care Product");
+        categoryList.add(c1);
+        categoryList.add(c2);
+        categoryList.add(c3);
+        categoryList.add(c4);
+        categoryList.add(c5);
+
         categoryAdapter = new CategoryAdapter(categoryList, getActivity());
         ((CategoryAdapter) categoryAdapter).setOnItemClickListener(HomeFragment.this);
         categoryRecyclerView.setAdapter(categoryAdapter);
 
-        String url = API.GET_CATEGORY;
-        CategoryRequest request = new CategoryRequest(getActivity(), categoryList, categoryAdapter, url);
-        request.parseJSON();
+
+
+
+
+//        String url = API.GET_CATEGORY;
+//        CategoryRequest request = new CategoryRequest(getActivity(), categoryList, categoryAdapter, url);
+//        request.parseJSON();
     }
 
     @Override

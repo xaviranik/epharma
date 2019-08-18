@@ -151,6 +151,44 @@ public class CheckoutActivity extends AppCompatActivity {
         }
     }
 
+
+    private void sendsms(final String phonenumber)
+    {
+        String url = API.SEND_SMS;
+
+        StringRequest shippingRequest = new StringRequest(Request.Method.POST, url,
+                new Response.Listener<String>()
+                {
+                    @Override
+                    public void onResponse(String response) {
+                        // response
+
+                    }
+                },
+                new Response.ErrorListener()
+                {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        // error
+                        Utils.makeToast(getApplicationContext(), "Please check your internet connection!");
+                    }
+                }
+        ) {
+            @Override
+            protected Map<String, String> getParams()
+            {
+                Map<String, String>  params = new HashMap<String, String>();
+                params.put("phone", phonenumber);
+
+
+                return params;
+            }
+        };
+
+        NetworkSingleton.getInstance(this).addToRequestQueue(shippingRequest);
+    }
+
+
     private void insertShippingToDatabase(final String productName, final String orderItemType, final long orderID)
     {
         String url = API.POST_INSERT_SHIPPING;
