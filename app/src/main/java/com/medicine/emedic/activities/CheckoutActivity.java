@@ -108,11 +108,18 @@ public class CheckoutActivity extends AppCompatActivity {
         addCouponButton = (Button) findViewById(R.id.button_add_coupon);
         addCouponButton.setVisibility(View.GONE);
 
+
         checkoutButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view)
             {
-                checkoutOrder();
+
+             if(editTextAddress.getText().toString().trim().length()>=1){
+                 checkoutOrder();
+             }else {
+                 Utils.makeToast(getApplicationContext(),"Please give a Address");
+
+             }
             }
         });
 
@@ -145,7 +152,7 @@ public class CheckoutActivity extends AppCompatActivity {
                 float lineTotal = productQuantity * productPrice;
                 String orderItemType = "line_item";
 
-                insertCartToDatabase(productID, productName, productQuantity, lineTotal, orderItemType, orderID);
+                 insertCartToDatabase(productID, productName, productQuantity, lineTotal, orderItemType, orderID);
 
 
             }
