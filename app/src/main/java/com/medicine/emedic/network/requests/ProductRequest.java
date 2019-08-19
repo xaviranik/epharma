@@ -1,5 +1,6 @@
 package com.medicine.emedic.network.requests;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.util.Log;
 
@@ -42,6 +43,9 @@ public class ProductRequest {
 
     public void parseJSON()
     {
+
+        final ProgressDialog dialog = ProgressDialog.show(context, "Loading...", "Please wait...", true);
+
         ((MainActivity)context).setLoadingView(true);
         JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, url, null, new Response.Listener<JSONArray>() {
             @Override
@@ -49,6 +53,7 @@ public class ProductRequest {
             {
                 try
                 {
+
                     for(int i=0; i<response.length(); i++)
                     {
                         JSONObject hit = response.getJSONObject(i);
@@ -68,6 +73,7 @@ public class ProductRequest {
                             Log.i("PRODUCT EXCEPTION", "ERROR: " + e.getMessage() + " " + productPriceString);
                         }
 
+
                     }
                     ((MainActivity)context).setLoadingView(false);
                     adapter.notifyDataSetChanged();
@@ -77,6 +83,9 @@ public class ProductRequest {
                     Log.i("networkerror", "" + e.getMessage());
                     e.printStackTrace();
                 }
+
+               dialog.dismiss();
+
             }
         }, new Response.ErrorListener() {
             @Override
@@ -139,6 +148,5 @@ public class ProductRequest {
         };
 
         NetworkSingleton.getInstance(context).addToRequestQueue(request);
-
     }
 }

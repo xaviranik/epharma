@@ -1,5 +1,6 @@
 package com.medicine.emedic.network.requests;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 
 import androidx.recyclerview.widget.RecyclerView;
@@ -48,6 +49,8 @@ public class CategoryRequest {
             {
                 try
                 {
+
+
                     for(int i=0; i<response.length(); i++)
                     {
                         JSONObject hit = response.getJSONObject(i);
