@@ -17,6 +17,7 @@ public class ThankYouActivity extends AppCompatActivity {
     private long orderID;
 
     private TextView textViewOrderID;
+    private TextView oder_placed_title;
     private Button continueShoppingButton;
 
     @Override
@@ -26,14 +27,27 @@ public class ThankYouActivity extends AppCompatActivity {
         setContentView(R.layout.activity_thank_you);
 
         textViewOrderID = (TextView) findViewById(R.id.textView_order_id);
+        oder_placed_title = (TextView) findViewById(R.id.oder_placed_title);
         continueShoppingButton = (Button) findViewById(R.id.button_continue_shopping);
 
-        Utils.makeSuccessAlert(ThankYouActivity.this, "Your order has been placed successfully!", null, R.drawable.ic_check_order_confirmation);
+
+
+        String data = getIntent().getExtras().getString("pres","false");
+        Utils.makeToast(getApplicationContext(),data+" :: as");
+
 
         orderID = getIntent().getLongExtra(KEYS.ORDER_ID, 0);
         if(orderID != 0)
         {
-            textViewOrderID.setText("Order ID: #" + orderID);
+            if(data.equals("true")){
+                oder_placed_title.setText("You will be Notified Soon !");
+                textViewOrderID.setText("Thank Your For Uploading Prescription");
+            }else {
+
+                Utils.makeSuccessAlert(ThankYouActivity.this, "Your order has been placed successfully!", null, R.drawable.ic_check_order_confirmation);
+
+                textViewOrderID.setText("Order ID: #" + orderID);
+            }
         }
 
         continueShoppingButton.setOnClickListener(new View.OnClickListener() {

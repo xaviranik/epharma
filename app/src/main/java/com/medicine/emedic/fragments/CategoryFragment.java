@@ -70,7 +70,7 @@ public class CategoryFragment extends Fragment implements ProductAdapter.OnItemC
     {
         View view = inflater.inflate(R.layout.fragment_category, container, false);
         init(view);
-        ((MainActivity)getActivity()).setAppTitle("Emedic");
+        ((MainActivity)getActivity()).setAppTitle("eMedic");
         return view;
     }
 

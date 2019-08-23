@@ -95,7 +95,7 @@ public class HomeFragment extends Fragment implements ProductAdapter.OnItemClick
         setupLatestProductRecyclerView();
         setupUploadPrescriptionButton();
 
-        ((MainActivity)getActivity()).setAppTitle("EMedic");
+        ((MainActivity)getActivity()).setAppTitle("eMedic");
     }
 
     private void setupUploadPrescriptionButton()

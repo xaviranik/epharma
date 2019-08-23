@@ -148,6 +148,8 @@ public class PrescriptionUploadActivity extends AppCompatActivity implements Vie
     {
         Intent i = new Intent(PrescriptionUploadActivity.this, ThankYouActivity.class);
         i.putExtra(KEYS.ORDER_ID, orderID);
+        i.putExtra("pres","true");
+
         i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(i);
     }

@@ -54,7 +54,7 @@ public class ProductFragment extends Fragment implements View.OnClickListener{
     {
         View view = inflater.inflate(R.layout.fragment_product, container, false);
         init(view);
-        ((MainActivity)getActivity()).setAppTitle("E-Pharma");
+        ((MainActivity)getActivity()).setAppTitle("eMedic");
         return view;
     }
 
