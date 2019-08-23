@@ -2,6 +2,7 @@ package com.medicine.emedic.fragments;
 
 import android.os.Bundle;
 import android.text.Editable;
+import android.text.Html;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -28,6 +29,8 @@ public class ProductFragment extends Fragment implements View.OnClickListener{
 
     private String productID;
     private  String productImage;
+    private String descrip;
+    private String short_description;
     private String productName;
     private float productPrice;
     private int productQuantity;
@@ -35,6 +38,8 @@ public class ProductFragment extends Fragment implements View.OnClickListener{
     private TextView textViewProductName;
     private TextView textViewProductPrice;
     private TextView textViewQuantity;
+    private TextView description;
+    private TextView textShortDescription;
 
     private ImageView buttonAddQuantity;
     private ImageView buttonRemoveQuantity;
@@ -57,6 +62,8 @@ public class ProductFragment extends Fragment implements View.OnClickListener{
     {
         textViewProductName = (TextView) view.findViewById(R.id.textView_product_name);
         textViewProductPrice = (TextView) view.findViewById(R.id.textView_product_price);
+        description = (TextView) view.findViewById(R.id.description);
+        textShortDescription = (TextView) view.findViewById(R.id.shortdescription);
 
         buttonAddQuantity = (ImageView) view.findViewById(R.id.button_add_quantity);
         imageViewProduct = (ImageView) view.findViewById(R.id.imageView_product);
@@ -153,6 +160,9 @@ public class ProductFragment extends Fragment implements View.OnClickListener{
             productName = getArguments().getString(KEYS.PRODUCT_NAME);
             productPrice = getArguments().getFloat(KEYS.PRODUCT_PRICE);
             productImage = getArguments().getString(KEYS.PRODUCT_IMAGE);
+            descrip = getArguments().getString(KEYS.PRODUCT_DESCRIPTION);
+            short_description = getArguments().getString(KEYS.PRODUCT_Short_DESCRIPTION);
+            Log.e("description","asda :: "+descrip);
             Log.e("getimagedata", ""+productImage);
 
             textViewProductName.setText(productName);
@@ -161,6 +171,8 @@ public class ProductFragment extends Fragment implements View.OnClickListener{
                     .load(productImage)
                     .placeholder(R.drawable.ic_medicine_default)
                     .into(imageViewProduct);
+           description.setText(Html.fromHtml(descrip));
+            textShortDescription.setText(Html.fromHtml(short_description));
         }
     }
 

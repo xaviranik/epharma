@@ -163,6 +163,8 @@ public class CategoryFragment extends Fragment implements ProductAdapter.OnItemC
         args.putString(KEYS.PRODUCT_NAME, product.getProductName());
         args.putFloat(KEYS.PRODUCT_PRICE, product.getProductPrice());
         args.putString(KEYS.PRODUCT_IMAGE, product.getProductImage());
+        args.putString(KEYS.PRODUCT_DESCRIPTION, product.getDescription());
+        args.putString(KEYS.PRODUCT_Short_DESCRIPTION, product.getShort_description());
         fragment.setArguments(args);
 
         ((MainActivity) getActivity()).replaceFragments(fragment);
@@ -194,7 +196,10 @@ public class CategoryFragment extends Fragment implements ProductAdapter.OnItemC
                     args.putString(KEYS.PRODUCT_NAME, product.getProductName());
                     args.putFloat(KEYS.PRODUCT_PRICE, product.getProductPrice());
                     Log.e("putextracheck",product.getProductImage()+"");
+                    args.putString(KEYS.PRODUCT_DESCRIPTION, product.getDescription());
+                    args.putString(KEYS.PRODUCT_Short_DESCRIPTION, product.getShort_description());
                     args.putString(KEYS.PRODUCT_IMAGE, product.getProductImage());
+
                     fragment.setArguments(args);
 
                     ((MainActivity) getActivity()).replaceFragments(fragment);
@@ -256,12 +261,14 @@ public class CategoryFragment extends Fragment implements ProductAdapter.OnItemC
                         String productName = hit.getString(KEYS.PRODUCT_NAME);
                         String productPriceString = hit.getString(KEYS.PRODUCT_PRICE);
                         String productImage = hit.getString(KEYS.PRODUCT_IMAGE);
+                        String productdescription = hit.getString(KEYS.PRODUCT_DESCRIPTION);
+                        String shortdescription = hit.getString(KEYS.PRODUCT_Short_DESCRIPTION);
                         Log.e("seachimagedata",productImage+ " "+productName);
 
                         try {
                             float productPrice = Float.valueOf(productPriceString.replace("Tk", ""));
 
-                            searchedProductList.add(new Product(productID, productName, productPrice,productImage+""));
+                            searchedProductList.add(new Product(productID, productName, productPrice,productImage+"",productdescription+"",shortdescription+""));
                             Log.e("sadasd",searchedProductList.get(i).getProductImage()+"   "+productName);
                         }catch (Exception ex){
 

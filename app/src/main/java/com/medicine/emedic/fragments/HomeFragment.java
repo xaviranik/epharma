@@ -137,6 +137,7 @@ public class HomeFragment extends Fragment implements ProductAdapter.OnItemClick
                     args.putFloat(KEYS.PRODUCT_PRICE, product.getProductPrice());
                     Log.e("putextracheck",product.getProductImage()+"");
                     args.putString(KEYS.PRODUCT_IMAGE, product.getProductImage());
+                    args.putString(KEYS.PRODUCT_DESCRIPTION, product.getDescription());
                     fragment.setArguments(args);
 
                     ((MainActivity) getActivity()).replaceFragments(fragment);
@@ -198,12 +199,14 @@ public class HomeFragment extends Fragment implements ProductAdapter.OnItemClick
                         String productName = hit.getString(KEYS.PRODUCT_NAME);
                         String productPriceString = hit.getString(KEYS.PRODUCT_PRICE);
                         String productImage = hit.getString(KEYS.PRODUCT_IMAGE);
+                        String productDescription = hit.getString(KEYS.PRODUCT_DESCRIPTION);
+                        String short_desctiption = hit.getString(KEYS.PRODUCT_Short_DESCRIPTION);
                         Log.e("seachimagedata",productImage+ " "+productName);
 
                        try {
                            float productPrice = Float.valueOf(productPriceString.replace("Tk", ""));
 
-                           searchedProductList.add(new Product(productID, productName, productPrice,productImage+""));
+                           searchedProductList.add(new Product(productID, productName, productPrice,productImage+"",productDescription+"",short_desctiption+""));
                            Log.e("sadasd",searchedProductList.get(i).getProductImage()+"   "+productName);
                        }catch (Exception ex){
 
@@ -259,11 +262,11 @@ public class HomeFragment extends Fragment implements ProductAdapter.OnItemClick
         categoryList = new ArrayList<>();
 
 
-        Category c1=new Category(1347,"Medical Care Products");
-        Category c2=new Category(2,"Medical Care Devices");
-        Category c3=new Category(3784,"Family Care  Products");
-        Category c4=new Category(4,"Health Care ");
-        Category c5=new Category(5,"Diabetic Care Product");
+        Category c1=new Category(1347,"Medical Care Products","http://www.emedicbd.com/epharma/category_images/medical_care.jpg");
+        Category c2=new Category(3708,"Medical Care Devices","http://www.emedicbd.com/epharma/category_images/medical_device.png");
+        Category c3=new Category(3784,"Family Care  Products","http://www.emedicbd.com/epharma/category_images/fc.jpg");
+        Category c4=new Category(3785,"Health Care ","http://www.emedicbd.com/epharma/category_images/health_care.png");
+        Category c5=new Category(3814,"Diabetic Care Product","http://www.emedicbd.com/epharma/category_images/diabetic_care.png");
         categoryList.add(c1);
         categoryList.add(c2);
         categoryList.add(c3);
@@ -293,6 +296,8 @@ public class HomeFragment extends Fragment implements ProductAdapter.OnItemClick
         args.putInt(KEYS.PRODUCT_ID, product.getProductID());
         args.putString(KEYS.PRODUCT_NAME, product.getProductName());
         args.putFloat(KEYS.PRODUCT_PRICE, product.getProductPrice());
+        args.putString(KEYS.PRODUCT_DESCRIPTION, product.getDescription());
+        args.putString(KEYS.PRODUCT_Short_DESCRIPTION, product.getShort_description());
         fragment.setArguments(args);
 
         ((MainActivity) getActivity()).replaceFragments(fragment);

@@ -5,12 +5,14 @@
     android:id="@+id/category_main_layout"
     android:layout_width="130dp"
     android:layout_height="130dp"
-    android:background="?android:attr/selectableItemBackground"
+    android:background="#fff"
     android:clickable="true"
+
     android:padding="8dp">
 
     <ImageView
         android:id="@+id/category_bg"
+        android:background="#fff"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
@@ -38,8 +40,8 @@
 
     <ImageView
         android:id="@+id/category_icon"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
         app:layout_constraintBottom_toBottomOf="@+id/category_bg"
         app:layout_constraintEnd_toEndOf="@+id/category_bg"
         app:layout_constraintStart_toStartOf="@+id/category_bg"

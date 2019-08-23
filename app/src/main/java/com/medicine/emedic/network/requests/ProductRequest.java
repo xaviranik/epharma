@@ -62,11 +62,15 @@ public class ProductRequest {
                         String productName = hit.getString(KEYS.PRODUCT_NAME);
                         String productPriceString = hit.getString(KEYS.PRODUCT_PRICE);
                         String productImage = hit.getString(KEYS.PRODUCT_IMAGE);
+                        String description = hit.getString(KEYS.PRODUCT_DESCRIPTION);
+                        String short_description = hit.getString(KEYS.PRODUCT_Short_DESCRIPTION);
 
-                        Log.e("images",productImage+ "   "+productName);
+                        Log.e("product_idproductnanme",productID+ "   "+productName);
+                      //  Log.e("descriptuin",description+"");
                         try {
+
                             float productPrice = Float.valueOf(productPriceString.replace("Tk", ""));
-                            list.add(new Product(productID, productName, productPrice,productImage));
+                            list.add(new Product(productID, productName, productPrice,productImage,description,short_description));
                         }
                         catch (NumberFormatException e)
                         {

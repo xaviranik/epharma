@@ -12,6 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.medicine.emedic.R;
 import com.medicine.emedic.model.Category;
 
@@ -57,6 +58,11 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
         holder.textViewCategoryName.setText(category.getCategoryName());
         holder.textViewCategoryName.setEllipsize(TextUtils.TruncateAt.END);
         holder.textViewCategoryName.setMaxLines(2);
+        Glide.with(context)
+                .load(category.getUrl())
+                .placeholder(R.drawable.ic_medicine_default)
+                .into(holder.imageViewCategoryIcon);
+
         //holder.imageViewCategoryBackground.setColorFilter(getRandomColor(), PorterDuff.Mode.SRC_ATOP);
     }
 

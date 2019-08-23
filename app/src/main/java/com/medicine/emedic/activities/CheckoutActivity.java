@@ -55,6 +55,8 @@ public class CheckoutActivity extends AppCompatActivity {
     private float subTotalPrice = 0;
     private float deliveryZonePrice = 60;
     private int discountPercent = 0;
+    private float discountPrice = 0;
+    private float couponPrice = 0;
     private float totalPrice = 0;
     private long orderID;
     private String couponCode;
@@ -122,6 +124,12 @@ public class CheckoutActivity extends AppCompatActivity {
              }
             }
         });
+        addCouponButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                checkforcoupon();
+            }
+        });
 
         checkForFirstOrder();
         couponTextWatcher();
@@ -129,6 +137,44 @@ public class CheckoutActivity extends AppCompatActivity {
         getDeliveryZone();
         getDeliveryOption();
         getProductList();
+    }
+
+
+    private void checkforcoupon(){
+
+
+        String code=editTextCoupon.getText().toString();
+         refreshCartDetails();
+        switch (code)
+        {
+
+            case "FLAT5":
+                couponPrice = 0.05f * subTotalPrice;
+                Utils.makeToast(getApplicationContext(),totalPrice+"");
+              refreshCartDetails();
+              addCouponButton.setText("Coupon Added");
+              addCouponButton.setEnabled(false);
+              break;
+
+
+            case "HelloEmedic":
+                if(firstOrder)
+                {
+                    couponPrice = 0.07f * subTotalPrice;
+                    refreshCartDetails();
+                    addCouponButton.setText("Coupon Added");
+                    addCouponButton.setEnabled(false);
+                    break;
+                }
+
+
+            default:
+                Utils.makeToast(getApplicationContext(), "Your coupon code does not exists! Please give a valid code!");
+
+
+        }
+
+
     }
 
     private void checkoutOrder()
@@ -460,14 +506,14 @@ public class CheckoutActivity extends AppCompatActivity {
 
     public void refreshCartDetails()
     {
-        float discountPrice = 0;
+        discountPrice = 0;
 
         if(subTotalPrice >= 777)
         {
             deliveryZonePrice = 0;
         }
 
-        if(subTotalPrice > 4000 || firstOrder)
+        if(subTotalPrice > 4000)
         {
             discountPercent = 7;
             discountPrice = subTotalPrice * 0.07f;
@@ -477,10 +523,10 @@ public class CheckoutActivity extends AppCompatActivity {
             discountPercent = 0;
         }
 
-
+        discountPrice=discountPrice+couponPrice;
         deliveryPrice = deliveryZonePrice + deliveryOptionPrice;
 
-        totalPrice = subTotalPrice - discountPrice + deliveryPrice;
+        totalPrice = subTotalPrice - discountPrice + deliveryPrice - couponPrice;
 
         textViewTotalQuantity.setText(String.valueOf(totalQuantity));
         textViewSubtotal.setText(Utils.formatPrice(subTotalPrice));
@@ -561,6 +607,10 @@ public class CheckoutActivity extends AppCompatActivity {
                 {
                     deliveryOptionPrice = 200;
                     refreshCartDetails();
+                }else if(position==2){
+
+                    deliveryOptionPrice = 45-60;
+                    refreshCartDetails();
                 }
                 else
                 {
@@ -586,7 +636,7 @@ public class CheckoutActivity extends AppCompatActivity {
                         {
                             firstOrder = true;
                             refreshCartDetails();
-                            Utils.makeSuccessAlert(CheckoutActivity.this, "Welcome, this is your first order", "Get 7% discount on your first order!", R.drawable.ic_shopping_cart);
+                            Utils.makeSuccessAlert(CheckoutActivity.this, "Welcome, this is your first order", "Apply code 'HelloEmedic' and Get 7% discount on your first order!", R.drawable.ic_shopping_cart);
                         }
 
                     }

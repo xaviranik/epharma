@@ -72,6 +72,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
 
         public TextView textViewProductName;
         public TextView textViewProductPrice;
+        public TextView description;
         public ImageView imageViewProduct;
         public CardView mainCardView;
 
@@ -81,6 +82,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
 
             mainCardView = (CardView) itemView.findViewById(R.id.main_product_cardview);
             textViewProductName = (TextView) itemView.findViewById(R.id.textView_product_name);
+            textViewProductPrice = (TextView) itemView.findViewById(R.id.textView_product_price);
             textViewProductPrice = (TextView) itemView.findViewById(R.id.textView_product_price);
             imageViewProduct = (ImageView) itemView.findViewById(R.id.imageView_product);
 
