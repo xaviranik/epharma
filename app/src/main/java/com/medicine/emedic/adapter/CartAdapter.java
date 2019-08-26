@@ -25,14 +25,24 @@ public class CartAdapter extends EmptyRecyclerView.Adapter<CartAdapter.ViewHolde
     private List<Product> productList;
     private Context context;
     private OnItemClickListener itemClickListener;
+    private OnClearListener clearListener;
 
     public interface OnItemClickListener {
         void onAddRemoveButtonClick(int position, List<Product> productList);
     }
 
+    public interface OnClearListener {
+        void onClearProductClick(int position, List<Product> productList);
+    }
+
     public void setOnItemClickListener(OnItemClickListener listener)
     {
         itemClickListener = listener;
+    }
+
+    public void setOnClearListener(OnClearListener listener)
+    {
+        clearListener = listener;
     }
 
     public CartAdapter(List<Product> productList, Context context)
@@ -79,6 +89,7 @@ public class CartAdapter extends EmptyRecyclerView.Adapter<CartAdapter.ViewHolde
 
         private ImageView buttonAddQuantity;
         private ImageView buttonRemoveQuantity;
+        private ImageView buttonClearProduct;
 
         private Carteasy cart = new Carteasy();
 
@@ -93,6 +104,7 @@ public class CartAdapter extends EmptyRecyclerView.Adapter<CartAdapter.ViewHolde
 
             buttonAddQuantity = (ImageView) itemView.findViewById(R.id.button_add_quantity);
             buttonRemoveQuantity = (ImageView) itemView.findViewById(R.id.button_minus_quantity_cart);
+            buttonClearProduct = (ImageView) itemView.findViewById(R.id.button_clear_product);
 
             buttonAddQuantity.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -119,6 +131,24 @@ public class CartAdapter extends EmptyRecyclerView.Adapter<CartAdapter.ViewHolde
                         if(position != RecyclerView.NO_POSITION)
                         {
                             manageQuantity(position, false);
+                        }
+                    }
+
+                }
+            });
+
+            buttonClearProduct.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view)
+                {
+                    if(clearListener != null)
+                    {
+                        int position = getAdapterPosition();
+                        if(position != RecyclerView.NO_POSITION)
+                        {
+                            Product product = productList.get(position);
+                            removeItemFromCart(String.valueOf(product.getProductID()), position);
+                            clearListener.onClearProductClick(position, productList);
                         }
                     }
 

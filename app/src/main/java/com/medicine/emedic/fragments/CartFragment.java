@@ -29,7 +29,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public class CartFragment extends Fragment implements CartAdapter.OnItemClickListener{
+public class CartFragment extends Fragment implements CartAdapter.OnItemClickListener, CartAdapter.OnClearListener{
 
     private EmptyRecyclerView cartRecyclerView;
     private CartAdapter cartAdapter;
@@ -118,6 +118,7 @@ public class CartFragment extends Fragment implements CartAdapter.OnItemClickLis
 
         cartAdapter = new CartAdapter(productList, getContext());
         cartAdapter.setOnItemClickListener(CartFragment.this);
+        cartAdapter.setOnClearListener(CartFragment.this);
 
         cartRecyclerView.setHasFixedSize(true);
         cartRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -167,6 +168,23 @@ public class CartFragment extends Fragment implements CartAdapter.OnItemClickLis
 
     @Override
     public void onAddRemoveButtonClick(int position, List<Product> productList)
+    {
+        totalQuantity = 0;
+        subTotalPrice = 0;
+        totalPrice = 0;
+
+        for (int i=0; i < productList.size(); i++)
+        {
+            Product product = productList.get(i);
+            totalQuantity += product.getProductQuantity();
+            subTotalPrice += product.getProductPrice() * product.getProductQuantity();
+        }
+
+        refreshCartDetails();
+    }
+
+    @Override
+    public void onClearProductClick(int position, List<Product> productList)
     {
         totalQuantity = 0;
         subTotalPrice = 0;
