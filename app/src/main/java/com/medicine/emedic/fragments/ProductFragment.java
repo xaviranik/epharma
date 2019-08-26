@@ -172,7 +172,7 @@ public class ProductFragment extends Fragment implements View.OnClickListener{
                     .placeholder(R.drawable.ic_medicine_default)
                     .into(imageViewProduct);
            description.setText(Html.fromHtml(descrip));
-            textShortDescription.setText(Html.fromHtml(short_description));
+            textShortDescription.setText(short_description);
         }
     }
 

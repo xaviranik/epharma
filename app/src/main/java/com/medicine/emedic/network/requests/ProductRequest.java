@@ -44,7 +44,7 @@ public class ProductRequest {
     public void parseJSON()
     {
 
-        final ProgressDialog dialog = ProgressDialog.show(context, "Loading...", "Please wait...", true);
+        final ProgressDialog dialog = ProgressDialog.show(context, "Loading all Products ", "Please wait for one minute", true);
 
         ((MainActivity)context).setLoadingView(true);
         JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, url, null, new Response.Listener<JSONArray>() {
