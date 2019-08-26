@@ -100,6 +100,12 @@ public class CartFragment extends Fragment implements CartAdapter.OnItemClickLis
 
     private void checkout()
     {
+        if(subTotalPrice < 300)
+        {
+            Utils.makeToast(getActivity(), "Order minimum Tk. 300 to checkout!");
+            return;
+        }
+
         Alerter.hide();
         List<Product> object = productList;
         Intent intent = new Intent(getActivity(), CheckoutActivity.class);
