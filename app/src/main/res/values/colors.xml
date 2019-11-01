@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#1DA1F2</color>
-    <color name="colorPrimaryDark">#1DA1F2</color>
+    <color name="colorPrimary">#494a47</color>
+    <color name="colorPrimaryDark">#494a47</color>
     <color name="colorAccent">#D81B60</color>
 
     <color name="textColorLight">#FFFFFF</color>
@@ -9,13 +9,13 @@
 
     <color name="colorMainBg">#F1F1F1</color>
 
-    <color name="colorButtonRipple">#1dbdf2</color>
+    <color name="colorButtonRipple">#525252</color>
     <color name="colorSuccess">#4CAF50</color>
 
     <!--Category colors-->
     <item name="color_1" type="color">@color/colorPrimary</item>
-    <item name="color_2" type="color">#1DA1F2</item>
-    <item name="color_3" type="color">#481DF2</item>
+    <item name="color_2" type="color">#525252</item>
+    <item name="color_3" type="color">#525252</item>
     <item name="color_4" type="color">#3C76E7</item>
 
     <integer-array name="categoryColors">

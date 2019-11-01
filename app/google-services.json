@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "81512645344",
+    "firebase_url": "https://emedic-cb5ce.firebaseio.com",
+    "project_id": "emedic-cb5ce",
+    "storage_bucket": "emedic-cb5ce.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:81512645344:android:900ebd06c20bcb8a",
+        "android_client_info": {
+          "package_name": "com.medicine.emedic"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "81512645344-32qp1nf2vqd1vs7b5f90cedq7ckoeped.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDqIFiHU-EwvgH4uIy24z-qopzpMM0msKo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "81512645344-32qp1nf2vqd1vs7b5f90cedq7ckoeped.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
